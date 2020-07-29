@@ -1,0 +1,174 @@
+{
+  "ProjectVersion": "0.2a",
+  "EditorConfig": {
+    "usePixel2D": false,
+    "canvasSize": "(-2, 2, -2, 2)"
+  },
+  "ComponentList": {
+    "frmRoomList": {
+      "element": {
+        "canvasSize": "(-1.0, 1.0, -2.0, 0.0)",
+        "frameColor": "(1, 1, 1, 1)",
+        "frameSize": "(-1.0, 1.08, -1.4, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, 0.7)",
+        "scrollBarWidth": "0.08",
+        "state": "'normal'",
+        "horizontalScroll_borderWidth": "(0.01, 0.01)",
+        "horizontalScroll_frameSize": "(-0.05, 0.05, -0.04, 0.04)",
+        "horizontalScroll_hpr": "LVecBase3f(0, 0, 0)",
+        "horizontalScroll_pos": "LPoint3f(0, 0, 0)",
+        "horizontalScroll_decButton_borderWidth": "(0.01, 0.01)",
+        "horizontalScroll_decButton_frameSize": "(-0.05, 0.05, -0.04, 0.04)",
+        "horizontalScroll_decButton_hpr": "LVecBase3f(0, 0, 0)",
+        "horizontalScroll_decButton_pos": "LPoint3f(-0.96, 0, -1.36)",
+        "horizontalScroll_incButton_borderWidth": "(0.01, 0.01)",
+        "horizontalScroll_incButton_frameSize": "(-0.05, 0.05, -0.04, 0.04)",
+        "horizontalScroll_incButton_hpr": "LVecBase3f(0, 0, 0)",
+        "horizontalScroll_incButton_pos": "LPoint3f(0.96, 0, -1.36)",
+        "horizontalScroll_thumb_borderWidth": "(0.01, 0.01)",
+        "horizontalScroll_thumb_hpr": "LVecBase3f(0, 0, 0)",
+        "horizontalScroll_thumb_pos": "LPoint3f(0, 0, -1.36)",
+        "verticalScroll_borderWidth": "(0.01, 0.01)",
+        "verticalScroll_frameSize": "(-0.04, 0.04, -0.05, 0.05)",
+        "verticalScroll_hpr": "LVecBase3f(0, 0, 0)",
+        "verticalScroll_pos": "LPoint3f(0, 0, 0)",
+        "verticalScroll_decButton_borderWidth": "(0.01, 0.01)",
+        "verticalScroll_decButton_frameSize": "(-0.04, 0.04, -0.05, 0.05)",
+        "verticalScroll_decButton_hpr": "LVecBase3f(0, 0, 0)",
+        "verticalScroll_decButton_pos": "LPoint3f(1.04, 0, -0.04)",
+        "verticalScroll_incButton_borderWidth": "(0.01, 0.01)",
+        "verticalScroll_incButton_frameSize": "(-0.04, 0.04, -0.05, 0.05)",
+        "verticalScroll_incButton_hpr": "LVecBase3f(0, 0, 0)",
+        "verticalScroll_incButton_pos": "LPoint3f(1.04, 0, -1.28)",
+        "verticalScroll_thumb_borderWidth": "(0.01, 0.01)",
+        "verticalScroll_thumb_hpr": "LVecBase3f(0, 0, 0)",
+        "verticalScroll_thumb_pos": "LPoint3f(1.04, 0, -0.4628)",
+        "transparency": "0"
+      },
+      "type": "DirectScrolledFrame",
+      "parent": "root",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "btnBack": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.96, 0, -0.825)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Back'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "root",
+      "command": "base.messenger.send",
+      "extraArgs": "\"roomList_back\"",
+      "extraOptions": {}
+    },
+    "pg1021": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-1, 0, 0.725)",
+        "scale": "LVecBase3f(0.07, 0.1, 0.07)",
+        "text": "'Room Name'",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "root",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "pg2116": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, 0.725)",
+        "scale": "LVecBase3f(0.07, 0.1, 0.07)",
+        "text": "'Player Count'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "root",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "pg2667": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.425, 0, 0.725)",
+        "scale": "LVecBase3f(0.07, 0.1, 0.07)",
+        "text": "'Game Type'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "root",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "btnCreateRoom": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pad": "(0.2, 0.2)",
+        "pos": "LPoint3f(-0.955, 0, -0.815)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'+'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "root",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "btnReloadRoomList": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.025, 0, -0.825)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Reload Rooms'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "root",
+      "command": "base.messenger.send",
+      "extraArgs": "\"roomList_reload\"",
+      "extraOptions": {}
+    }
+  }
+}

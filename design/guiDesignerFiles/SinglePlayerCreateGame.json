@@ -1,0 +1,239 @@
+{
+  "ProjectVersion": "0.2a",
+  "EditorConfig": {
+    "usePixel2D": false,
+    "canvasSize": "(-2, 2, -2, 2)"
+  },
+  "ComponentList": {
+    "frmSinglePlayerCreateGame": {
+      "element": {
+        "frameColor": "(1, 1, 1, 1)",
+        "frameSize": "(-0.65, 0.65, -0.55, 0.55)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.025, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectFrame",
+      "parent": "root",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "pg703": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, 0.425)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Singleplayer Game'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmSinglePlayerCreateGame",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "pg4765": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.6, 0, 0.225)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Game Type'",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmSinglePlayerCreateGame",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "pg6101": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.6, 0, -0.125)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Number of NPCs '",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmSinglePlayerCreateGame",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "optionNumNPCs": {
+      "element": {
+        "frameSize": "(0.07500000298023224, 3.012500149011612, -0.11250001192092896, 0.75)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.2, 0, -0.125)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'item1'",
+        "cancelframe_frameSize": "(-1, 1, -1, 1)",
+        "cancelframe_hpr": "LVecBase3f(0, 0, 0)",
+        "cancelframe_pos": "LPoint3f(0, 0, 0)",
+        "cancelframe_relief": "None",
+        "item_text": "'item1'",
+        "popupMarker_frameSize": "(-0.5, 0.5, -0.2, 0.2)",
+        "popupMarker_hpr": "LVecBase3f(0, 0, 0)",
+        "popupMarker_pos": "LPoint3f(2.7125, 0, 0.31875)",
+        "popupMarker_relief": "2",
+        "popupMarker_scale": "LVecBase3f(0.4, 0.4, 0.4)",
+        "popupMenu_frameSize": "(0, 2.3375001400709152, -0.862500011920929, 0)",
+        "popupMenu_hpr": "LVecBase3f(0, 0, 0)",
+        "popupMenu_pos": "LPoint3f(0, 0, 0)",
+        "popupMenu_relief": "'raised'",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectOptionMenu",
+      "parent": "frmSinglePlayerCreateGame",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "optionGameType": {
+      "element": {
+        "frameSize": "(0.07500000298023224, 3.012500149011612, -0.11250001192092896, 0.75)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.2, 0, 0.2)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'item1'",
+        "cancelframe_frameSize": "(-1, 1, -1, 1)",
+        "cancelframe_hpr": "LVecBase3f(0, 0, 0)",
+        "cancelframe_pos": "LPoint3f(0, 0, 0)",
+        "cancelframe_relief": "None",
+        "item_text": "'item1'",
+        "popupMarker_frameSize": "(-0.5, 0.5, -0.2, 0.2)",
+        "popupMarker_hpr": "LVecBase3f(0, 0, 0)",
+        "popupMarker_pos": "LPoint3f(2.7125, 0, 0.31875)",
+        "popupMarker_relief": "2",
+        "popupMarker_scale": "LVecBase3f(0.4, 0.4, 0.4)",
+        "popupMenu_frameSize": "(0, 2.3375001400709152, -0.862500011920929, 0)",
+        "popupMenu_hpr": "LVecBase3f(0, 0, 0)",
+        "popupMenu_pos": "LPoint3f(0, 0, 0)",
+        "popupMenu_relief": "'raised'",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectOptionMenu",
+      "parent": "frmSinglePlayerCreateGame",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "pg13803": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.35, 0, -0.45)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Start'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "frmSinglePlayerCreateGame",
+      "command": "base.messenger.send",
+      "extraArgs": "\"singlePlayerCreateGame_start\"",
+      "extraOptions": {}
+    },
+    "pg5219": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.6, 0, 0.05)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Player Class'",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmSinglePlayerCreateGame",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "optionPlayerClass": {
+      "element": {
+        "frameSize": "(0.07500000298023224, 3.012500149011612, -0.11250001192092896, 0.75)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.2, 0, 0.035)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'item1'",
+        "cancelframe_frameSize": "(-1, 1, -1, 1)",
+        "cancelframe_hpr": "LVecBase3f(0, 0, 0)",
+        "cancelframe_pos": "LPoint3f(0, 0, 0)",
+        "cancelframe_relief": "None",
+        "item_text": "'item1'",
+        "popupMarker_frameSize": "(-0.5, 0.5, -0.2, 0.2)",
+        "popupMarker_hpr": "LVecBase3f(0, 0, 0)",
+        "popupMarker_pos": "LPoint3f(2.7125, 0, 0.31875)",
+        "popupMarker_relief": "2",
+        "popupMarker_scale": "LVecBase3f(0.4, 0.4, 0.4)",
+        "popupMenu_frameSize": "(0, 2.3375001400709152, -0.862500011920929, 0)",
+        "popupMenu_hpr": "LVecBase3f(0, 0, 0)",
+        "popupMenu_pos": "LPoint3f(0, 0, 0)",
+        "popupMenu_relief": "'raised'",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectOptionMenu",
+      "parent": "frmSinglePlayerCreateGame",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "btnCancel": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.325, 0, -0.45)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Cancel'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "frmSinglePlayerCreateGame",
+      "command": "base.messenger.send",
+      "extraArgs": "\"singlePlayerCreateGame_back\"",
+      "extraOptions": {}
+    }
+  }
+}

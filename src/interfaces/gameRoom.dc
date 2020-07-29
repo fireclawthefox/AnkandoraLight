@@ -1,0 +1,103 @@
+from roomManager.DRoomManager/AI import DRoomManager/AI
+from board.DBoard/AI import DBoard/AI
+from questCard.DQuestCard/AI import DQuestCard/AI
+from room.DRoom/AI import DRoom/AI
+from player.DPlayer/AI import DPlayer/AI
+from piece.DPiece/AI import DPiece/AI
+from battle.DBattle/AI import DBattle/AI
+
+struct room {
+    string name;
+    uint8 maxPlayerCount;
+    uint8 playerCount;
+    uint8 aiPlayerCount;
+    uint8 gameTypeID;
+    uint16 roomZone;
+}
+
+struct joinParameter {
+    uint16 roomZone;
+    uint8 roomId;
+    uint8 playerId;
+    uint8 pieceId;
+}
+
+struct BattleStats {
+    uint8 isEnemy;
+    string name;
+    uint8 atack;
+    uint8 defense;
+}
+
+dclass DBoard: DistributedObject {
+}
+
+dclass DQuestCard: DistributedNode {
+    setCard(string cardName) broadcast ram;
+    cardCollected() broadcast;
+}
+
+dclass DRoom: DistributedObject {
+    playerReady(uint8 playerId) p2p;
+    gameOver(string winningPlayerName) p2p;
+
+    // Dice system
+    rollDice() p2p;
+    rolledDice(uint8(1-6) roll) p2p;
+    updateRolledDice(uint8(0-6) remainingRoll) p2p;
+    rolledDiceFailed() p2p;
+
+    // Turn system
+    endTurn() p2p;
+    startTurn() p2p;
+    nextPlayer(string name) broadcast;
+
+    // Movement system
+    requestMoveToField(string fieldName) p2p;
+
+    // Battle system
+    startBattle() p2p;
+    endBattle(uint8(0-1) won) p2p;
+    spectateBattle() p2p;
+    endSpectateBattle() p2p;
+}
+
+dclass DPlayer: DistributedObject {
+    requestStartPos() p2p;
+    requestName() p2p;
+    setName(string name) p2p;
+    setStartPos(int16 / 1000 x, int16 / 1000 y, int16 / 1000 z) p2p;
+}
+
+dclass DPiece: DistributedSmoothNode {
+    setModel(string modelName) broadcast ram;
+    getNameForNameTag() p2p;
+    createNameTag(string playerName) p2p;
+}
+
+dclass DBattle: DistributedObject {
+    rollInitiative() p2p;
+    playerAttack() p2p;
+    showHit(string name, uint8 hitpoints) broadcast;
+    startBattle() p2p;
+    battleOver(uint8(0-1) playersWon) broadcast;
+    startRound() p2p;
+    endRound() p2p;
+    updateBattleStats(string activePlayerName, BattleStats[] stats) broadcast;
+    rolledInitiativeFailed() p2p;
+    rolledInitiative(uint8(1-6) roll) p2p;
+    gotDefeated(uint8(0-1) lostAllLifes, uint8 potionsLeft) p2p;
+    attackFailed() p2p;
+    enemyDefeated() broadcast;
+    endBattle(uint8(0-1) wonBattle) broadcast;
+}
+
+dclass DRoomManager: DistributedObject {
+    requestJoin(uint16 roomZone, uint8 playerClassID) p2p;
+    joinFailed() p2p;
+    joinSuccess(joinParameter joinParams) p2p;
+    requestLeave(uint16 roomZone, uint8 playerId) p2p;
+    requestCreateRoom(room roomInfo) p2p;
+    requestRoomList() p2p;
+    setServerRoomList(room roomList[]) ram;
+}

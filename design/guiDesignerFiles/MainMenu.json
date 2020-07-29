@@ -1,0 +1,127 @@
+{
+  "ProjectVersion": "0.2a",
+  "EditorConfig": {
+    "usePixel2D": false,
+    "canvasSize": "(-2, 2, -2, 2)"
+  },
+  "ComponentList": {
+    "frmMenu": {
+      "element": {
+        "frameColor": "(1, 1, 1, 1)",
+        "frameSize": "(-0.4, 0.4, -0.5, 0.5)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectFrame",
+      "parent": "root",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "btnSingleplayer": {
+      "element": {
+        "frameSize": "(-4.0, 4.0, -0.4, 1.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, 0.2)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Singleplayer'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "frmMenu",
+      "command": "base.messenger.send",
+      "extraArgs": "\"menu_singleplayer\"",
+      "extraOptions": {}
+    },
+    "btnMultiplayer": {
+      "element": {
+        "frameSize": "(-4.0, 4.0, -0.4, 1.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, 0.025)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Multiplayer'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "frmMenu",
+      "command": "base.messenger.send",
+      "extraArgs": "\"menu_multiplayer\"",
+      "extraOptions": {}
+    },
+    "btnOptions": {
+      "element": {
+        "frameSize": "(-4.0, 4.0, -0.4, 1.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, -0.15)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Options'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "frmMenu",
+      "command": "base.messenger.send",
+      "extraArgs": "\"menu_options\"",
+      "extraOptions": {}
+    },
+    "btnQuit": {
+      "element": {
+        "frameSize": "(-4.0, 4.0, -0.4, 1.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, -0.325)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Quit'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "frmMenu",
+      "command": "base.messenger.send",
+      "extraArgs": "\"menu_quit\"",
+      "extraOptions": {}
+    },
+    "pg6375": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "frameSize": "(-4.25, 4.25, -1.25, 1.25)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "image": "'./assets/menu/Banner.png'",
+        "pos": "LPoint3f(0, 0, 0.475)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "''",
+        "image_scale": "LVecBase3f(4.5, 1, 1.5)",
+        "image_pos": "LPoint3f(0, 0, 0)",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "1"
+      },
+      "type": "DirectLabel",
+      "parent": "frmMenu",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    }
+  }
+}

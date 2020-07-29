@@ -1,3 +1,6 @@
+# Backups
+*.blend1
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -24,7 +27,6 @@ pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
-*.egg
 MANIFEST
 
 # PyInstaller

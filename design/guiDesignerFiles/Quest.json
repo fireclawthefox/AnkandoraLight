@@ -1,0 +1,124 @@
+{
+  "ProjectVersion": "0.2a",
+  "EditorConfig": {
+    "usePixel2D": false,
+    "canvasSize": "(-2, 2, -2, 2)"
+  },
+  "ComponentList": {
+    "lblDescription": {
+      "element": {
+        "frameColor": "(1, 1, 1, 1)",
+        "frameSize": "(-0.75, 0.75, -0.8, 0.8)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectFrame",
+      "parent": "root",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "lblHeader": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, 0.69)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Quest'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "lblDescription",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "lblQuestDesc": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.6, 0, 0.475)",
+        "scale": "LVecBase3f(0.05, 0.05, 0.05)",
+        "text": "'Quest description part 1'",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "lblDescription",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "lblControl": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.6, 0, -0.35)",
+        "scale": "LVecBase3f(0.08, 0.08, 0.08)",
+        "text": "'Controls'",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "lblDescription",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "lblControlDesc": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.6, 0, -0.475)",
+        "scale": "LVecBase3f(0.05, 0.05, 0.05)",
+        "text": "\"If it's your turn, click the dice button or hit D\"",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "lblDescription",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "btnClose": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, -0.75)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Close'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "lblDescription",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {
+        "pressEffect": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+class_type,attack_lv1,defense_lv1,attack_lv2,defense_lv2,model,inventory
+warrior,2,9,4,10,assets/models/pieces/warrior.bam,assets/inventory/warrior
+thief,3,8,5,9,assets/models/pieces/thief.bam,assets/inventory/thief
+mage,5,6,7,7,assets/models/pieces/mage.bam,assets/inventory/mage
+archer,4,7,6,8,assets/models/pieces/archer.bam,assets/inventory/archer

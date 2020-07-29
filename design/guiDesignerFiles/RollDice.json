@@ -1,0 +1,36 @@
+{
+  "ProjectVersion": "0.2a",
+  "EditorConfig": {
+    "usePixel2D": false,
+    "canvasSize": "(-2, 2, -2, 2)"
+  },
+  "ComponentList": {
+    "btnRollDice": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "frameSize": "(-0.25, 0.25, -0.25, 0.25)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "image": "'./assets/Dice/DiceButton.png'",
+        "pos": "LPoint3f(0.25, 0, 0.25)",
+        "relief": "1",
+        "scale": "LVecBase3f(1, 1, 1)",
+        "text": "''",
+        "image_scale": "LVecBase3f(0.25, 0.25, 0.25)",
+        "image_pos": "LPoint3f(0, 0, 0)",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(0.15, 0.15)",
+        "text_pos": "(-0.08, -0.09)",
+        "text_fg": "LVecBase4f(1, 1, 1, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "1"
+      },
+      "type": "DirectButton",
+      "parent": "root",
+      "command": "base.messenger.send",
+      "extraArgs": "\"rollDice\"",
+      "extraOptions": {
+        "pressEffect": 0
+      }
+    }
+  }
+}

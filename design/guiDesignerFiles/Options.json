@@ -1,0 +1,127 @@
+{
+  "ProjectVersion": "0.2a",
+  "EditorConfig": {
+    "usePixel2D": false,
+    "canvasSize": "(-2, 2, -2, 2)"
+  },
+  "ComponentList": {
+    "pg159": {
+      "element": {
+        "frameColor": "(1, 1, 1, 1)",
+        "frameSize": "(-1.777, 1.777, -1.0, 1.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectFrame",
+      "parent": "root",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "pg566": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, 0.8)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Options'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "pg159",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "lblServer": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.75, 0, -0.025)",
+        "scale": "LVecBase3f(1, 1, 1)",
+        "text": "'Game Server URL:'",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(0.05, 0.05)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "pg159",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "btnOk": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.375, 0, -0.775)",
+        "relief": "1",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Ok'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "pg159",
+      "command": "base.messenger.send",
+      "extraArgs": "\"options_ok\"",
+      "extraOptions": {
+        "pressEffect": 1
+      }
+    },
+    "btnCancel": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.275, 0, -0.775)",
+        "relief": "1",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Cancel'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "pg159",
+      "command": "base.messenger.send",
+      "extraArgs": "\"options_cancel\"",
+      "extraOptions": {
+        "pressEffect": 1
+      }
+    },
+    "txtServer": {
+      "element": {
+        "borderWidth": "(0.01, 0.01)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.15, 0, -0.03)",
+        "scale": "LVecBase3f(1, 1, 1)",
+        "width": "25.0",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(0.05, 0.05)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectEntry",
+      "parent": "pg159",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    }
+  }
+}
