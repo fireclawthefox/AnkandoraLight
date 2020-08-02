@@ -19,6 +19,7 @@ class LoadingScreenHandler(DirectObject):
         self.accept("registerLoadEvent", self.registerLoadEvent)
 
     def delete(self):
+        self.ignoreAll()
         self.loadingScreen.frmMain.hide()
         self.loadingScreen.frmMain.removeNode()
 

@@ -123,11 +123,11 @@ class DBoardAI(DistributedObjectAI):
                 base.messenger.send(self.uniqueName("PlayerWonRace"), [field])
             elif self.gameType == RoomGlobals.GAMETYPE_NORMAL:
                 if len(self.collectedQuestCards) == len(BoardMap.fightFields):
-                    base.messenger.send(self.uniqueName("InitiateFight"), [field])
+                    base.messenger.send(self.uniqueName("canInitiateFight"), [field])
 
         elif field.special in BoardMap.fightFields:
             if field not in self.collectedQuestCardFields:
-                base.messenger.send(self.uniqueName("InitiateFight"), [field])
+                base.messenger.send(self.uniqueName("canInitiateFight"), [field])
 
     def wonFight(self, field):
         self.collectedQuestCardFields.append(field)

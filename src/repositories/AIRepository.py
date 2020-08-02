@@ -61,4 +61,7 @@ class AIRepository(ClientRepository):
     def deallocateChannel(self, doID):
         """ This method will be called whenever a client disconnects from the
         server.  The given doID is the ID of the client who left us. """
+        requesterId = self.getAvatarIdFromSender()
+        print("REQUESTER LEFT US: ", requesterId)
         print("Client left us: ", doID)
+        base.messenger.send("Client-disconnect", [doID])

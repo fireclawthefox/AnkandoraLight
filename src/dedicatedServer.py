@@ -39,12 +39,14 @@ if __name__ == "__main__":
     base = ShowBase(windowType="none")
     builtins.simbase = base
 
-    # set the serverHost used in the AI Repo
-    base.serverHost = ConfigVariableString("server-host", "127.0.0.1:4400")
 
     # instantiate the server
     GameServerRepository()
-    # Room Manager
+
+
+    # set the serverHost used in the AI Repo
+    base.serverHost = ConfigVariableString("server-host", "127.0.0.1:4400")
+    # AI repository
     air = AIRepository()
     simbase.air = air
 

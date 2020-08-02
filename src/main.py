@@ -60,9 +60,11 @@ class Main(ShowBase, FSM, config.Config):
         #
         # INITIALIZE GAME CONTENT
         #
+        # Client and Server
         self.gameServer = None
-        self.gameAIServer = None
+        self.air = None
         self.cr = None
+
         # show or hide the game chat
         self.showChat = True
 
@@ -78,6 +80,8 @@ class Main(ShowBase, FSM, config.Config):
         base.cTrav = CollisionTraverser()
         #base.cTrav.showCollisions(base.render)
 
+        self.exitFunc = self.cleanExit
+
         #
         # ENTER GAMES INITIAL FSM STATE
         #
@@ -87,37 +91,44 @@ class Main(ShowBase, FSM, config.Config):
     # FSM PART
     #
 
+    ## MAIN MENU
     def enterMainMenu(self):
         self.cleanupClient()
         self.cleanupSinglePlayerServer()
         self.mainMenu = MainMenu()
         # Menu events
-        self.accept("menu_singleplayer", self.request, ["SinglePlayer"])
-        self.accept("menu_multiplayer", self.request, ["SetupClient"])
-        self.accept("menu_options", self.request, ["Options"])
-        self.accept("menu_quit", self.userExit)
+        self.mainMenuEvents = {
+            "menu_singleplayer": [self.request, ["SinglePlayer"]],
+            "menu_multiplayer": [self.request, ["SetupClient"]],
+            "menu_options": [self.request, ["Options"]],
+            "menu_quit": self.userExit
+        }
+        self.acceptDict(self.mainMenuEvents)
 
     def exitMainMenu(self):
         self.mainMenu.frmMenu.destroy()
         del self.mainMenu
-        self.ignore("menu_singleplayer")
-        self.ignore("menu_multiplayer")
-        self.ignore("menu_options")
-        self.ignore("menu_quit")
+        self.ignoreDict(self.mainMenuEvents)
 
+
+    ## OPTIONS
     def enterOptions(self):
         # Show options
         self.optionsHandler = OptionsHandler()
-        self.accept("options_ok", self.request, ["MainMenu"])
-        self.accept("options_cancel", self.request, ["MainMenu"])
+        self.optionsEvents = {
+            "options_ok": [self.request, ["MainMenu"]],
+            "options_cancel": [self.request, ["MainMenu"]]
+        }
+        self.acceptDict(self.optionsEvents)
 
     def exitOptions(self):
         # Hide options
         self.optionsHandler.destroy()
         del self.optionsHandler
-        self.ignore("options_ok")
-        self.ignore("options_cancel")
+        self.ignoreDict(self.optionsEvents)
 
+
+    ## SETUP STATES
     def enterSinglePlayer(self):
         # Show single player settings
         print("run local server instance")
@@ -128,86 +139,91 @@ class Main(ShowBase, FSM, config.Config):
 
         self.setupClient("SinglePlayerCreateGame")
 
-    def enterSinglePlayerCreateGame(self):
-        self.spCreateGame = SinglePlayerCreateGameHandler()
-
-        self.accept("singlePlayerCreateGame_back", self.request, ["MainMenu"])
-        self.accept("singlePlayerCreateGame_createAndStart", self.startSinglePlayer)
-
-    def exitSinglePlayerCreateGame(self):
-        self.spCreateGame.destroy()
-        self.ignore("singlePlayerCreateGame_back")
-        self.ignore("singlePlayerCreateGame_createAndStart")
-        del self.spCreateGame
-
     def enterSetupClient(self):
         self.setupClient("Longue")
 
+
+    ## SINGLE PLAYER CREATE ROOM
+    def enterSinglePlayerCreateGame(self):
+        self.spCreateGame = SinglePlayerCreateGameHandler()
+
+        self.singlePlayerCreateGameEvents = {
+            "singlePlayerCreateGame_back": [self.request, ["MainMenu"]],
+            "singlePlayerCreateGame_createAndStart": self.startSinglePlayer
+        }
+        self.acceptDict(self.singlePlayerCreateGameEvents)
+
+    def exitSinglePlayerCreateGame(self):
+        self.spCreateGame.destroy()
+        self.ignoreDict(self.singlePlayerCreateGameEvents)
+        del self.spCreateGame
+
+
+    ## LONGUE
     def enterLongue(self):
         # Show room selection
         self.roomList = RoomListHandler()
         self.showChat = True
 
-        self.accept("roomList_enterRoom", self.enterRoom)
-        self.accept("roomList_createRoom", self.cr.requestCreateRoom)
-        self.accept("roomList_reload", self.cr.requestRoomList)
-        self.accept("roomList_back", self.request, ["MainMenu"])
-
-        self.accept("updateRoomList", self.roomList.update)
+        self.longueEvents = {
+            "roomList_enterRoom": self.enterRoom,
+            "roomList_createRoom": self.cr.requestCreateRoom,
+            "roomList_reload": self.cr.requestRoomList,
+            "roomList_back": [self.request, ["MainMenu"]],
+            "updateRoomList": self.roomList.update
+        }
+        self.acceptDict(self.longueEvents)
         self.cr.requestRoomList()
 
     def exitLongue(self):
         # Hide room selection
         self.roomList.destroy()
-        self.ignore("roomList_enterRoom")
-        self.ignore("roomList_createRoom")
-        self.ignore("roomList_back")
-        self.ignore("updateRoomList")
+        self.ignoreDict(self.longueEvents)
         del self.roomList
 
-    def disableKeyboardInput(self):
-        self.ignore("d")
-        self.ignore("space")
-    def enableKeyboardInput(self):
-        room = self.cr.doId2do[self.cr.roomId]
-        self.accept("d", room.d_rollDice)
-        self.accept("space", self.endTurn)
+
+    ## GAME ROOM
     def enterGameRoom(self):
+        """Starts the game room"""
+        # Get our DRoom instance
         room = self.cr.doId2do[self.cr.roomId]
-        self.accept("leaveRoom", self.leaveRoom)
-        self.accept("rollDice", room.d_rollDice)
-        self.accept("rolledDice", self.rollDice.updateRoll)
-        self.accept("setNextActivePlayerName", self.turnHandler.setActivePlayer)
-        self.accept("startTurn", self.turnHandler.setEndTurnActive)
-        self.accept("endTurn", self.endTurn)
-        self.enableKeyboardInput()
-        self.accept("updateHealthPotions", self.inventoryHandler.setHealPotionCount)
-        self.accept("disableOtherKeyboardInput", self.disableKeyboardInput)
-        self.accept("enableOtherKeyboardInput", self.enableKeyboardInput)
-        self.questHandler.show()
+        self.gameOverScreen = GameOverHandler()
+
+        # This can be used to check if the in-game gui should be shown
+        self.canShowGUI = False
+
+        # event handling
+        self.gameRoomEvents = {
+            "leaveRoom": self.leaveRoom,
+            "rollDice": room.d_rollDice,
+            "rolledDice": self.rollDice.updateRoll,
+            "setNextActivePlayerName": self.turnHandler.setActivePlayer,
+            "startTurn": self.turnHandler.setEndTurnActive,
+            "endTurn": self.endTurn,
+            "updateHealthPotions": self.inventoryHandler.setHealPotionCount,
+            "disableOtherKeyboardInput": self.disableKeyboardInput,
+            "enableOtherKeyboardInput": self.enableKeyboardInput,
+            "gameOver": self.gameOverScreen.show,
+            "startRoom": self.showTurnGui
+        }
+        self.acceptDict(self.gameRoomEvents)
+
+        # we just need to accept this once to show up the quest related
+        # information as soon as the board animation is done
+        self.acceptOnce("BoardAnimationDone", self.showQuest)
+
+        # If we are in a multiplayer game, initiate the chat system
         if self.showChat:
             self.chatHandler.start(self.cr.getRoomZone())
-            self.chatHandler.show()
-        self.turnHandler.show()
-        self.topBar.show()
-        self.rollDice.show()
-        self.inventoryHandler.show()
-
-        self.gameOverScreen = GameOverHandler()
-        self.accept("gameOver", self.gameOverScreen.show)
+            self.chatHandler.hide()
 
     def exitGameRoom(self):
         # cleanup for game code
-        self.ignore("leaveRoom")
-        self.ignore("rollDice")
-        self.ignore("rolledDice")
-        self.ignore("setNextActivePlayerName")
-        self.ignore("startTurn")
-        self.ignore("endTurn")
-        self.ignore("d")
-        self.ignore("space")
-        self.ignore("updateHealthPotions")
+        # disable events
+        self.ignoreDict(self.gameRoomEvents)
+        self.disableKeyboardInput()
 
+        # remove the GUI
         self.topBar.destroy()
         self.topBar = None
         self.rollDice.destroy()
@@ -217,6 +233,8 @@ class Main(ShowBase, FSM, config.Config):
         if self.showChat:
             self.chatHandler.destroy()
             self.chatHandler = None
+        self.inventoryHandler.destroy()
+        self.inventoryHandler = None
         self.questHandler.destroy()
         self.questHandler = None
         self.gameOverScreen.destroy()
@@ -229,6 +247,29 @@ class Main(ShowBase, FSM, config.Config):
     #
     # BASIC FUNCTIONS
     #
+
+    def cleanExit(self):
+        """Called on exiting the application to make a clean quit from the
+        server"""
+        if self.cr is not None:
+            self.leaveRoom()
+        self.cleanupSinglePlayerServer()
+
+    def acceptDict(self, eventDict):
+        """Helper function to accept a dictionary of events.
+        Key: event name
+        Value: function or list [function, extra args]"""
+        for event, func in eventDict.items():
+            if type(func) is list:
+                # func[0] = function
+                # func[1] = extra args
+                self.accept(event, func[0], func[1])
+            else:
+                self.accept(event, func)
+
+    def ignoreDict(self, eventDict):
+        for event in eventDict.keys():
+            self.ignore(event)
 
     def __escape(self):
         """Handle user escape key klicks"""
@@ -243,19 +284,20 @@ class Main(ShowBase, FSM, config.Config):
             self.request("MainMenu")
 
     def setupClient(self, newState):
+        """Set up our client repository to connect to any server"""
         self.cr = GameClientRepository(self.request, newState, self.request, "MainMenu")
 
     def cleanupClient(self):
+        # check if we even have a client repo
         if self.cr is None: return
-
         self.cr.stop()
         self.cr = None
 
     def cleanupSinglePlayerServer(self):
-
-        if self.gameAIServer is not None:
-            self.gameAIServer.sendDisconnect()
-            del self.gameAIServer
+        """Stop and remove the local server created for a singleplayer session"""
+        if self.air is not None:
+            self.air.sendDisconnect()
+            self.air = None
 
         if self.gameServer is not None:
             del self.gameServer.cw
@@ -278,19 +320,29 @@ class Main(ShowBase, FSM, config.Config):
         self.gameAIServer = None
 
     def startSinglePlayer(self, roomInfo, playerClassID):
+        """Request to create a room. This should only be called for a local
+        single player instance"""
         self.singleplayerPlayerClassID = playerClassID
-        self.accept("updateRoomList", self.joinSinglePlayerRoom)
+        self.acceptOnce("updateRoomList", self.joinSinglePlayerRoom)
         self.cr.requestCreateRoom(roomInfo)
 
     def joinSinglePlayerRoom(self, roomList):
+        """Join the single player room that has just been created. As we
+        expect to be there only one room in the room list of our local server,
+        we just take the first room in the list"""
+        if len(roomList) > 1:
+            print("ERROR: More than one room created on local server!")
+            # move back to the main menu
+            self.request("MainMenu")
+            return
         self.showChat = False
-        self.ignore("updateRoomList")
         # in a singleplayer environment we must always only have one room
         self.enterRoom(roomList[0], self.singleplayerPlayerClassID)
 
     def enterRoom(self, room, playerClassID):
-        print("ENTER ROOM")
+        """Try to enter the given room as a player with the class of the given ID"""
         if hasattr(self, "roomList"):
+            # hide the roomList if we started from the longue
             self.roomList.hide()
         elif hasattr(self, ""):
             self.spCreateGame.hide()
@@ -302,8 +354,8 @@ class Main(ShowBase, FSM, config.Config):
         self.inventoryHandler = InventoryHandler()
         self.topBar = TopBarHandler(self.cr)
         self.rollDice = RollDiceHandler()
-        self.accept("roomManager_joinFailed", self.joinRoomFailed)
-        self.accept("roomManager_loaded", self.request, ["GameRoom"])
+        self.acceptOnce("roomManager_joinFailed", self.joinRoomFailed)
+        self.acceptOnce("roomManager_loaded", self.request, ["GameRoom"])
         self.cr.requestEnterRoom(room, playerClassID)
 
     def joinRoomFailed(self):
@@ -317,7 +369,6 @@ class Main(ShowBase, FSM, config.Config):
 
     def leaveRoom(self):
         self.cr.requestLeaveRoom()
-        print("NOW REQUESTING MAIN MENU")
         self.request("MainMenu")
 
     def endTurn(self):
@@ -328,6 +379,47 @@ class Main(ShowBase, FSM, config.Config):
     #
     # BASIC END
     #
+
+    #
+    # GameRoom state related functions
+    #
+    def disableKeyboardInput(self):
+        """Disable the in-game events for keyboard mapping"""
+        self.ignore("d")
+        self.ignore("space")
+
+    def enableKeyboardInput(self):
+        """Enable the in-game events for keyboard mapping"""
+        room = self.cr.doId2do[self.cr.roomId]
+        self.accept("d", room.d_rollDice)
+        self.accept("space", self.endTurn)
+
+    def showQuest(self):
+        """Show the quest related information"""
+        self.questHandler.show(self.showGUI)
+
+    def showGUI(self):
+        """Show the main in-game GUI"""
+        self.canShowGUI = True
+        self.questHandler.hide()
+        if self.showChat:
+            # only show the chat in multiplayer games
+            self.chatHandler.show()
+        self.topBar.show()
+        self.inventoryHandler.show()
+
+    def showTurnGui(self):
+        """Show the turn related GUI elements.  This should be called as soon as
+        the room is ready (all players are in).  It will check itself if the GUI
+        should actually be shown or if the quest display is still up"""
+        if self.canShowGUI:
+            self.turnHandler.show()
+            self.rollDice.show()
+        else:
+            taskMgr.doMethodLater(0.5, self.showTurnGui, "delayedShowTurnGui", extraArgs=[])
+
+        # accept keyboard events for the turn handling
+        self.enableKeyboardInput()
 # CLASS Main END
 
 #

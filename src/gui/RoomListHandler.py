@@ -15,7 +15,7 @@ class RoomListHandler(DirectObject):
         self.roomList = RoomList(self.holderNode)
         self.roomWizzard = RoomCreate(self.holderNode)
         self.roomWizzard.frmCreateRoom.hide()
-        self.roomWizzard.optionNumPlayers["items"] = ["1","2","3","4"]
+        self.roomWizzard.optionNumPlayers["items"] = ["2","3","4"]
         self.roomWizzard.optionGameType["items"] = RoomGlobals.ALL_GAMETYPES_AS_NAMES
 
         self.playerInfo = PlayerInfo(self.holderNode)
@@ -25,6 +25,7 @@ class RoomListHandler(DirectObject):
         self.roomList.btnCreateRoom["command"] = self.showCreateRoom
 
     def destroy(self):
+        self.ignoreAll()
         self.holderNode.removeNode()
         del self.holderNode
         self.roomList = None
@@ -66,7 +67,8 @@ class RoomListHandler(DirectObject):
             gameType = RoomGlobals.GAMETYPE_NORMAL
         elif gameTypeStr == "Race":
             gameType = RoomGlobals.GAMETYPE_RACE
-        room = (name, maxNumPlayers, 0, numAIPlayers, gameType, 0)
+        difficulty = 0
+        room = (name, maxNumPlayers, 0, numAIPlayers, difficulty, gameType, 0)
         base.messenger.send("roomList_createRoom", [room])
         self.hideCreateRoom()
 

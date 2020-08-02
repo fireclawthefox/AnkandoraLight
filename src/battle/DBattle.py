@@ -16,8 +16,12 @@ class DBattle(DistributedObject):
 
     def delete(self):
         print("DELETE DBattle")
+        self.ignoreAll()
         self.battleHandler.destroy()
         DistributedObject.delete(self)
+
+    def doSpectate(self):
+        self.battleHandler.setSpectate()
 
     def d_rollInitiative(self):
         print("DO ROLL INIT")

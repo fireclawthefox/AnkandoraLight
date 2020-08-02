@@ -48,3 +48,6 @@ class DPlayerAI(DistributedObjectAI):
     def getDefense(self):
         print("GET DEFENSE")
         return self.cm.getDefense(self.playerClassType, self.level)
+
+    def updateInventory(self):
+        self.sendUpdateToAvatarId(self.avId, "doUpdateInventory", [self.level, self.cm.getInventoryDir(self.playerClassType)])

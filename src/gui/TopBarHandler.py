@@ -10,6 +10,7 @@ class TopBarHandler(DirectObject):
         self.hide()
 
     def destroy(self):
+        self.ignoreAll()
         self.bar.frmMain.removeNode()
         del self.bar
 

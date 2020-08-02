@@ -5,10 +5,11 @@ from battle.DBattleAI import DBattleAI
 
 class DRoomAI(DistributedObjectAI):
 
-    def __init__(self, air, name, maxPlayers, gameType, roomZone):
+    def __init__(self, air, name, maxPlayers, difficulty, gameType, roomZone):
         DistributedObjectAI.__init__(self, air)
         self.name = name
         self.maxPlayers = maxPlayers
+        self.difficulty = difficulty
         self.gameType = gameType
 
         self.roomZone = roomZone
@@ -30,7 +31,7 @@ class DRoomAI(DistributedObjectAI):
         self.boardAI.setupQuestCards(self.roomZone)
         self.boardAI.gameType = self.gameType
         self.accept(self.boardAI.uniqueName("PlayerWonRace"), self.gameOver)
-        self.accept(self.boardAI.uniqueName("InitiateFight"), self.initiateFight)
+        self.accept(self.boardAI.uniqueName("canInitiateFight"), self.canInitiateFight)
         self.accept(self.boardAI.uniqueName("levelUpAllPlayers"), self.levelUpAllPlayers)
 
         self.dice = SixSidedDice()
@@ -108,7 +109,7 @@ class DRoomAI(DistributedObjectAI):
     def isFull(self):
         return self.getPlayerCount() == self.maxPlayers
 
-    def startRoom(self):
+    def d_startRoom(self):
         print("TRY START ROOM!")
         # we can only start if all players are ready
         if len(self.readyPlayers) != self.maxPlayers: return
@@ -132,16 +133,21 @@ class DRoomAI(DistributedObjectAI):
         # and other relevant elements
         self.sendUpdateToAvatarId(nextPlayer.avId, "startTurn", [])
 
+        print("START ROOM FROM AI")
+        self.sendUpdate("startRoom", [])
+
     def playerReady(self, playerId):
         print("GOT PLAYER READY!", playerId)
         if playerId not in self.readyPlayers:
             self.readyPlayers.append(playerId)
 
-        self.startRoom()
+        self.d_startRoom()
 
     def removePlayer(self, playerId):
         for p in self.playerList[:]:
             if p.doId == playerId:
+                if self.activePlayerId == p.avId:
+                    self.endTurn()
                 self.playerList.remove(p)
         self.air.sendDeleteMsg(playerId)
         return len(self.playerList) == 0
@@ -215,7 +221,17 @@ class DRoomAI(DistributedObjectAI):
         elif len(playersOnField) == 1:
             playersOnField[0].moveTo(field, 0, 0)
 
-    def initiateFight(self, field):
+    def canInitiateFight(self, field):
+        print("CAN INITIATE ROOM AI")
+        playerId = self.air.getAvatarIdFromSender()
+        self.canBattle = True
+        self.currentFightField = field
+        self.sendUpdateToAvatarId(playerId, "canInitiateFight", [])
+
+    def initiateFight(self):
+        if not self.canBattle: return
+        self.canBattle = False
+        field = self.currentFightField
         playersOnField = []
         spectatorPlayers = []
 
@@ -228,7 +244,7 @@ class DRoomAI(DistributedObjectAI):
         print("START FIGHT WITH:", playersOnField)
 
 
-        self.battleAI = DBattleAI(self.air, field, playersOnField, spectatorPlayers)
+        self.battleAI = DBattleAI(self.air, field, playersOnField, spectatorPlayers, self.difficulty)
 
         self.air.createDistributedObject(
             distObj = self.battleAI,
@@ -253,6 +269,7 @@ class DRoomAI(DistributedObjectAI):
     def levelUpAllPlayers(self):
         for player in self.playerList:
             player.level += 1
+            player.updateInventory()
 
     def gameOver(self, field):
         if self.gameType == RoomGlobals.GAMETYPE_RACE:

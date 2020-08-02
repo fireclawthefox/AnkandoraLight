@@ -1,4 +1,4 @@
-
+import random
 from direct.showbase.DirectObject import DirectObject
 from direct.gui import DirectGuiGlobals as DGG
 
@@ -7,23 +7,28 @@ from gui.Inventory import GUI as Inventory
 class InventoryHandler(DirectObject):
     def __init__(self):
         self.inventory = Inventory(base.a2dBottomRight)
+        self.inventory.frmMain.setScale(0.9)
 
-        self.destroy = self.inventory.destroy
         self.show = self.inventory.show
         self.hide = self.inventory.hide
 
-        self.origBtnZPos = self.inventory.btnToggleInventory.getZ()
-
         self.accept("toggleInventory", self.toggleInventory)
+        self.accept("updateInventory", self.setItems)
+
+        potion = "assets/inventory/potions/Potion{}.png"
+        self.inventory.frmPotion1["image"] = potion.format(random.randint(1,5))
+        self.inventory.frmPotion2["image"] = potion.format(random.randint(1,5))
+        self.inventory.frmPotion3["image"] = potion.format(random.randint(1,5))
 
         self.hide()
 
+    def destroy(self):
+        self.ignoreAll()
+        self.inventory.destroy()
+
     def setItems(self, level, inventoryAssetPath):
-        self.inventory.frmWeapon["image"] = inventoryAssetPath + "weapon{}.png".format(level)
-        self.inventory.frmArmor["image"] = inventoryAssetPath + "armor{}.png".format(level)
-        self.inventory.frmPotion1["image"] = inventoryAssetPath + "HealthPotion.png"
-        self.inventory.frmPotion2["image"] = inventoryAssetPath + "HealthPotion.png"
-        self.inventory.frmPotion3["image"] = inventoryAssetPath + "HealthPotion.png"
+        self.inventory.frmWeapon["image"] = inventoryAssetPath + "/weapon{}.png".format(level)
+        self.inventory.frmArmor["image"] = inventoryAssetPath + "/armor{}.png".format(level)
 
     def setHealPotionCount(self, count):
         self.inventory.frmPotion1.hide()
@@ -40,7 +45,5 @@ class InventoryHandler(DirectObject):
     def toggleInventory(self):
         if self.inventory.frmMain.isHidden():
             self.inventory.frmMain.show()
-            self.inventory.btnToggleInventory.setZ(self.origBtnZPos)
         else:
             self.inventory.frmMain.hide()
-            self.inventory.btnToggleInventory.setZ(-self.inventory.btnToggleInventory["frameSize"][2])

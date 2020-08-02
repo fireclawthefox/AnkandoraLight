@@ -25,6 +25,10 @@ class ChatHandler(DirectObject):
             self.chat.btnToggleChat.getZ())
         self.btnToggleChatOrigTextFG = self.chat.btnToggleChat.component("text1").fg
 
+
+        self.chat.btnToggleChat["sortOrder"] = 990
+        self.chat.frmChat["sortOrder"] = 990
+
         self.chat.txtMessage["focusInCommand"] = self.focusInCommandFunc
         self.chat.txtMessage["focusOutCommand"] = self.focusOutCommandFunc
         self.chat.txtMessage["command"] = self.sendMessage
@@ -59,6 +63,7 @@ class ChatHandler(DirectObject):
         base.messenger.send("loadChatDone")
 
     def destroy(self):
+        self.ignoreAll()
         self.chat.frmChat.removeNode()
         self.chat.btnToggleChat.removeNode()
         del self.chat

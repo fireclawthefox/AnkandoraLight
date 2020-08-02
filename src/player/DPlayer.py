@@ -40,3 +40,9 @@ class DPlayer(DistributedObject):
                 pickedObj = self.pickerQueue.getEntry(0).getIntoNodePath()
                 fieldName = pickedObj.getParent().getName()
                 base.messenger.send("requestMoveToField", [fieldName])
+
+    def d_updateInventory(self):
+        self.sendUpdate("updateInventory")
+
+    def doUpdateInventory(self, level, inventoryDir):
+        base.messenger.send("updateInventory", [level, inventoryDir])

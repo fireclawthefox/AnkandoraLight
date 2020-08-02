@@ -11,6 +11,7 @@ struct room {
     uint8 maxPlayerCount;
     uint8 playerCount;
     uint8 aiPlayerCount;
+    uint8 difficulty;
     uint8 gameTypeID;
     uint16 roomZone;
 }
@@ -39,6 +40,7 @@ dclass DQuestCard: DistributedNode {
 
 dclass DRoom: DistributedObject {
     playerReady(uint8 playerId) p2p;
+    startRoom() broadcast;
     gameOver(string winningPlayerName) p2p;
 
     // Dice system
@@ -56,6 +58,8 @@ dclass DRoom: DistributedObject {
     requestMoveToField(string fieldName) p2p;
 
     // Battle system
+    canInitiateFight() p2p;
+    initiateFight() p2p;
     startBattle() p2p;
     endBattle(uint8(0-1) won) p2p;
     spectateBattle() p2p;
@@ -67,6 +71,8 @@ dclass DPlayer: DistributedObject {
     requestName() p2p;
     setName(string name) p2p;
     setStartPos(int16 / 1000 x, int16 / 1000 y, int16 / 1000 z) p2p;
+    updateInventory() p2p;
+    doUpdateInventory(uint8, string inventoryDir) p2p;
 }
 
 dclass DPiece: DistributedSmoothNode {
@@ -76,19 +82,33 @@ dclass DPiece: DistributedSmoothNode {
 }
 
 dclass DBattle: DistributedObject {
+    // Initiative rolling
     rollInitiative() p2p;
-    playerAttack() p2p;
-    showHit(string name, uint8 hitpoints) broadcast;
-    startBattle() p2p;
-    battleOver(uint8(0-1) playersWon) broadcast;
-    startRound() p2p;
-    endRound() p2p;
-    updateBattleStats(string activePlayerName, BattleStats[] stats) broadcast;
     rolledInitiativeFailed() p2p;
     rolledInitiative(uint8(1-6) roll) p2p;
+
+    // start
+    startBattle() p2p;
+
+    // round management
+    startRound() p2p;
+    endRound() p2p;
+
+    // Enemy Attack
     gotDefeated(uint8(0-1) lostAllLifes, uint8 potionsLeft) p2p;
+    doSpectate() p2p;
+
+    // Player attack
+    playerAttack() p2p;
     attackFailed() p2p;
     enemyDefeated() broadcast;
+
+    // GUI display
+    showHit(string name, uint8 hitpoints) broadcast;
+    updateBattleStats(string activePlayerName, BattleStats[] stats) broadcast;
+
+    // battle end
+    battleOver(uint8(0-1) playersWon) broadcast;
     endBattle(uint8(0-1) wonBattle) broadcast;
 }
 

@@ -96,6 +96,7 @@ class DRoomManager(DistributedObject):
         player.setPiece(piece)
         # update the players name
         player.d_getName()
+        player.d_updateInventory()
 
         self.manifested = True
 

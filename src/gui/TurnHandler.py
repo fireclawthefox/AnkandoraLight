@@ -18,13 +18,11 @@ class TurnHandler(DirectObject):
         self.turn.btnEndTurn["text"] = playerName
         self.turn.btnEndTurn["image"] = "./assets/Turn/EndTurn_disabled.png"
         self.turn.btnEndTurn["state"] = DGG.DISABLED
-        self.turn.show()
 
     def setEndTurnActive(self):
         self.turn.btnEndTurn["text"] = "End Turn"
         self.turn.btnEndTurn["image"] = "./assets/Turn/EndTurn.png"
         self.turn.btnEndTurn["state"] = DGG.NORMAL
-        self.turn.show()
 
     def show(self):
         self.turn.btnEndTurn.show()

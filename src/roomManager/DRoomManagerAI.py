@@ -15,6 +15,8 @@ class DRoomManagerAI(DistributedObjectAI):
 
         self.roomList = []
 
+        self.accept("Client-disconnect", self.handleClientDisconnect)
+
     def getRoomInfoList(self):
         roomInfoList = []
         for room in self.roomList:
@@ -23,6 +25,7 @@ class DRoomManagerAI(DistributedObjectAI):
                 room.maxPlayers,
                 room.getPlayerCount(),
                 room.getAIPlayerCount(),
+                room.difficulty,
                 room.gameType,
                 room.roomZone)
             roomInfoList.append(roomInfo)
@@ -41,7 +44,7 @@ class DRoomManagerAI(DistributedObjectAI):
         print("request create room by ID:", requesterId)
         print("ROOM INFO:", roomInfo)
 
-        if len(roomInfo) != 6:
+        if len(roomInfo) != 7:
             print("room creation failed, unknown info length")
             return
 
@@ -53,6 +56,10 @@ class DRoomManagerAI(DistributedObjectAI):
             print("room creation failed, wrong player count (Min: 1 | Max: 4)")
             return
 
+        if (roomInfo[RoomGlobals.ROOM_DIFFICULTY] not in RoomGlobals.DIFFICULTIES):
+            print("room creation failed, unknonwn difficulty")
+            return
+
         if (roomInfo[RoomGlobals.ROOM_TYPE] not in RoomGlobals.ALL_GAMETYPES):
             print("room creation failed, unknonwn game type")
             return
@@ -61,6 +68,7 @@ class DRoomManagerAI(DistributedObjectAI):
             self.air,
             roomInfo[RoomGlobals.ROOM_NAME],
             roomInfo[RoomGlobals.ROOM_MAX_PLAYER_COUNT],
+            roomInfo[RoomGlobals.ROOM_DIFFICULTY],
             roomInfo[RoomGlobals.ROOM_TYPE],
             self.air.roomZoneAllocator.allocate())
         self.air.createDistributedObject(
@@ -201,3 +209,11 @@ class DRoomManagerAI(DistributedObjectAI):
             # all players have left the room
             self.roomList.remove(foundRoom)
             self.air.sendDeleteMsg(foundRoom.doId)
+
+    def handleClientDisconnect(self, doId):
+        print("HANDLE DISCONNECT")
+        for room in self.roomList:
+            print("players in room: {}".format(len(room.playerList)))
+            for player in room.playerList:
+                print("CHECK DISCONNECTION")
+                if player.doId == doId: print("FOUND PLAYER THAT LEFT")

@@ -21,7 +21,7 @@ class BattleHandler(DirectObject):
         self.show = self.battle.show
         self.hide = self.battle.hide
 
-        self.accept("rollInitiative", self.rolledInitiative)
+        self.acceptOnce("rollInitiative", self.rolledInitiative)
 
         self.hide()
 
@@ -103,5 +103,10 @@ class BattleHandler(DirectObject):
         self.battle.frmRollInitiative.hide()
 
     def destroy(self):
+        self.ignoreAll()
         self.battle.destroy()
         del self.battle
+
+    def setSpectate(self):
+        self.battle.frmRollInitiative.hide()
+        self.battle.btnAttack.hide()

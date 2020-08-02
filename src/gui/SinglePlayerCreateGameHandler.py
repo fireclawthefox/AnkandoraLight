@@ -23,10 +23,12 @@ class SinglePlayerCreateGameHandler(DirectObject):
             gameType = RoomGlobals.GAMETYPE_NORMAL
         elif gameTypeStr == "Race":
             gameType = RoomGlobals.GAMETYPE_RACE
-        room = (name, numPlayers, 0, aiPlayerCount, gameType, 0)
+        difficulty = 0
+        room = (name, numPlayers, 0, aiPlayerCount, difficulty, gameType, 0)
         base.messenger.send("singlePlayerCreateGame_createAndStart", [room, playerClassID])
 
     def destroy(self):
+        self.ignoreAll()
         self.spCreateGame.destroy()
         del self.spCreateGame
 

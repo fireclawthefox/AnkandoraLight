@@ -7,12 +7,14 @@ from dice.SixSidedDice import SixSidedDice
 from globalData.RoomGlobals import DIFFICULTY_EASY
 
 class DBattleAI(DistributedObjectAI):
-    def __init__(self, air, field, playersOnField, spectatorPlayers):
+    def __init__(self, air, field, playersOnField, spectatorPlayers, difficulty):
         DistributedObjectAI.__init__(self, air)
 
         self.playersOnField = playersOnField
         print("BATTLE WITH", len(self.playersOnField), "PLAYERS")
         self.spectatorPlayers = spectatorPlayers
+
+        self.difficulty = difficulty
 
         self.readyPlayers = []
 
@@ -25,9 +27,16 @@ class DBattleAI(DistributedObjectAI):
 
         self.dice = SixSidedDice()
 
-        self.enemyAI = EnemyAI(field.special, DIFFICULTY_EASY)
+        self.enemyAI = EnemyAI(field.special, self.difficulty)
 
         self.field = field
+
+    def isSpectating(self):
+        playerId = self.air.getAvatarIdFromSender()
+        for player in self.spectatorPlayers:
+            if playerId == player.avId:
+                self.sendUpdateToAvatarId(playerId, "doSpectate", [])
+                return
 
     def rollInitiative(self):
         playerId = self.air.getAvatarIdFromSender()
@@ -154,6 +163,7 @@ class DBattleAI(DistributedObjectAI):
                 self.spectatorPlayers.append(player)
                 self.playersOnField.remove(player)
                 self.sendUpdateToAvatarId(player.avId, "gotDefeated", [True, 0])
+                self.sendUpdateToAvatarId(player.avId, "doSpectate", [])
                 for entry in self.fightOrder[:]:
                     if entry[0] == player.avId:
                         self.fightOrder.remove(entry)

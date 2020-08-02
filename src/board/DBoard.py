@@ -2,11 +2,13 @@ from direct.distributed.DistributedObject import DistributedObject
 from direct.actor.Actor import Actor
 from panda3d.core import AmbientLight, DirectionalLight, CollisionNode, CollisionSphere, BitMask32
 from board import BoardMap
+from direct.interval.IntervalGlobal import Parallel, Sequence, Func
 
 class DBoard(DistributedObject):
 
     def __init__(self, cr):
         DistributedObject.__init__(self, cr)
+        self.accept("checkBoardAnimationDone", self.checkBoardAnimationDone)
 
         print("CREATE BOARD")
 
@@ -14,6 +16,8 @@ class DBoard(DistributedObject):
         base.messenger.send("registerLoadEvent", ["loadTableDone"])
 
         self.modelLoadList = {"board":False, "table":False}
+
+        self.boardAnimation = None
 
         self.lightSun = DirectionalLight('light_sun')
         self.lightSun.setColorTemperature(5300)
@@ -86,6 +90,7 @@ class DBoard(DistributedObject):
         for key, value in self.modelLoadList.items():
             if value == False: return
 
+        self.ignore("loadDone")
         base.messenger.send("boardDone")
 
     def announceGenerate(self):
@@ -101,7 +106,7 @@ class DBoard(DistributedObject):
         DistributedObject.disable(self)
 
     def delete(self):
-        self.ignore("loadDone")
+        self.ignoreAll()
         self.boardFlip.cleanup()
         self.camFly.cleanup()
         self.boardFlip.removeNode()
@@ -118,8 +123,28 @@ class DBoard(DistributedObject):
         print("DELETED BOARD ROOM")
 
     def start(self):
-        self.boardFlip.play("BoardFlipUp")
-        self.camFly.play("CamFly")
+        taskMgr.step()
+
+        print("START BOARD")
+        self.boardAnimation = Sequence(
+            Parallel(
+                self.boardFlip.actorInterval("BoardFlipUp"),
+                self.camFly.actorInterval("CamFly")
+            ),
+            Func(base.messenger.send, "BoardAnimationDone")
+        )
+        self.boardAnimation.start()
+        print(self.boardAnimation is not None)
+
+    def checkBoardAnimationDone(self):
+        print("RECHECK, HAS BOARD ANIMATION?")
+        print(self.boardAnimation is not None)
+        if self.boardAnimation is not None:
+            print("BOARD ANIMATION NOT NONE")
+            if self.boardAnimation.isStopped():
+                print("RESENT BORAD ANIM DONE EVENT")
+                # resend the event
+                base.messenger.send("BoardAnimationDone")
 
     def setupCollisions(self):
         for field in BoardMap.gameMap:

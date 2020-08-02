@@ -1,4 +1,5 @@
 from direct.distributed.DistributedObject import DistributedObject
+from direct.gui.DirectDialog import YesNoDialog
 
 class DRoom(DistributedObject):
 
@@ -11,6 +12,10 @@ class DRoom(DistributedObject):
         DistributedObject.announceGenerate(self)
 
         self.accept("requestMoveToField", self.d_requestMoveToField)
+
+    def startRoom(self):
+        print("SEND START ROOM")
+        base.messenger.send("startRoom")
 
     def d_rollDice(self):
         self.sendUpdate("rollDice")
@@ -51,9 +56,28 @@ class DRoom(DistributedObject):
             msg = "Player\n{}\nwon!".format(winningPlayerName)
         base.messenger.send("gameOver", [msg])
 
+    def canInitiateFight(self):
+        print("CAN INITIATE ROOM")
+        base.messenger.send("canInitiateFight")
+
+        self.dlgStartFight = YesNoDialog(
+            state='normal',
+            text='Start Fight?',
+            fadeScreen=True,
+            command=self.doInitiateFight
+        )
+
+    def doInitiateFight(self, yes):
+        if yes:
+            self.d_initiateFight()
+        self.dlgStartFight.cleanup()
+        self.dlgStartFight = None
+
+    def d_initiateFight(self):
+        self.sendUpdate("initiateFight")
+
     def startBattle(self):
         print("START BATTLE")
-        # TODO: Make sure the players can't do anything than looking for the batle
 
     def endBattle(self, won):
         print("END BATTLE")
@@ -61,7 +85,6 @@ class DRoom(DistributedObject):
 
     def spectateBattle(self):
         print("SPECtATE BATTLE")
-        # TODO: Make sure the players can't do anything than looking for the batle
 
     def endSpectateBattle(self):
         print("END SPECTATE BATTLE")
