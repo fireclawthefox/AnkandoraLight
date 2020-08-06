@@ -11,8 +11,36 @@ Current features:
 - 4 types of pieces with dedicated stats
 - Basic game features (moving on the board, fighting)
 - 2 different game modes
+- simple text chat
 
 
+## Server
+### Configure
+The configuration file of the server can be created if it doesn't exist as:<br />
+<code>~/Grimfang Studio/Ankandora/Ankandora-server.prc</code>
 
-License notes for the Oldania ADF Std Fonts:
+In it, you should configure these two values:
+- server-port - Used for the port that the Server will utilize to listen for connections. Defaults to <code>4400</code>
+- server-host - Used by the AI Server to connect to the main server. This will usually be localhost with the port set for server-port. Defaults to <code>127.0.0.1:4400</code>
+
+### Start
+To start the server, navigate to the src directory and run<br />
+<code>python3 dedicatedServer.py</code>
+
+
+## Client
+### Configure
+The configuration file is stored in<br />
+<code>~/Grimfang Studio/Ankandora/Ankandora.prc</code><br />
+which will be created the first time the game is launched.
+
+The in game options menu currently only features the setting for the server connection URL.
+
+### Start
+To start the client, navigate to the src directory and run<br />
+<code>python3 main.py</code>
+
+
+## Notes
+License notes for the Oldania ADF Std Fonts:<br />
 Copyright Arkandis Digital Foundry, under the GNU General Public License V2 and later, with font exception.
