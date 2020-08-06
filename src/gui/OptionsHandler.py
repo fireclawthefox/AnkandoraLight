@@ -16,6 +16,7 @@ class OptionsHandler(DirectObject, Options):
     def ok(self):
         serverUrl = self.txtServer.get()
         base.serverHost.setValue(serverUrl)
+        base.messenger.send("options_back")
 
     def cancel(self):
-        pass
+        base.messenger.send("options_back")

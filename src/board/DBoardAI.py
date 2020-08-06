@@ -39,6 +39,7 @@ class DBoardAI(DistributedObjectAI):
 
         for field in BoardMap.gameMap:
             if field.special in BoardMap.fightFields:
+                print("SETUP:", field.special)
                 questCard = DQuestCardAI(self.cr, field.special)
 
                 self.air.createDistributedObject(
@@ -127,7 +128,28 @@ class DBoardAI(DistributedObjectAI):
 
         elif field.special in BoardMap.fightFields:
             if field not in self.collectedQuestCardFields:
-                base.messenger.send(self.uniqueName("canInitiateFight"), [field])
+                if self.gameType == RoomGlobals.GAMETYPE_RACE:
+                    base.messenger.send(self.uniqueName("initiateDirectFight"), [field])
+                else:
+                    base.messenger.send(self.uniqueName("canInitiateFight"), [field])
+
+        elif field.special in BoardMap.raceLevelUp and self.gameType == RoomGlobals.GAMETYPE_RACE:
+            base.messenger.send(self.uniqueName("levelUpAllPlayers"))
+
+    def getAttendingPlayers(self, field, playerList):
+        searchFields = []
+        attendingPlayers = []
+        if field.special == "EndField":
+            for field in BoardMap.gameMap:
+                if field.special == "EndField":
+                    searchFields.append(field)
+        else:
+            searchFields.append(field)
+
+        for player in playerList:
+            if player.currentField in searchFields:
+                attendingPlayers.append(player)
+        return attendingPlayers
 
     def wonFight(self, field):
         self.collectedQuestCardFields.append(field)

@@ -41,6 +41,7 @@ class DPiece(DistributedSmoothNode):
 
         if self.nameTag is not None:
             if self.nameTag.isHidden():
+                self.nameTag.show()
                 self.nameTag.setTransparency(1)
                 LerpColorInterval(self.nameTag, 1, self.nameTag.getColor(), (0,0,0,0)).start()
         else:

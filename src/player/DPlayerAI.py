@@ -10,6 +10,7 @@ class DPlayerAI(DistributedObjectAI):
         self.name = ""
         self.avId = -1
         self.currentField = None
+        self.startField = None
         self.piece = None
         self.playerClassID = -1
         self.playerClassType = "Unknown"
@@ -32,6 +33,14 @@ class DPlayerAI(DistributedObjectAI):
         """ Start this players turn """
         print("START THIS PLAYERS TURN")
         base.messenger.send("startTurn", [])
+
+    def resetToStartField(self):
+        print("MOVE PLAYER TO", self.startField)
+        self.moveTo(self.startField, 0, 0)
+
+        self.numHealPotions = 3
+        self.sendUpdateToAvatarId(self.avId, "doUpdatePotions", [self.numHealPotions])
+
 
     def moveTo(self, field, shiftX, shiftY):
         print("MOVE PLAYER")

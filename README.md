@@ -8,6 +8,11 @@ The game can be played alone in singleplayer mode or by creating a server and op
 Current features:
 - Singleplayer mode
 - Dedicated server
-- 2 (out of 4) types of pieces with dedicated stats
+- 4 types of pieces with dedicated stats
 - Basic game features (moving on the board, fighting)
 - 2 different game modes
+
+
+
+License notes for the Oldania ADF Std Fonts:
+Copyright Arkandis Digital Foundry, under the GNU General Public License V2 and later, with font exception.

@@ -73,6 +73,8 @@ class Config:
         # shader generator
         #render.setShaderAuto()
         # Enhance font readability
+        font = loader.loadFont("assets/fonts/OldaniaADFStd-Regular.otf")
+        DGG.setDefaultFont(font)
         DGG.getDefaultFont().setPixelsPerUnit(100)
         # get the displays width and height for later usage
         self.dispWidth = self.pipe.getDisplayWidth()

@@ -35,7 +35,7 @@ class ChatHandler(DirectObject):
 
         tpMgr = TextPropertiesManager.getGlobalPtr()
         tpBold = TextProperties()
-        font = loader.loadFont("assets/fonts/DejaVuSansMono-Bold.ttf")
+        font = loader.loadFont("assets/fonts/OldaniaADFStd-Bold.otf")
         tpBold.setFont(font)
         tpMgr.setProperties("bold", tpBold)
 

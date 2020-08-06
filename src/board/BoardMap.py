@@ -5,6 +5,7 @@ def connectFields(fieldA, fieldB):
     fieldB.connections.append(fieldA)
 
 fightFields = ["Moon", "Triangle", "Square", "Circle", "Star", "Diamond", "Arrow"]
+raceLevelUp = ["race_levelUp"]
 gameMap = []
 
 gameMap.append(Field("Start_1", 0, "StartField")) # 0
@@ -26,7 +27,7 @@ gameMap.append(Field("Field_11", 4, "Square")) # 10 14
 gameMap.append(Field("Field_12", 5)) # 11   15
 gameMap.append(Field("Field_13", 2, "Circle")) # 12 16
 gameMap.append(Field("Field_14", 2)) # 13   17
-gameMap.append(Field("Field_15", 4)) # 14   18
+gameMap.append(Field("Field_15", 4, "race_levelUp")) # 14   18
 gameMap.append(Field("Field_16", 3)) # 15   19
 gameMap.append(Field("Field_17", 3)) # 16   20
 gameMap.append(Field("Field_18", 2, "Star")) # 17   21

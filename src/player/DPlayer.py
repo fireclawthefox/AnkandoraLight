@@ -46,3 +46,6 @@ class DPlayer(DistributedObject):
 
     def doUpdateInventory(self, level, inventoryDir):
         base.messenger.send("updateInventory", [level, inventoryDir])
+
+    def doUpdatePotions(self, numPotions):
+        base.messenger.send("updateHealthPotions", [numPotions])

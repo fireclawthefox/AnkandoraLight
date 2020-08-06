@@ -1,5 +1,6 @@
 from direct.distributed.DistributedObject import DistributedObject
 from gui.BattleHandler import BattleHandler
+from gui.BattleOverHandler import BattleOverHandler
 from battle.BattleStats import BattleStats
 
 class DBattle(DistributedObject):
@@ -11,6 +12,7 @@ class DBattle(DistributedObject):
         print("GENERATE DBattle")
         self.battleHandler.show()
         self.accept("rollInitiative", self.d_rollInitiative)
+        self.sendUpdate("isSpectating")
         # call the base class method
         DistributedObject.announceGenerate(self)
 
@@ -79,8 +81,10 @@ class DBattle(DistributedObject):
         pass
 
     def endBattle(self, wonBattle):
+        boh = BattleOverHandler()
         if wonBattle == 1:
-            print("YOU WON")
+            boh.show("You won")
         else:
-            print("YOU LOSE")
+            boh.show("You lost")
+
         self.battleHandler.hide()

@@ -29,6 +29,8 @@ from gui.LoadingScreenHandler import LoadingScreenHandler
 from gui.GameOverHandler import GameOverHandler
 from gui.OptionsHandler import OptionsHandler
 
+from globalData import RoomGlobals
+
 # For Multiplayer
 from repositories.GameClientRepository import GameClientRepository
 
@@ -116,8 +118,7 @@ class Main(ShowBase, FSM, config.Config):
         # Show options
         self.optionsHandler = OptionsHandler()
         self.optionsEvents = {
-            "options_ok": [self.request, ["MainMenu"]],
-            "options_cancel": [self.request, ["MainMenu"]]
+            "options_back": [self.request, ["MainMenu"]]
         }
         self.acceptDict(self.optionsEvents)
 
@@ -204,7 +205,8 @@ class Main(ShowBase, FSM, config.Config):
             "disableOtherKeyboardInput": self.disableKeyboardInput,
             "enableOtherKeyboardInput": self.enableKeyboardInput,
             "gameOver": self.gameOverScreen.show,
-            "startRoom": self.showTurnGui
+            "startRoom": self.showTurnGui,
+            "quitRoom": self.leaveRoom
         }
         self.acceptDict(self.gameRoomEvents)
 
@@ -347,7 +349,7 @@ class Main(ShowBase, FSM, config.Config):
         elif hasattr(self, ""):
             self.spCreateGame.hide()
         self.loadingScreen = LoadingScreenHandler()
-        self.questHandler = QuestHandler()
+        self.questHandler = QuestHandler(room[RoomGlobals.ROOM_TYPE])
         if self.showChat:
             self.chatHandler = ChatHandler(self.cr)
         self.turnHandler = TurnHandler(self.cr)

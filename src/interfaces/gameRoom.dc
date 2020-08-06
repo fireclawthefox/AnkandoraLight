@@ -73,6 +73,7 @@ dclass DPlayer: DistributedObject {
     setStartPos(int16 / 1000 x, int16 / 1000 y, int16 / 1000 z) p2p;
     updateInventory() p2p;
     doUpdateInventory(uint8, string inventoryDir) p2p;
+    doUpdatePotions(uint8) p2p;
 }
 
 dclass DPiece: DistributedSmoothNode {
@@ -82,12 +83,15 @@ dclass DPiece: DistributedSmoothNode {
 }
 
 dclass DBattle: DistributedObject {
+    // Spectating
+    isSpectating() p2p;
+
     // Initiative rolling
     rollInitiative() p2p;
     rolledInitiativeFailed() p2p;
     rolledInitiative(uint8(1-6) roll) p2p;
 
-    // start
+    // Start
     startBattle() p2p;
 
     // round management

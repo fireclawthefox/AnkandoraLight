@@ -19,18 +19,21 @@ class GUI:
     def __init__(self, rootParent=None):
         
         self.lblDescription = DirectFrame(
-            frameColor=(1, 1, 1, 1),
+            frameColor=(1.0, 1.0, 1.0, 0.0),
             frameSize=(-0.75, 0.75, -0.8, 0.8),
             hpr=LVecBase3f(0, 0, 0),
+            image='/home/fireclaw/workspace/Ankandora/AnkandoraLight/src/assets/quest/QuestBG.png',
             pos=LPoint3f(0, 0, 0),
+            image_scale=LVecBase3f(0.75, 1, 0.8),
+            image_pos=LPoint3f(0, 0, 0),
             parent=rootParent,
         )
-        self.lblDescription.setTransparency(0)
+        self.lblDescription.setTransparency(2)
 
         self.lblHeader = DirectLabel(
             frameColor=(0.8, 0.8, 0.8, 0.0),
             hpr=LVecBase3f(0, 0, 0),
-            pos=LPoint3f(0, 0, 0.69),
+            pos=LPoint3f(0, 0, 0.59),
             scale=LVecBase3f(0.1, 0.1, 0.1),
             text='Quest',
             text_align=TextNode.A_center,
@@ -40,12 +43,12 @@ class GUI:
             text_bg=LVecBase4f(0, 0, 0, 0),
             parent=self.lblDescription,
         )
-        self.lblHeader.setTransparency(0)
+        self.lblHeader.setTransparency(1)
 
         self.lblQuestDesc = DirectLabel(
             frameColor=(0.8, 0.8, 0.8, 0.0),
             hpr=LVecBase3f(0, 0, 0),
-            pos=LPoint3f(-0.6, 0, 0.475),
+            pos=LPoint3f(-0.6, 0, 0.525),
             scale=LVecBase3f(0.05, 0.05, 0.05),
             text='Quest description part 1',
             text_align=TextNode.A_left,
@@ -55,12 +58,12 @@ class GUI:
             text_bg=LVecBase4f(0, 0, 0, 0),
             parent=self.lblDescription,
         )
-        self.lblQuestDesc.setTransparency(0)
+        self.lblQuestDesc.setTransparency(1)
 
         self.lblControl = DirectLabel(
             frameColor=(0.8, 0.8, 0.8, 0.0),
             hpr=LVecBase3f(0, 0, 0),
-            pos=LPoint3f(-0.6, 0, -0.35),
+            pos=LPoint3f(-0.6, 0, -0.25),
             scale=LVecBase3f(0.08, 0.08, 0.08),
             text='Controls',
             text_align=TextNode.A_left,
@@ -70,12 +73,12 @@ class GUI:
             text_bg=LVecBase4f(0, 0, 0, 0),
             parent=self.lblDescription,
         )
-        self.lblControl.setTransparency(0)
+        self.lblControl.setTransparency(1)
 
         self.lblControlDesc = DirectLabel(
             frameColor=(0.8, 0.8, 0.8, 0.0),
             hpr=LVecBase3f(0, 0, 0),
-            pos=LPoint3f(-0.6, 0, -0.475),
+            pos=LPoint3f(-0.6, 0, -0.315),
             scale=LVecBase3f(0.05, 0.05, 0.05),
             text="If it's your turn, click the dice button or hit D",
             text_align=TextNode.A_left,
@@ -85,11 +88,14 @@ class GUI:
             text_bg=LVecBase4f(0, 0, 0, 0),
             parent=self.lblDescription,
         )
-        self.lblControlDesc.setTransparency(0)
+        self.lblControlDesc.setTransparency(1)
 
         self.btnClose = DirectButton(
+            frameColor=(0.8, 0.8, 0.8, 0.75),
+            frameSize=(-1.288, 1.387, -0.213, 0.825),
             hpr=LVecBase3f(0, 0, 0),
-            pos=LPoint3f(0, 0, -0.75),
+            pos=LPoint3f(0, 0, -0.65),
+            relief=1,
             scale=LVecBase3f(0.1, 0.1, 0.1),
             text='Close',
             text_align=TextNode.A_center,

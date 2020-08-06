@@ -23,6 +23,8 @@ class DQuestCard(DistributedNode):
     def setCard(self, cardName):
         if cardName == "": return
 
+        print("SET CARD", cardName)
+
         modelName = "assets/models/questCards/QuestCard.bam"
         textureName = "assets/models/questCards/{}.png".format(cardName)
         cardTex = loader.loadTexture(textureName)

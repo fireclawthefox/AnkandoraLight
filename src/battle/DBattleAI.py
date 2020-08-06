@@ -10,7 +10,8 @@ class DBattleAI(DistributedObjectAI):
     def __init__(self, air, field, playersOnField, spectatorPlayers, difficulty):
         DistributedObjectAI.__init__(self, air)
 
-        self.playersOnField = playersOnField
+        self.playersAttending = playersOnField.copy()
+        self.playersOnField = playersOnField.copy()
         print("BATTLE WITH", len(self.playersOnField), "PLAYERS")
         self.spectatorPlayers = spectatorPlayers
 

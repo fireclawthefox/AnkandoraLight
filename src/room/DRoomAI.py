@@ -32,6 +32,7 @@ class DRoomAI(DistributedObjectAI):
         self.boardAI.gameType = self.gameType
         self.accept(self.boardAI.uniqueName("PlayerWonRace"), self.gameOver)
         self.accept(self.boardAI.uniqueName("canInitiateFight"), self.canInitiateFight)
+        self.accept(self.boardAI.uniqueName("initiateDirectFight"), self.initiateDirectFight)
         self.accept(self.boardAI.uniqueName("levelUpAllPlayers"), self.levelUpAllPlayers)
 
         self.dice = SixSidedDice()
@@ -71,6 +72,7 @@ class DRoomAI(DistributedObjectAI):
             return False
         #print("Set position to {}".format(startPos))
         player.currentField = startField
+        player.startField = startField
         player.piece.setPos(startField.nodepath.getPos())
 
         # check if other players can join
@@ -228,6 +230,11 @@ class DRoomAI(DistributedObjectAI):
         self.currentFightField = field
         self.sendUpdateToAvatarId(playerId, "canInitiateFight", [])
 
+    def initiateDirectFight(self, field):
+        self.canBattle = True
+        self.currentFightField = field
+        self.initiateFight()
+
     def initiateFight(self):
         if not self.canBattle: return
         self.canBattle = False
@@ -235,10 +242,9 @@ class DRoomAI(DistributedObjectAI):
         playersOnField = []
         spectatorPlayers = []
 
+        playersOnField = self.boardAI.getAttendingPlayers(field, self.playerList)
         for player in self.playerList:
-            if player.currentField == field:
-                playersOnField.append(player)
-            else:
+            if player not in playersOnField:
                 spectatorPlayers.append(player)
 
         print("START FIGHT WITH:", playersOnField)
@@ -261,15 +267,24 @@ class DRoomAI(DistributedObjectAI):
 
     def stopFight(self, field, playersWon):
         print("BATTLE OVER, DELETE OBJECT")
-        self.air.deleteObject(self.battleAI.doId)
-        del self.battleAI
         if playersWon:
             self.boardAI.wonFight(field)
+        else:
+            print("PLAYERS LOST SO RESET THEIR POSITION")
+            print(self.battleAI.playersAttending)
+            for player in self.battleAI.playersAttending:
+                print("RESETTING PLAYER: ", player)
+                player.resetToStartField()
+
+        # cleanup the battlefield
+        self.air.deleteObject(self.battleAI.doId)
+        del self.battleAI
 
     def levelUpAllPlayers(self):
         for player in self.playerList:
-            player.level += 1
-            player.updateInventory()
+            if player.level == 1:
+                player.level += 1
+                player.updateInventory()
 
     def gameOver(self, field):
         if self.gameType == RoomGlobals.GAMETYPE_RACE:
