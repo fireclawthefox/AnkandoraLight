@@ -17,12 +17,12 @@ from panda3d.core import (
 
 class GUI:
     def __init__(self, rootParent=None):
-        
+
         self.lblDescription = DirectFrame(
             frameColor=(1.0, 1.0, 1.0, 0.0),
             frameSize=(-0.75, 0.75, -0.8, 0.8),
             hpr=LVecBase3f(0, 0, 0),
-            image='/home/fireclaw/workspace/Ankandora/AnkandoraLight/src/assets/quest/QuestBG.png',
+            image='./assets/quest/QuestBG.png',
             pos=LPoint3f(0, 0, 0),
             image_scale=LVecBase3f(0.75, 1, 0.8),
             image_pos=LPoint3f(0, 0, 0),

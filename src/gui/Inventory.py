@@ -16,12 +16,12 @@ from panda3d.core import (
 
 class GUI:
     def __init__(self, rootParent=None):
-        
+
         self.frmMain = DirectFrame(
             frameColor=(1.0, 1.0, 1.0, 0.0),
             frameSize=(-0.436, 0.45, -0.5, 0.5),
             hpr=LVecBase3f(0, 0, 0),
-            image='/home/fireclaw/workspace/Ankandora/AnkandoraLight/src/assets/inventory/InventoryPlate.png',
+            image='./assets/inventory/InventoryPlate.png',
             pos=LPoint3f(-0.4, 0, 0.52),
             image_scale=LVecBase3f(0.436, 1, 0.5),
             image_pos=LPoint3f(0, 0, 0),
@@ -33,7 +33,7 @@ class GUI:
             frameColor=(1.0, 0.0, 1.0, 0.0),
             frameSize=(-0.09, 0.09, -0.242, 0.242),
             hpr=LVecBase3f(0, 0, 0),
-            image='/home/fireclaw/workspace/Ankandora/AnkandoraLight/src/assets/inventory/thief/weapon1.png',
+            image='./assets/inventory/thief/weapon1.png',
             pos=LPoint3f(-0.165, 0, 0.15),
             image_scale=LVecBase3f(0.09, 0, 0.242),
             image_pos=LPoint3f(0, 0, 0),
@@ -45,7 +45,7 @@ class GUI:
             frameColor=(1.0, 0.0, 1.0, 0.0),
             frameSize=(-0.09, 0.09, -0.242, 0.242),
             hpr=LVecBase3f(0, 0, 0),
-            image='/home/fireclaw/workspace/Ankandora/AnkandoraLight/src/assets/inventory/thief/weapon1.png',
+            image='./assets/inventory/thief/weapon1.png',
             pos=LPoint3f(0.18, 0, 0.15),
             image_scale=LVecBase3f(0.09, 0, 0.242),
             image_pos=LPoint3f(0, 0, 0),
@@ -57,7 +57,7 @@ class GUI:
             frameColor=(0.0, 1.0, 1.0, 0.0),
             frameSize=(-0.1, 0.1, -0.1, 0.1),
             hpr=LVecBase3f(0, 0, 0),
-            image='/home/fireclaw/workspace/Ankandora/AnkandoraLight/src/assets/inventory/potions/Potion1.png',
+            image='./assets/inventory/potions/Potion1.png',
             pos=LPoint3f(-0.23, 0, -0.315),
             image_scale=LVecBase3f(0.09, 0.09, 0.09),
             image_pos=LPoint3f(0, 0, 0),
@@ -69,7 +69,7 @@ class GUI:
             frameColor=(0.0, 1.0, 1.0, 0.0),
             frameSize=(-0.1, 0.1, -0.1, 0.1),
             hpr=LVecBase3f(0, 0, 0),
-            image='/home/fireclaw/workspace/Ankandora/AnkandoraLight/src/assets/inventory/potions/Potion2.png',
+            image='./assets/inventory/potions/Potion2.png',
             pos=LPoint3f(0, 0, -0.325),
             image_scale=LVecBase3f(0.09, 0.09, 0.09),
             image_pos=LPoint3f(0, 0, 0),
@@ -81,7 +81,7 @@ class GUI:
             frameColor=(0.0, 1.0, 1.0, 0.0),
             frameSize=(-0.1, 0.1, -0.1, 0.1),
             hpr=LVecBase3f(0, 0, 0),
-            image='/home/fireclaw/workspace/Ankandora/AnkandoraLight/src/assets/inventory/potions/Potion3.png',
+            image='./assets/inventory/potions/Potion3.png',
             pos=LPoint3f(0.25, 0, -0.315),
             image_scale=LVecBase3f(0.09, 0.1, 0.09),
             image_pos=LPoint3f(0, 0, 0),
