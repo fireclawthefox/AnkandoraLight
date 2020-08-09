@@ -1,11 +1,22 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from direct.distributed.DistributedObject import DistributedObject
 from direct.gui.DirectDialog import YesNoDialog
 
 class DRoom(DistributedObject):
+    """The Distributed Room is the topmost object of a game. In a room all
+    players that play together, the board and the consensus of what should be
+    played. It doesn't define finer game rules as these will be board specific
+    and should be implemented in the DBoard"""
 
     def __init__(self, cr):
         DistributedObject.__init__(self, cr)
-        print("OPENED UP ROOM")
 
     def announceGenerate(self):
         self.cr.localRoomId = self.doId
@@ -14,7 +25,6 @@ class DRoom(DistributedObject):
         self.accept("requestMoveToField", self.d_requestMoveToField)
 
     def startRoom(self):
-        print("SEND START ROOM")
         base.messenger.send("startRoom")
 
     def d_rollDice(self):
@@ -32,18 +42,16 @@ class DRoom(DistributedObject):
 
     def startTurn(self):
         """ Start this players turn """
-        print("START THIS PLAYERS TURN")
         base.messenger.send("startTurn", [])
 
     def rolledDice(self, roll):
         base.messenger.send("rolledDice", [roll])
 
     def updateRolledDice(self, remainingRoll):
-        print("HERE?! RE_DICE", remainingRoll)
         base.messenger.send("rolledDice", [remainingRoll])
 
     def rolledDiceFailed(self):
-        print("can't roll dice now")
+        pass
 
     def d_requestMoveToField(self, fieldName):
         self.sendUpdate("requestMoveToField", [fieldName])
@@ -57,7 +65,6 @@ class DRoom(DistributedObject):
         base.messenger.send("gameOver", [msg])
 
     def canInitiateFight(self):
-        print("CAN INITIATE ROOM")
         base.messenger.send("canInitiateFight")
 
         self.dlgStartFight = YesNoDialog(
@@ -77,14 +84,13 @@ class DRoom(DistributedObject):
         self.sendUpdate("initiateFight")
 
     def startBattle(self):
-        print("START BATTLE")
+        pass
 
     def endBattle(self, won):
-        print("END BATTLE")
         print("Player won:", won)
 
     def spectateBattle(self):
-        print("SPECtATE BATTLE")
+        pass
 
     def endSpectateBattle(self):
-        print("END SPECTATE BATTLE")
+        pass

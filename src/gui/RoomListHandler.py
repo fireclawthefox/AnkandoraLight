@@ -1,3 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from direct.showbase.DirectObject import DirectObject
 from panda3d.core import NodePath
 
@@ -46,7 +54,7 @@ class RoomListHandler(DirectObject):
         self.playerInfo.show()
         self.room = room
         self.accept("multiplayerPlayerInfo_start", self.PlayerInfoStart)
-        self.accept("multiplayerPlayerInfo_Cancel", self.hidePlayerInfo)
+        self.accept("multiplayerPlayerInfo_cancel", self.hidePlayerInfo)
 
     def PlayerInfoStart(self):
         playerClassID = RoomGlobals.Name2PlayerClassID[self.playerInfo.optionPlayerClass.get()]
@@ -55,7 +63,7 @@ class RoomListHandler(DirectObject):
     def hidePlayerInfo(self):
         self.playerInfo.hide()
         self.ignore("multiplayerPlayerInfo_start")
-        self.ignore("multiplayerPlayerInfo_Cancel")
+        self.ignore("multiplayerPlayerInfo_cancel")
 
     def createRoom(self):
         name = self.roomWizzard.entryRoomName.get()
@@ -106,7 +114,6 @@ class RoomListHandler(DirectObject):
         self.roomList.frmRoomList.setCanvasSize()
 
     def requestRoomJoin(self, room, playerClassID):
-        print("request room now", room)
         base.messenger.send("roomList_enterRoom", [room, playerClassID])
 
     def show(self):

@@ -1,3 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from direct.showbase.DirectObject import DirectObject
 from direct.gui import DirectGuiGlobals as DGG
 from gui.Battle import GUI as Battle
@@ -29,6 +37,8 @@ class BattleHandler(DirectObject):
         self.enemyStatsList = []
 
     def addBattleStats(self, stats):
+        """Add the given stats values on the left or right side of the
+        battlefield, dependend on whether they are players or enemies."""
         s = None
         if stats.isEnemy:
             i = len(self.playerStatsList)
@@ -46,6 +56,7 @@ class BattleHandler(DirectObject):
         s.lblHit.hide()
 
     def showHit(self, name, hitpoints):
+        """Display the hitpoints dealt to the given player/enemy"""
         seq = None
         for s in self.playerStatsList:
             if s.lblNameValue["text"] == name:
@@ -55,7 +66,7 @@ class BattleHandler(DirectObject):
                     s.lblHit.scaleInterval(1.0, s.lblHit.getScale(), startScale=0),
                     Wait(1),
                     Func(s.lblHit.hide)).start()
-                break
+                return
         for s in self.enemyStatsList:
             if s.lblNameValue["text"] == name:
                 s.lblHit["text"] = str(hitpoints)
@@ -64,34 +75,39 @@ class BattleHandler(DirectObject):
                     s.lblHit.scaleInterval(1.0, s.lblHit.getScale(), startScale=0),
                     Wait(1),
                     Func(s.lblHit.hide)).start()
-                break
+                return
 
     def clearBattleStats(self):
+        """Cleanup and destroy the battlefield"""
+        # remove player stats
         for s in self.playerStatsList:
             s.destroy()
         self.playerStatsList = []
 
+        # remove enemy stats
         for s in self.enemyStatsList:
             s.destroy()
         self.enemyStatsList = []
 
     def setActivePlayer(self, name):
-        print("SET ACTIVE PLAYER TO:", name)
+        """Highlights the given player/enemy on the batlefield"""
+        # check for player fighters
         for s in self.playerStatsList:
             if s.lblNameValue["text"] == name:
-                print("THIS PLAYER IS ACTIVE")
+                # grow the active player
                 s.frmStats.setScale(1.05)
             else:
+                # shrink all others
                 s.frmStats.setScale(1)
+
+        # same for the enemy fighters
         for s in self.enemyStatsList:
             if s.lblNameValue["text"] == name:
-                print("THIS ENEMY IS ACTIVE")
                 s.frmStats.setScale(1.05)
             else:
                 s.frmStats.setScale(1)
 
     def enableAttackButton(self):
-        print("ENABLE ATTACK BUTTON")
         self.battle.btnAttack["state"] = DGG.NORMAL
         self.battle.btnAttack.setState()
 

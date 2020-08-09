@@ -136,7 +136,7 @@
       "type": "DirectButton",
       "parent": "frmSinglePlayerCreateGame",
       "command": "base.messenger.send",
-      "extraArgs": "\"multiplayerPlayerInfo_back\"",
+      "extraArgs": "\"multiplayerPlayerInfo_cancel\"",
       "extraOptions": {}
     }
   }

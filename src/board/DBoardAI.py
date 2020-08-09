@@ -1,3 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from board import BoardMap
 from globalData import RoomGlobals
@@ -14,22 +22,25 @@ class DBoardAI(DistributedObjectAI):
 
         self.questCards = {}
 
-        print("LOADING BOARD MODEL FOR SERVER")
         # need to load the model to get the positions out of it
         self.boardScene = loader.loadModel("assets/models/BoardScene.bam")
         self.setupFieldPositions()
 
     def getStartField(self, posNr):
+        """Returns the start field with the given number"""
+        print("LOOKING FOR Start_{}".format(posNr))
         for field in BoardMap.gameMap:
             if field.name == "Start_{}".format(posNr):
                 return field
 
     def setupFieldPositions(self):
+        """Fills the nodepath variable of all fields"""
         for field in BoardMap.gameMap:
             fieldNP = self.boardScene.find("**/{}".format(field.name))
             field.nodepath = fieldNP
 
     def setupQuestCards(self, roomZone):
+        """Create all quest cards on the map and places them correctly"""
         endQuestCard = DQuestCardAI(self.cr, "Crown")
         self.air.createDistributedObject(
             distObj = endQuestCard,
@@ -39,7 +50,6 @@ class DBoardAI(DistributedObjectAI):
 
         for field in BoardMap.gameMap:
             if field.special in BoardMap.fightFields:
-                print("SETUP:", field.special)
                 questCard = DQuestCardAI(self.cr, field.special)
 
                 self.air.createDistributedObject(
@@ -54,11 +64,14 @@ class DBoardAI(DistributedObjectAI):
                 self.questCards[field] = endQuestCard
 
     def getField(self, fieldName):
+        """Returns the field with the given name"""
         for field in BoardMap.gameMap:
             if field.name == fieldName:
                 return field
 
     def canMoveTo(self, playerField, fieldName, roll):
+        """Check if the player can move from it's given field to the requested
+        other field with the given dice roll"""
         self.cumulatedCost = 0
         self.minCumulatedCost = 0
         self.visitedFields = [playerField]
@@ -67,13 +80,22 @@ class DBoardAI(DistributedObjectAI):
         # we may not move back to the start field
         if field.special == "StartField": return False
 
+        # check if the fields are actually connected
         if self.findFieldConnection(playerField, fieldName):
+            # check if the cumulated costs for the fastest track are less then
+            # the amount the player rolled with the dice
             if self.minCumulatedCost <= roll:
+                # we could theoretically move to the new field, now check if it
+                # is a special field that may require specific things to be done
+                # prior to moving to it.
                 if self.canMoveToSpecialFields(field):
                     return True
         return False
 
     def findFieldConnection(self, startField, destinationName):
+        """This function will search for all connections of the two given fields.
+        The cost for the shortest way of moving to the destination field will be
+        stored in the cumulatedCost variable."""
         canMove = False
         for connection in startField.connections:
             if connection in self.visitedFields:
@@ -81,7 +103,7 @@ class DBoardAI(DistributedObjectAI):
             self.cumulatedCost += connection.cost
             if connection.name == destinationName:
                 canMove = True
-                # chec if this is the shortest/most inexpensive path to walk
+                # check if this is the shortest/most inexpensive path to walk
                 if self.minCumulatedCost == 0: self.minCumulatedCost = self.cumulatedCost
                 self.minCumulatedCost = min(self.minCumulatedCost, self.cumulatedCost)
             else:
@@ -100,25 +122,34 @@ class DBoardAI(DistributedObjectAI):
         return canMove
 
     def canMoveToSpecialFields(self, field):
+        """Check function to see if it is possible to move to the desired field
+        by checking the special field property of it."""
         if field.special == "": return True
+
+        print("COLLECTED:", self.collectedQuestCards)
 
         if field.special == "EndField":
             if self.gameType == RoomGlobals.GAMETYPE_RACE:
+                # in race mode, we can always move to the end field
                 return True
             elif self.gameType == RoomGlobals.GAMETYPE_NORMAL:
+                # in normal mode, we first need to gather all other quest cards
                 if len(self.collectedQuestCards) == len(BoardMap.fightFields):
                     return True
                 else:
+                    # the players haven't collected all other quest cards yet
                     return False
 
-        elif field.special in BoardMap.fightFields:
-            return True
-
+        # This special field doesn't hold us back from moving there
         return True
 
     def processSpecialFields(self, field):
+        """This function will initiate the feature of the given field if it is
+        a special field."""
+        # not a special field, nothing to do here.
         if field.special == "": return
 
+        # check if a player moved to the end field
         if field.special == "EndField":
             if self.gameType == RoomGlobals.GAMETYPE_RACE:
                 base.messenger.send(self.uniqueName("PlayerWonRace"), [field])
@@ -126,20 +157,29 @@ class DBoardAI(DistributedObjectAI):
                 if len(self.collectedQuestCards) == len(BoardMap.fightFields):
                     base.messenger.send(self.uniqueName("canInitiateFight"), [field])
 
+        # check if a player moved to any of the fight fields
         elif field.special in BoardMap.fightFields:
             if field not in self.collectedQuestCardFields:
                 if self.gameType == RoomGlobals.GAMETYPE_RACE:
+                    # in race mode, directly start the fight
                     base.messenger.send(self.uniqueName("initiateDirectFight"), [field])
                 else:
+                    # in normal mode, give the players time to gather on a field
+                    # to let them fight together
                     base.messenger.send(self.uniqueName("canInitiateFight"), [field])
 
+        # check if a player moved to a level up field special to the race mode
         elif field.special in BoardMap.raceLevelUp and self.gameType == RoomGlobals.GAMETYPE_RACE:
             base.messenger.send(self.uniqueName("levelUpAllPlayers"))
 
     def getAttendingPlayers(self, field, playerList):
+        """Returns a list of all players of the given player list, that are
+        attending the fight going on on the given field."""
         searchFields = []
         attendingPlayers = []
         if field.special == "EndField":
+            # if we are on an end field, we have to gather all players from all
+            # end fields.
             for field in BoardMap.gameMap:
                 if field.special == "EndField":
                     searchFields.append(field)
@@ -152,9 +192,16 @@ class DBoardAI(DistributedObjectAI):
         return attendingPlayers
 
     def wonFight(self, field):
+        """The players won the fight on the given field. Collect the quest card
+        and check for a level up"""
         self.collectedQuestCardFields.append(field)
         questCard = self.questCards[field]
         questCard.d_collect()
         self.collectedQuestCards.append(questCard)
-        if len(self.collectedQuestCards) == 4 and self.gameType == RoomGlobals.GAMETYPE_NORMAL:
+
+        # check for the level up.
+        # We might want to move that out to a dedicated function and check for
+        # a more sophisticated ruleset on level ups to make this more broadly
+        # usable
+        if len(self.collectedQuestCards) == 4:
             base.messenger.send(self.uniqueName("levelUpAllPlayers"))

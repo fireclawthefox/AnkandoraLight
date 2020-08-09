@@ -1,3 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from direct.distributed.ClientRepository import ClientRepository
 from panda3d.core import URLSpec, ConfigVariableInt, ConfigVariableString
 from globalData import RoomGlobals, ZonesGlobals
@@ -45,8 +53,6 @@ class GameClientRepository(ClientRepository):
         sync with the server time.  Now we can enter the world.  Check
         to see if we've received our doIdBase yet. """
 
-        print("Time Synced")
-
         # This method checks whether we actually have a valid doID range
         # to create distributed objects yet
         if self.haveCreateAuthority():
@@ -60,8 +66,6 @@ class GameClientRepository(ClientRepository):
         """ Ready to enter the world.  Expand our interest to include
         any other zones """
 
-        print("Create ready")
-
         # This method checks whether we actually have a valid doID range
         # to create distributed objects yet
         if not self.haveCreateAuthority():
@@ -71,8 +75,6 @@ class GameClientRepository(ClientRepository):
         # we are ready now, so ignore further createReady events
         self.ignore(self.uniqueName('createReady'))
 
-        print("Wait for Room Manager")
-
         self.acceptOnce(self.uniqueName("roomManager_ready"), self.roomManagerReady)
         self.setInterestZones([ZonesGlobals.SERVER_MANAGERS, ZonesGlobals.ROOM_MANAGER_ZONE])
 
@@ -80,8 +82,6 @@ class GameClientRepository(ClientRepository):
         return self.doId2do[self.localPlayerId].name
 
     def roomManagerReady(self):
-        print("Room Manager ready")
-
         self.readyCommand(self.readyCommandArgs)
 
     def stop(self):
@@ -95,7 +95,6 @@ class GameClientRepository(ClientRepository):
         self.roomManager.d_requestLeave()
 
     def requestCreateRoom(self, roomInfo):
-        print("request Create room", roomInfo)
         self.roomManager.d_requestCreateRoom(roomInfo)
 
     def requestRoomList(self):

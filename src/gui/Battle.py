@@ -17,7 +17,7 @@ from panda3d.core import (
 
 class GUI:
     def __init__(self, rootParent=None):
-        
+
         self.frmBattle = DirectFrame(
             frameColor=(1, 1, 1, 1),
             frameSize=(-1.5, 1.5, -1.0, 1.0),

@@ -1,23 +1,32 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from direct.showbase.DirectObject import DirectObject
 from gui.SinglePlayerCreateGame import GUI as SinglePlayerCreateGame
 
 from globalData import RoomGlobals
 
-class SinglePlayerCreateGameHandler(DirectObject):
+class SinglePlayerCreateGameHandler(DirectObject, SinglePlayerCreateGame):
     def __init__(self):
-        self.spCreateGame = SinglePlayerCreateGame()
-        self.spCreateGame.optionPlayerClass["items"] = RoomGlobals.ALL_PLAYERCLASSES_AS_NAMES
-        self.spCreateGame.optionNumNPCs["items"] = ["0", "1","2","3"]
-        self.spCreateGame.optionGameType["items"] = RoomGlobals.ALL_GAMETYPES_AS_NAMES
+        SinglePlayerCreateGame.__init__(self)
+        self.optionPlayerClass["items"] = RoomGlobals.ALL_PLAYERCLASSES_AS_NAMES
+        self.optionNumNPCs["items"] = ["0", "1","2","3"]
+        self.optionGameType["items"] = RoomGlobals.ALL_GAMETYPES_AS_NAMES
 
         self.accept("singlePlayerCreateGame_start", self.create)
 
     def create(self):
+        """Gather all information and pack them ready to be sent to the server"""
         name = "SingleplayerGame"
         numPlayers = 1
-        aiPlayerCount = int(self.spCreateGame.optionNumNPCs.get())
-        gameTypeStr = self.spCreateGame.optionGameType.get()
-        playerClassID = RoomGlobals.Name2PlayerClassID[self.spCreateGame.optionPlayerClass.get()]
+        aiPlayerCount = int(self.optionNumNPCs.get())
+        gameTypeStr = self.optionGameType.get()
+        playerClassID = RoomGlobals.Name2PlayerClassID[self.optionPlayerClass.get()]
         gameType = 0
         if gameTypeStr == "Normal":
             gameType = RoomGlobals.GAMETYPE_NORMAL
@@ -29,11 +38,4 @@ class SinglePlayerCreateGameHandler(DirectObject):
 
     def destroy(self):
         self.ignoreAll()
-        self.spCreateGame.destroy()
-        del self.spCreateGame
-
-    def show(self):
-        self.spCreateGame.show()
-
-    def hide(self):
-        self.spCreateGame.hide()
+        SinglePlayerCreateGame.destroy(self)

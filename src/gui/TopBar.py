@@ -26,6 +26,7 @@ class GUI:
             parent=rootParent,
         )
         self.frmMain.setTransparency(0)
+
         self.btnLeave = DirectButton(
             hpr=LVecBase3f(0, 0, 0),
             pad=(0.1, 0.1),
@@ -43,6 +44,7 @@ class GUI:
             extraArgs=["leaveRoom"],
         )
         self.btnLeave.setTransparency(0)
+
         self.lblPlayerName = DirectLabel(
             frameColor=(0.8, 0.8, 0.8, 0.0),
             hpr=LVecBase3f(0, 0, 0),
@@ -57,6 +59,7 @@ class GUI:
             parent=self.frmMain,
         )
         self.lblPlayerName.setTransparency(0)
+
         self.pg1983 = DirectLabel(
             frameColor=(0.8, 0.8, 0.8, 0.0),
             hpr=LVecBase3f(0, 0, 0),
@@ -71,3 +74,13 @@ class GUI:
             parent=self.frmMain,
         )
         self.pg1983.setTransparency(0)
+
+
+    def show(self):
+        self.frmMain.show()
+
+    def hide(self):
+        self.frmMain.hide()
+
+    def destroy(self):
+        self.frmMain.destroy()

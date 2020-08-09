@@ -1,3 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from direct.distributed.DistributedSmoothNode import DistributedSmoothNode
 from panda3d.core import TextNode
 from direct.interval.IntervalGlobal import LerpColorInterval
@@ -5,7 +13,6 @@ from direct.interval.IntervalGlobal import LerpColorInterval
 
 class DPiece(DistributedSmoothNode):
     def __init__(self, cr):
-        print("INITIATED PIECE")
         self.modelName = ""
         DistributedSmoothNode.__init__(self, cr)
 
@@ -30,7 +37,18 @@ class DPiece(DistributedSmoothNode):
         self.stopSmooth()
         DistributedSmoothNode.disable(self)
 
+    def delete(self):
+        print("DELETE PICE")
+        if self.model is not None:
+            self.model.removeNode()
+        if self.nameTag is not None:
+            self.nameTag.removeNode()
+        DistributedSmoothNode.delete(self)
+
     def show(self):
+        """Shows the piece and name tag of the player if they are already
+        created. Otherwise it will spawn a task to check until it can finally be
+        shown correctly."""
         if self.model is not None:
             if self.model.isHidden():
                 self.model.show()
@@ -48,12 +66,13 @@ class DPiece(DistributedSmoothNode):
             taskMgr.doMethodLater(0.5, self.show, "retryShowPiece", extraArgs=[])
 
     def setModel(self, modelName):
+        """Set and load the given model and ask if the board animation has been
+        finished yet to show the model."""
         if modelName == "": return
         self.modelName = modelName
         self.model = base.loader.loadModel(self.modelName)
         self.model.reparentTo(self)
         self.model.hide()
-        print("RECHECK BOARD ANIMATION")
         base.messenger.send("checkBoardAnimationDone")
 
     def d_getNameForNameTag(self):
@@ -62,6 +81,9 @@ class DPiece(DistributedSmoothNode):
         self.sendUpdate("getNameForNameTag")
 
     def createNameTag(self, name):
+        """Create the floating name above a player and set the name. If a name
+        tag has already been created it will simply update the text to the new
+        name."""
         if self.nameTag is None:
             self.tagText = TextNode("NameTag")
             self.tagText.setText(name)

@@ -25,6 +25,7 @@ class GUI:
             parent=rootParent,
         )
         self.frmMain.setTransparency(0)
+
         self.waitbar = DirectWaitBar(
             barColor=(0.0, 0.0, 1.0, 1.0),
             hpr=LVecBase3f(0, 0, 0),
@@ -40,3 +41,13 @@ class GUI:
             parent=self.frmMain,
         )
         self.waitbar.setTransparency(0)
+
+
+    def show(self):
+        self.frmMain.show()
+
+    def hide(self):
+        self.frmMain.hide()
+
+    def destroy(self):
+        self.frmMain.destroy()

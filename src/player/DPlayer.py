@@ -1,9 +1,16 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from direct.distributed.DistributedObject import DistributedObject
 from panda3d.core import CollisionNode, CollisionRay, BitMask32, CollisionHandlerQueue
 
 class DPlayer(DistributedObject):
     def __init__(self, cr):
-        print("INITIALIZED PLAYER")
         DistributedObject.__init__(self, cr)
         self.name = "Player"
         self.piece = None
@@ -13,10 +20,22 @@ class DPlayer(DistributedObject):
         pickerNode = CollisionNode('mouseRay')
         pickerNode.setFromCollideMask(BitMask32(0x80))
         pickerNode.addSolid(self.pickerRay)
-        pickerNP = base.camera.attachNewNode(pickerNode)
-        base.cTrav.addCollider(pickerNP, self.pickerQueue)
+        self.pickerNP = base.camera.attachNewNode(pickerNode)
+        base.cTrav.addCollider(self.pickerNP, self.pickerQueue)
 
         self.accept("mouse1", self.checkClick)
+
+    def delete(self):
+        """Cleanup just before the object gets deleted"""
+        print("DELETE PLAYER")
+        self.ignoreAll()
+        base.cTrav.removeCollider(self.pickerNP)
+        self.pickerNP.removeNode()
+
+        if self.piece is not None:
+            self.cr.sendDeleteMsg(self.piece.doId)
+
+        DistributedObject.delete(self)
 
     def d_getName(self):
         self.sendUpdate("requestName")
@@ -30,6 +49,8 @@ class DPlayer(DistributedObject):
         self.piece = piece
 
     def checkClick(self):
+        """Check if the player has clicked on a field and send a request to move
+        to it to the server."""
         if base.mouseWatcherNode.hasMouse():
             mpos = base.mouseWatcherNode.getMouse()
             self.pickerRay.setFromLens(base.camNode, mpos.x, mpos.y)

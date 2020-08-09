@@ -1,3 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from direct.distributed.DistributedSmoothNodeAI import DistributedSmoothNodeAI
 
 
@@ -12,11 +20,9 @@ class DPieceAI(DistributedSmoothNodeAI):
         self.startPosHprBroadcast()
 
     def setModel(self, modelName):
-        print("SET MODEL SERVER TO:", modelName)
         self.modelName = modelName
 
     def getModel(self):
-        print("GET MODEL SERVER:", self.modelName)
         return self.modelName
 
     def getNameForNameTag(self):

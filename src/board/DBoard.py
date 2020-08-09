@@ -1,3 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from direct.distributed.DistributedObject import DistributedObject
 from direct.actor.Actor import Actor
 from panda3d.core import AmbientLight, DirectionalLight, CollisionNode, CollisionSphere, BitMask32
@@ -10,14 +18,13 @@ class DBoard(DistributedObject):
         DistributedObject.__init__(self, cr)
         self.accept("checkBoardAnimationDone", self.checkBoardAnimationDone)
 
-        print("CREATE BOARD")
-
         base.messenger.send("registerLoadEvent", ["loadBoardDone"])
         base.messenger.send("registerLoadEvent", ["loadTableDone"])
 
         self.modelLoadList = {"board":False, "table":False}
 
         self.boardAnimation = None
+        self.boardAnimationStarted = False
 
         self.lightSun = DirectionalLight('light_sun')
         self.lightSun.setColorTemperature(5300)
@@ -26,24 +33,9 @@ class DBoard(DistributedObject):
         self.lightSunNP.setPos(-2, 2, 2)
         self.lightSunNP.lookAt(2, -2, -0.5)
 
-        '''
-        lp = loader.loadModel("misc/Pointlight")
-        lp.setPos(-2,2,2)
-        lp.setScale(1)
-        lp.reparentTo(render)
-
-
-        lp = loader.loadModel("misc/Pointlight")
-        lp.setPos(2,-2,-0.5)
-        lp.setScale(1)
-        lp.reparentTo(render)
-        '''
-
         self.lightAmb = AmbientLight('light_ambient')
-        #self.lightAmb.setColor((0.02, 0.02, 0.02, 1))
         self.lightAmb.setColor((0.1, 0.1, 0.1, 1))
         self.lightAmbNP = render.attachNewNode(self.lightAmb)
-
 
         self.accept("loadDone", self.loadDone)
 
@@ -55,6 +47,7 @@ class DBoard(DistributedObject):
         render.setLight(self.lightAmbNP)
 
     def boardLoaded(self, boardScene):
+        """Callback event for when the board model has fully loaded"""
         self.boardScene = boardScene
         self.boardFlip = Actor(self.boardScene.find("**/BoardArmature"), copy=False)
         self.boardFlip.reparentTo(self.boardScene)
@@ -77,6 +70,7 @@ class DBoard(DistributedObject):
         base.messenger.send("loadDone", ["board"])
 
     def tableLoaded(self, table):
+        """Callback event for when the table model has fully loaded"""
         self.table = table
         # render table
         self.tableNP = self.table.reparentTo(render)
@@ -85,6 +79,8 @@ class DBoard(DistributedObject):
         base.messenger.send("loadDone", ["table"])
 
     def loadDone(self, model):
+        """Check function to determine if all models have loaded. If all models
+        have been loaded, the boardDone event will be fired."""
         self.modelLoadList[model] = True
 
         for key, value in self.modelLoadList.items():
@@ -94,38 +90,47 @@ class DBoard(DistributedObject):
         base.messenger.send("boardDone")
 
     def announceGenerate(self):
+        # tell everyone interested, that the board DO has been generated
         base.messenger.send(self.cr.uniqueName("board_generated"), [self.doId])
         # call the base class method
         DistributedObject.announceGenerate(self)
 
     def disable(self):
-        print("DISABLE BOARD")
-        self.ignore("loadDone")
+        self.ignoreAll()
         self.boardScene.detachNode()
         self.table.detachNode()
         DistributedObject.disable(self)
 
     def delete(self):
+        """Cleanup just before deletion of the DO"""
+        # cleanup events
         self.ignoreAll()
+
+        # cleanup models
         self.boardFlip.cleanup()
         self.camFly.cleanup()
         self.boardFlip.removeNode()
         self.camFly.removeNode()
-        #self.boardSceneNP.removeNode()
         self.table.removeNode()
 
+        self.boardAnimation = None
+
+        # cleanup light
         render.clearLight(self.lightSunNP)
         render.clearLight(self.lightAmbNP)
         self.lightSunNP.removeNode()
         self.lightAmbNP.removeNode()
 
+        # cleanup collisions
+        for field in BoardMap.gameMap:
+            field.collisionNP.removeNode()
+
         DistributedObject.delete(self)
-        print("DELETED BOARD ROOM")
 
     def start(self):
+        """Start the board animation"""
         taskMgr.step()
-
-        print("START BOARD")
+        self.boardAnimationStarted = True
         self.boardAnimation = Sequence(
             Parallel(
                 self.boardFlip.actorInterval("BoardFlipUp"),
@@ -134,19 +139,22 @@ class DBoard(DistributedObject):
             Func(base.messenger.send, "BoardAnimationDone")
         )
         self.boardAnimation.start()
-        print(self.boardAnimation is not None)
 
     def checkBoardAnimationDone(self):
-        print("RECHECK, HAS BOARD ANIMATION?")
-        print(self.boardAnimation is not None)
-        if self.boardAnimation is not None:
-            print("BOARD ANIMATION NOT NONE")
+        """Check if the board animation has been stopped and resend the
+        respective event if it has."""
+        # check if we have an animation and it has actually been started once
+        if self.boardAnimation is not None and self.boardAnimationStarted:
+            # now check if the animation is done
             if self.boardAnimation.isStopped():
-                print("RESENT BORAD ANIM DONE EVENT")
                 # resend the event
                 base.messenger.send("BoardAnimationDone")
 
     def setupCollisions(self):
+        """Setup the collision solids for all fields.
+
+        NOTE: This can be removed once blend2bam supports invisible collision
+        model export"""
         for field in BoardMap.gameMap:
             # create a sphere collision solid
             cs = CollisionSphere(0, 0, 0, 0.01)
@@ -155,4 +163,6 @@ class DBoard(DistributedObject):
             fieldNP = self.boardScene.find("**/{}".format(field.name))
             field.collisionNP = fieldNP.attachNewNode(cn)
             field.collisionNP.setCollideMask(BitMask32(0x80))
+
+            # Debugging visualization
             #field.collisionNP.show()

@@ -1,4 +1,13 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 class BattleStats:
+    """Data storage for battle statistics which will be sent over the network"""
     def __init__(self, entryTuple=None):
         if entryTuple is None:
             self.isEnemy = 0

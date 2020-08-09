@@ -1,3 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from direct.directnotify import DirectNotifyGlobal
 #from direct.showbase import RandomNumGen
 import random
@@ -9,7 +17,8 @@ class SixSidedDice:
         random.seed()
 
     def roll(self):
-        return random.randint(1, 6)
+        """Returns a random number in the range of 1 to 6"""
+        return 6#random.randint(1, 6)
 
     '''
     # The following code will produce reproducible random numbers

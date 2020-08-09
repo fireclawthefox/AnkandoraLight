@@ -1,3 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from direct.distributed.DistributedObject import DistributedObject
 from panda3d.core import LPoint3
 import random
@@ -24,12 +32,10 @@ class DRoomManager(DistributedObject):
         base.messenger.send("updateRoomList", [roomList])
 
     def d_requestJoin(self, roomID, playerClassID):
-        print("REQUEST JOIN ON ROOM MANAGER")
         self.acceptOnce(self.cr.uniqueName("board_generated"), self.boardGenerated)
         self.sendUpdate("requestJoin", [roomID, playerClassID])
 
     def d_requestLeave(self):
-        print("REQUEST LEAVE ON ROOM MANAGER")
         self.sendUpdate("requestLeave", [self.roomZone, self.cr.localPlayerId])
         self.cr.sendDeleteMsg(self.cr.localPlayerId)
         self.cr.sendDeleteMsg(self.board.doId)
@@ -42,9 +48,7 @@ class DRoomManager(DistributedObject):
         room.delete()
 
         interestZones = self.cr.interestZones
-        print("INTEREST IN", interestZones)
         interestZones.remove(self.roomZone)
-        print("LEAVING ROOM ZONE", self.roomZone)
         self.cr.setInterestZones(interestZones)
 
     def d_requestRoomList(self):
@@ -54,11 +58,10 @@ class DRoomManager(DistributedObject):
         self.sendUpdate("requestCreateRoom", [roomInfo])
 
     def joinFailed(self):
-        print("Join Failed...")
         base.messenger.send("roomManager_joinFailed")
 
     def joinSuccess(self, joinParams):
-        print("JOINING")
+        """The server has granted us to join the requested room"""
         # parse our parameters
         i = 0
         roomZone = joinParams[i];i+=1
@@ -77,6 +80,7 @@ class DRoomManager(DistributedObject):
         interestZones.append(roomZone)
         self.cr.setInterestZones(interestZones)
 
+        # wait for the DOs to be manifested
         self.cr.relatedObjectMgr.requestObjects(
             [
                 playerId,
@@ -89,6 +93,7 @@ class DRoomManager(DistributedObject):
         self.accept("boardDone", self.boardLoaded)
 
     def roomManifested(self, allObjects):
+        """Function to be called as soon as all DOs have been created"""
         # update the player
         player = self.cr.doId2do[self.cr.localPlayerId]
         # set the players piece
@@ -111,7 +116,6 @@ class DRoomManager(DistributedObject):
             self.startRoom()
 
     def boardGenerated(self, boardDoID):
-        print("BOARD GENERATED")
         self.board = self.cr.doId2do[boardDoID]
 
     def startRoom(self):

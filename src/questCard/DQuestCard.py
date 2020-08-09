@@ -1,3 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from direct.distributed.DistributedNode import DistributedNode
 from panda3d.core import TextureStage
 from direct.interval.IntervalGlobal import LerpColorInterval
@@ -12,7 +20,16 @@ class DQuestCard(DistributedNode):
         DistributedNode.announceGenerate(self)
         self.reparentTo(render)
 
+    def delete(self):
+        """Cleanup just before the object gets deleted"""
+        self.ignoreAll()
+        if self.model is not None:
+            self.model.removeNode
+        DistributedNode.delete(self)
+
     def show(self):
+        """Fade in the card model if it is already set otherwise wait until it's
+        ready to be shown"""
         if self.model is not None:
             self.model.show()
             self.model.setTransparency(1)
@@ -21,9 +38,8 @@ class DQuestCard(DistributedNode):
             tasMgr.doMethodLater(0.5, self.show, "retryShowQuestCard")
 
     def setCard(self, cardName):
+        """Load the card model and texture"""
         if cardName == "": return
-
-        print("SET CARD", cardName)
 
         modelName = "assets/models/questCards/QuestCard.bam"
         textureName = "assets/models/questCards/{}.png".format(cardName)
@@ -35,4 +51,5 @@ class DQuestCard(DistributedNode):
         self.model.hide()
 
     def cardCollected(self):
+        """Set the card to be collected. Simply hides the cards model"""
         self.model.hide()

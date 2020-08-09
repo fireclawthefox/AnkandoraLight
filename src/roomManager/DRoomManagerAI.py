@@ -1,3 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 import random
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from panda3d.core import UniqueIdAllocator
@@ -32,17 +40,12 @@ class DRoomManagerAI(DistributedObjectAI):
         return roomInfoList
 
     def requestRoomList(self):
-        print("CLIENT REQUESTED ROOM LIST")
         requesterId = self.air.getAvatarIdFromSender()
-        print("request rooms by ID:", requesterId)
         roomInfoList = self.getRoomInfoList()
         self.sendUpdateToAvatarId(requesterId, "setServerRoomList", [roomInfoList])
 
     def requestCreateRoom(self, roomInfo):
-        print("CLIENT REQUESTED CREATE ROOM")
         requesterId = self.air.getAvatarIdFromSender()
-        print("request create room by ID:", requesterId)
-        print("ROOM INFO:", roomInfo)
 
         if len(roomInfo) != 7:
             print("room creation failed, unknown info length")
@@ -90,6 +93,8 @@ class DRoomManagerAI(DistributedObjectAI):
         return self.roomList
 
     def getRandomPlayerName(self):
+        """Create a random name for a player made up of an adjective and
+        an animal"""
         namePartA = random.choice([
             "Adorable", "Adventurous", "Angry", "Arrogant",
             "Brave", "Bright", "Busy", "Blushing",
@@ -147,6 +152,8 @@ class DRoomManagerAI(DistributedObjectAI):
         return "{} {}".format(namePartA, namePartB)
 
     def requestJoin(self, roomZone, playerClassID):
+        """Client requesting to join a room. Given the rooms zone and the
+        players chosen class ID"""
         requesterId = self.air.getAvatarIdFromSender()
 
         # search for the room the client requests to join
@@ -202,18 +209,19 @@ class DRoomManagerAI(DistributedObjectAI):
         self.sendUpdateToAvatarId(requesterId, "joinSuccess", [parameters])
 
     def requestLeave(self, roomZone, playerId):
+        """Player requests to leave the room. We'll look him up and remove him
+        if we find him on the room, otherwise we simple ignore it. If this
+        player was the last in the room, the room gets removed."""
         roomsMatchingId = filter(lambda room: room.roomZone == roomZone, self.roomList)
         foundRoom = next(roomsMatchingId, None)
         if foundRoom.removePlayer(playerId):
-            print("ALL PLAYERS LEFT")
             # all players have left the room
             self.roomList.remove(foundRoom)
             self.air.sendDeleteMsg(foundRoom.doId)
 
     def handleClientDisconnect(self, doId):
-        print("HANDLE DISCONNECT")
         for room in self.roomList:
-            print("players in room: {}".format(len(room.playerList)))
             for player in room.playerList:
-                print("CHECK DISCONNECTION")
-                if player.doId == doId: print("FOUND PLAYER THAT LEFT")
+                if player.doId == doId:
+                    room.removePlayer(player.doId)
+                    print("FOUND PLAYER THAT LEFT")

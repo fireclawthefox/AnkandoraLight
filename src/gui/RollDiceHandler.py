@@ -1,25 +1,23 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
 
 from direct.showbase.DirectObject import DirectObject
 from direct.gui import DirectGuiGlobals as DGG
 
 from gui.RollDice import GUI as RollDice
 
-class RollDiceHandler(DirectObject):
+class RollDiceHandler(RollDice):
     def __init__(self):
-        self.rollDice = RollDice(base.a2dBottomLeft)
+        RollDice.__init__(self, base.a2dBottomLeft)
         self.hide()
 
-    def destroy(self):
-        self.rollDice.destroy()
-
     def updateRoll(self, roll):
-        self.rollDice.btnRollDice["text"] = str(roll)
+        self.btnRollDice["text"] = str(roll)
 
     def clearRoll(self):
-        self.rollDice.btnRollDice["text"] = ""
-
-    def show(self):
-        self.rollDice.btnRollDice.show()
-
-    def hide(self):
-        self.rollDice.btnRollDice.hide()
+        self.btnRollDice["text"] = ""

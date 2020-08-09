@@ -1,3 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
 from piece.DPieceAI import DPieceAI
@@ -19,6 +27,11 @@ class DPlayerAI(DistributedObjectAI):
 
         self.cm = ClassManager()
 
+    def delete(self):
+        """Cleanup just before the object gets deleted"""
+        if self.piece is not None:
+            self.air.sendDeleteMsg(self.piece.doId)
+
     def setName(self, name):
         self.name = name
 
@@ -31,32 +44,30 @@ class DPlayerAI(DistributedObjectAI):
 
     def startTurn(self):
         """ Start this players turn """
-        print("START THIS PLAYERS TURN")
         base.messenger.send("startTurn", [])
 
     def resetToStartField(self):
-        print("MOVE PLAYER TO", self.startField)
+        """Reset the player to its own start field and set the health potions
+        back to the maximum"""
         self.moveTo(self.startField, 0, 0)
 
         self.numHealPotions = 3
         self.sendUpdateToAvatarId(self.avId, "doUpdatePotions", [self.numHealPotions])
 
-
     def moveTo(self, field, shiftX, shiftY):
-        print("MOVE PLAYER")
+        """Move the piece to the given location"""
         self.currentField = field
-        print("TO:", field.nodepath.getPos())
-        print("DISTANCE:", self.piece.getPos() - field.nodepath.getPos())
-        #self.piece.setPos(field.nodepath.getPos())
         self.piece.d_setXY(field.nodepath.getX() + shiftX, field.nodepath.getY() + shiftY)
 
     def getAttack(self):
-        print("GET ATTACK")
+        """Returns the attack strength of the players class"""
         return self.cm.getAttack(self.playerClassType, self.level)
 
     def getDefense(self):
-        print("GET DEFENSE")
+        """Returns the defensive strength of the players class"""
         return self.cm.getDefense(self.playerClassType, self.level)
 
     def updateInventory(self):
+        """Update the players inventory with the current level and class
+        specific inventory path."""
         self.sendUpdateToAvatarId(self.avId, "doUpdateInventory", [self.level, self.cm.getInventoryDir(self.playerClassType)])

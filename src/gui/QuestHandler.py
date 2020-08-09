@@ -1,3 +1,11 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = "Fireclaw the Fox"
+__license__ = """
+Simplified BSD (BSD 2-Clause) License.
+See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
+"""
+
 from gui.Quest import GUI as Quest
 from direct.interval.IntervalGlobal import LerpColorInterval
 from globalData import RoomGlobals
@@ -33,4 +41,5 @@ class QuestHandler(Quest):
     def show(self, callbackFunc):
         self.btnClose["command"] = callbackFunc
         Quest.show(self)
+        #TODO: Why doesn't this work with transparent textures...
         #LerpColorInterval(self.lblDescription, 1, (0,0,0,0), (1,1,1,0)).start()

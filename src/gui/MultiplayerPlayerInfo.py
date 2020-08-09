@@ -18,7 +18,7 @@ from panda3d.core import (
 
 class GUI:
     def __init__(self, rootParent=None):
-        
+
         self.frmSinglePlayerCreateGame = DirectFrame(
             borderWidth=(0.01, 0.01),
             frameColor=(1, 1, 1, 1),
@@ -124,7 +124,7 @@ class GUI:
             text_bg=LVecBase4f(0, 0, 0, 0),
             parent=self.frmSinglePlayerCreateGame,
             command=base.messenger.send,
-            extraArgs=["multiplayerPlayerInfo_back"],
+            extraArgs=["multiplayerPlayerInfo_cancel"],
         )
         self.btnCancel.setTransparency(0)
 
