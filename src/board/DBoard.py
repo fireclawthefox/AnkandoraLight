@@ -42,8 +42,8 @@ class DBoard(DistributedObject):
 
         self.accept("loadDone", self.loadDone)
 
-        self.boardSceneLoadTask = loader.loadModel("assets/models/BoardScene.bam", callback=self.boardLoaded)
-        self.tableLoadTask = loader.loadModel("assets/models/Table.bam", callback=self.tableLoaded)
+        self.boardSceneLoadTask = loader.loadModel("assets/models/board/BoardScene.bam", callback=self.boardLoaded)
+        self.tableLoadTask = loader.loadModel("assets/models/table/Table.bam", callback=self.tableLoaded)
 
         # render lights
         render.setLight(self.lightSunNP)

@@ -23,7 +23,7 @@ class DBoardAI(DistributedObjectAI):
         self.questCards = {}
 
         # need to load the model to get the positions out of it
-        self.boardScene = loader.loadModel("assets/models/BoardScene.bam")
+        self.boardScene = loader.loadModel("assets/models/board/BoardScene.bam")
         self.setupFieldPositions()
 
     def getStartField(self, posNr):

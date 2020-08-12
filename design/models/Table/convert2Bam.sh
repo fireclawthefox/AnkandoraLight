@@ -1,1 +1,1 @@
-blend2bam --textures embed Table.blend Table.bam
+blend2bam --textures copy Table.blend ./export/Table.bam
