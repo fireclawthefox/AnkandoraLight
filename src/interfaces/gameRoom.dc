@@ -28,6 +28,7 @@ struct BattleStats {
     string name;
     uint8 atack;
     uint8 defense;
+    uint8 healthPotions;
 }
 
 dclass DBoard: DistributedObject {

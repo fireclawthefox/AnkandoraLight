@@ -5,6 +5,7 @@
 
 from direct.gui import DirectGuiGlobals as DGG
 
+from direct.gui.DirectFrame import DirectFrame
 from direct.gui.DirectScrolledFrame import DirectScrolledFrame
 from direct.gui.DirectButton import DirectButton
 from direct.gui.DirectLabel import DirectLabel
@@ -18,6 +19,18 @@ from panda3d.core import (
 class GUI:
     def __init__(self, rootParent=None):
         
+        self.frmMain = DirectFrame(
+            frameColor=(1, 1, 1, 1),
+            frameSize=(-1.777778, 1.77777778, -1.1638, 1.1638),
+            hpr=LVecBase3f(0, 0, 0),
+            image='assets/menu/Background.png',
+            pos=LPoint3f(0, 0, 0),
+            image_scale=LVecBase3f(1.77778, 1, 1.1638),
+            image_pos=LPoint3f(0, 0, 0),
+            parent=rootParent,
+        )
+        self.frmMain.setTransparency(0)
+
         self.frmRoomList = DirectScrolledFrame(
             canvasSize=(-1.0, 1.0, -2.0, 0.0),
             frameColor=(1, 1, 1, 1),
@@ -56,9 +69,10 @@ class GUI:
             verticalScroll_thumb_borderWidth=(0.01, 0.01),
             verticalScroll_thumb_hpr=LVecBase3f(0, 0, 0),
             verticalScroll_thumb_pos=LPoint3f(1.04, 0, -0.4628),
-            parent=rootParent,
+            parent=self.frmMain,
         )
         self.frmRoomList.setTransparency(0)
+
         self.btnBack = DirectButton(
             hpr=LVecBase3f(0, 0, 0),
             pos=LPoint3f(0.96, 0, -0.825),
@@ -69,12 +83,13 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
-            parent=rootParent,
+            parent=self.frmMain,
             command=base.messenger.send,
             extraArgs=["roomList_back"],
         )
         self.btnBack.setTransparency(0)
-        self.pg1021 = DirectLabel(
+
+        self.lblRoomName = DirectLabel(
             frameColor=(0.8, 0.8, 0.8, 0.0),
             hpr=LVecBase3f(0, 0, 0),
             pos=LPoint3f(-1, 0, 0.725),
@@ -85,37 +100,25 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
-            parent=rootParent,
+            parent=self.frmMain,
         )
-        self.pg1021.setTransparency(0)
-        self.pg2116 = DirectLabel(
+        self.lblRoomName.setTransparency(0)
+
+        self.lblPlayerCount = DirectLabel(
             frameColor=(0.8, 0.8, 0.8, 0.0),
             hpr=LVecBase3f(0, 0, 0),
-            pos=LPoint3f(0, 0, 0.725),
+            pos=LPoint3f(-0.15, 0, 0.725),
             scale=LVecBase3f(0.07, 0.1, 0.07),
-            text='Player Count',
+            text='Players',
             text_align=TextNode.A_center,
             text_scale=(1, 1),
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
-            parent=rootParent,
+            parent=self.frmMain,
         )
-        self.pg2116.setTransparency(0)
-        self.pg2667 = DirectLabel(
-            frameColor=(0.8, 0.8, 0.8, 0.0),
-            hpr=LVecBase3f(0, 0, 0),
-            pos=LPoint3f(0.425, 0, 0.725),
-            scale=LVecBase3f(0.07, 0.1, 0.07),
-            text='Game Type',
-            text_align=TextNode.A_center,
-            text_scale=(1, 1),
-            text_pos=(0, 0),
-            text_fg=LVecBase4f(0, 0, 0, 1),
-            text_bg=LVecBase4f(0, 0, 0, 0),
-            parent=rootParent,
-        )
-        self.pg2667.setTransparency(0)
+        self.lblPlayerCount.setTransparency(0)
+
         self.btnCreateRoom = DirectButton(
             hpr=LVecBase3f(0, 0, 0),
             pad=(0.2, 0.2),
@@ -127,9 +130,10 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
-            parent=rootParent,
+            parent=self.frmMain,
         )
         self.btnCreateRoom.setTransparency(0)
+
         self.btnReloadRoomList = DirectButton(
             hpr=LVecBase3f(0, 0, 0),
             pos=LPoint3f(0.025, 0, -0.825),
@@ -140,8 +144,48 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
-            parent=rootParent,
+            parent=self.frmMain,
             command=base.messenger.send,
             extraArgs=["roomList_reload"],
         )
         self.btnReloadRoomList.setTransparency(0)
+
+        self.lblGameType = DirectLabel(
+            frameColor=(0.8, 0.8, 0.8, 0.0),
+            hpr=LVecBase3f(0, 0, 0),
+            pos=LPoint3f(0.125, 0, 0.725),
+            scale=LVecBase3f(0.07, 0.1, 0.07),
+            text='Type',
+            text_align=TextNode.A_center,
+            text_scale=(1, 1),
+            text_pos=(0, 0),
+            text_fg=LVecBase4f(0, 0, 0, 1),
+            text_bg=LVecBase4f(0, 0, 0, 0),
+            parent=self.frmMain,
+        )
+        self.lblGameType.setTransparency(0)
+
+        self.lblDifficulty = DirectLabel(
+            frameColor=(0.8, 0.8, 0.8, 0.0),
+            hpr=LVecBase3f(0, 0, 0),
+            pos=LPoint3f(0.54, 0, 0.72),
+            scale=LVecBase3f(0.07, 0.1, 0.07),
+            text='Difficulty',
+            text_align=TextNode.A_center,
+            text_scale=(1, 1),
+            text_pos=(0, 0),
+            text_fg=LVecBase4f(0, 0, 0, 1),
+            text_bg=LVecBase4f(0, 0, 0, 0),
+            parent=self.frmMain,
+        )
+        self.lblDifficulty.setTransparency(0)
+
+
+    def show(self):
+        self.frmMain.show()
+
+    def hide(self):
+        self.frmMain.hide()
+
+    def destroy(self):
+        self.frmMain.destroy()

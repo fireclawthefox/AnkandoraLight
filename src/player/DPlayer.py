@@ -33,7 +33,7 @@ class DPlayer(DistributedObject):
         self.pickerNP.removeNode()
 
         if self.piece is not None:
-            self.cr.sendDeleteMsg(self.piece.doId)
+            self.piece.sendDeleteMsg()
 
         DistributedObject.delete(self)
 

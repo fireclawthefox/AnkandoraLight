@@ -14,8 +14,10 @@ class BattleStats:
             self.name = ""
             self.atack = 0
             self.defense = 0
+            self.healthPotions = 0
         else:
             self.isEnemy = entryTuple[0]
             self.name = entryTuple[1]
             self.atack = entryTuple[2]
             self.defense = entryTuple[3]
+            self.healthPotions = entryTuple[4]

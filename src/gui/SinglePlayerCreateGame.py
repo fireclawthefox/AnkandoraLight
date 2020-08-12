@@ -19,16 +19,31 @@ from panda3d.core import (
 class GUI:
     def __init__(self, rootParent=None):
         
+        self.frmMain = DirectFrame(
+            frameColor=(1, 1, 1, 1),
+            frameSize=(-1.777778, 1.77777778, -1.1638, 1.1638),
+            hpr=LVecBase3f(0, 0, 0),
+            image='assets/menu/Background.png',
+            pos=LPoint3f(0, 0, 0),
+            image_scale=LVecBase3f(1.77778, 1, 1.1638),
+            image_pos=LPoint3f(0, 0, 0),
+            parent=rootParent,
+        )
+        self.frmMain.setTransparency(0)
+
         self.frmSinglePlayerCreateGame = DirectFrame(
+            borderWidth=(0.01, 0.01),
             frameColor=(1, 1, 1, 1),
             frameSize=(-0.65, 0.65, -0.55, 0.55),
             hpr=LVecBase3f(0, 0, 0),
             pos=LPoint3f(0.025, 0, 0),
-            parent=rootParent,
+            relief=5,
+            parent=self.frmMain,
         )
         self.frmSinglePlayerCreateGame.setTransparency(0)
 
-        self.pg703 = DirectLabel(
+        self.lblHeader = DirectLabel(
+            frameColor=(0.8, 0.8, 0.8, 0.0),
             hpr=LVecBase3f(0, 0, 0),
             pos=LPoint3f(0, 0, 0.425),
             scale=LVecBase3f(0.1, 0.1, 0.1),
@@ -40,9 +55,10 @@ class GUI:
             text_bg=LVecBase4f(0, 0, 0, 0),
             parent=self.frmSinglePlayerCreateGame,
         )
-        self.pg703.setTransparency(0)
+        self.lblHeader.setTransparency(0)
 
-        self.pg4765 = DirectLabel(
+        self.lblGameType = DirectLabel(
+            frameColor=(0.8, 0.8, 0.8, 0.0),
             hpr=LVecBase3f(0, 0, 0),
             pos=LPoint3f(-0.6, 0, 0.225),
             scale=LVecBase3f(0.1, 0.1, 0.1),
@@ -54,9 +70,10 @@ class GUI:
             text_bg=LVecBase4f(0, 0, 0, 0),
             parent=self.frmSinglePlayerCreateGame,
         )
-        self.pg4765.setTransparency(0)
+        self.lblGameType.setTransparency(0)
 
-        self.pg6101 = DirectLabel(
+        self.lblNumNPCs = DirectLabel(
+            frameColor=(0.8, 0.8, 0.8, 0.0),
             hpr=LVecBase3f(0, 0, 0),
             pos=LPoint3f(-0.6, 0, -0.125),
             scale=LVecBase3f(0.1, 0.1, 0.1),
@@ -68,13 +85,13 @@ class GUI:
             text_bg=LVecBase4f(0, 0, 0, 0),
             parent=self.frmSinglePlayerCreateGame,
         )
-        self.pg6101.setTransparency(0)
+        self.lblNumNPCs.setTransparency(0)
 
         self.optionNumNPCs = DirectOptionMenu(
             items=['item1'],
             frameSize=(0.07500000298023224, 3.012500149011612, -0.11250001192092896, 0.75),
             hpr=LVecBase3f(0, 0, 0),
-            pos=LPoint3f(0.2, 0, -0.125),
+            pos=LPoint3f(0.2, 0, -0.115),
             scale=LVecBase3f(0.1, 0.1, 0.1),
             text='item1',
             cancelframe_frameSize=(-1, 1, -1, 1),
@@ -112,7 +129,7 @@ class GUI:
             items=['item1'],
             frameSize=(0.07500000298023224, 3.012500149011612, -0.11250001192092896, 0.75),
             hpr=LVecBase3f(0, 0, 0),
-            pos=LPoint3f(0.2, 0, 0.2),
+            pos=LPoint3f(0.2, 0, 0.22),
             scale=LVecBase3f(0.1, 0.1, 0.1),
             text='item1',
             cancelframe_frameSize=(-1, 1, -1, 1),
@@ -146,7 +163,7 @@ class GUI:
         )
         self.optionGameType.setTransparency(0)
 
-        self.pg13803 = DirectButton(
+        self.btnStart = DirectButton(
             hpr=LVecBase3f(0, 0, 0),
             pos=LPoint3f(-0.35, 0, -0.45),
             scale=LVecBase3f(0.1, 0.1, 0.1),
@@ -160,25 +177,10 @@ class GUI:
             command=base.messenger.send,
             extraArgs=["singlePlayerCreateGame_start"],
         )
-        self.pg13803.setTransparency(0)
+        self.btnStart.setTransparency(0)
 
-        self.btnCancel = DirectButton(
-            hpr=LVecBase3f(0, 0, 0),
-            pos=LPoint3f(0.325, 0, -0.45),
-            scale=LVecBase3f(0.1, 0.1, 0.1),
-            text='Cancel',
-            text_align=TextNode.A_center,
-            text_scale=(1, 1),
-            text_pos=(0, 0),
-            text_fg=LVecBase4f(0, 0, 0, 1),
-            text_bg=LVecBase4f(0, 0, 0, 0),
-            parent=self.frmSinglePlayerCreateGame,
-            command=base.messenger.send,
-            extraArgs=["singlePlayerCreateGame_back"],
-        )
-        self.btnCancel.setTransparency(0)
-
-        self.pg5219 = DirectLabel(
+        self.lblPlayerClass = DirectLabel(
+            frameColor=(0.8, 0.8, 0.8, 0.0),
             hpr=LVecBase3f(0, 0, 0),
             pos=LPoint3f(-0.6, 0, 0.05),
             scale=LVecBase3f(0.1, 0.1, 0.1),
@@ -190,13 +192,13 @@ class GUI:
             text_bg=LVecBase4f(0, 0, 0, 0),
             parent=self.frmSinglePlayerCreateGame,
         )
-        self.pg5219.setTransparency(0)
+        self.lblPlayerClass.setTransparency(0)
 
         self.optionPlayerClass = DirectOptionMenu(
             items=['item1'],
             frameSize=(0.07500000298023224, 3.012500149011612, -0.11250001192092896, 0.75),
             hpr=LVecBase3f(0, 0, 0),
-            pos=LPoint3f(0.2, 0, 0.035),
+            pos=LPoint3f(0.2, 0, 0.055),
             scale=LVecBase3f(0.1, 0.1, 0.1),
             text='item1',
             cancelframe_frameSize=(-1, 1, -1, 1),
@@ -230,12 +232,81 @@ class GUI:
         )
         self.optionPlayerClass.setTransparency(0)
 
+        self.btnCancel = DirectButton(
+            hpr=LVecBase3f(0, 0, 0),
+            pos=LPoint3f(0.325, 0, -0.45),
+            scale=LVecBase3f(0.1, 0.1, 0.1),
+            text='Cancel',
+            text_align=TextNode.A_center,
+            text_scale=(1, 1),
+            text_pos=(0, 0),
+            text_fg=LVecBase4f(0, 0, 0, 1),
+            text_bg=LVecBase4f(0, 0, 0, 0),
+            parent=self.frmSinglePlayerCreateGame,
+            command=base.messenger.send,
+            extraArgs=["singlePlayerCreateGame_back"],
+        )
+        self.btnCancel.setTransparency(0)
+
+        self.lblDifficulty = DirectLabel(
+            frameColor=(0.8, 0.8, 0.8, 0.0),
+            hpr=LVecBase3f(0, 0, 0),
+            pos=LPoint3f(-0.6, 0, -0.29),
+            scale=LVecBase3f(0.1, 0.1, 0.1),
+            text='Difficulty',
+            text_align=TextNode.A_left,
+            text_scale=(1, 1),
+            text_pos=(0, 0),
+            text_fg=LVecBase4f(0, 0, 0, 1),
+            text_bg=LVecBase4f(0, 0, 0, 0),
+            parent=self.frmSinglePlayerCreateGame,
+        )
+        self.lblDifficulty.setTransparency(0)
+
+        self.optionDifficulty = DirectOptionMenu(
+            items=['item1'],
+            frameSize=(0.07500000298023224, 3.012500149011612, -0.11250001192092896, 0.75),
+            hpr=LVecBase3f(0, 0, 0),
+            pos=LPoint3f(0.2, 0, -0.29),
+            scale=LVecBase3f(0.1, 0.1, 0.1),
+            text='item1',
+            cancelframe_frameSize=(-1, 1, -1, 1),
+            cancelframe_hpr=LVecBase3f(0, 0, 0),
+            cancelframe_pos=LPoint3f(0, 0, 0),
+            cancelframe_relief=None,
+            item_frameSize=(0.07500000298023224, 2.4125001430511475, -0.11250001192092896, 0.75),
+            item_hpr=LVecBase3f(0, 0, 0),
+            item_pos=LPoint3f(-0.075, 0, -0.75),
+            item_text='item1',
+            item0_text_align=TextNode.A_left,
+            item0_text_scale=(1, 1),
+            item0_text_pos=(0, 0),
+            item0_text_fg=LVecBase4f(0, 0, 0, 1),
+            item0_text_bg=LVecBase4f(0, 0, 0, 0),
+            popupMarker_frameSize=(-0.5, 0.5, -0.2, 0.2),
+            popupMarker_hpr=LVecBase3f(0, 0, 0),
+            popupMarker_pos=LPoint3f(2.7125, 0, 0.31875),
+            popupMarker_relief=2,
+            popupMarker_scale=LVecBase3f(0.4, 0.4, 0.4),
+            popupMenu_frameSize=(0, 2.3375001400709152, -0.862500011920929, 0),
+            popupMenu_hpr=LVecBase3f(0, 0, 0),
+            popupMenu_pos=LPoint3f(0, 0, 0),
+            popupMenu_relief='raised',
+            text_align=TextNode.A_left,
+            text_scale=(1, 1),
+            text_pos=(0, 0),
+            text_fg=LVecBase4f(0, 0, 0, 1),
+            text_bg=LVecBase4f(0, 0, 0, 0),
+            parent=self.frmSinglePlayerCreateGame,
+        )
+        self.optionDifficulty.setTransparency(0)
+
 
     def show(self):
-        self.frmSinglePlayerCreateGame.show()
+        self.frmMain.show()
 
     def hide(self):
-        self.frmSinglePlayerCreateGame.hide()
+        self.frmMain.hide()
 
     def destroy(self):
-        self.frmSinglePlayerCreateGame.destroy()
+        self.frmMain.destroy()

@@ -5,12 +5,15 @@
     "canvasSize": "(-2, 2, -2, 2)"
   },
   "ComponentList": {
-    "pg159": {
+    "frmMain": {
       "element": {
         "frameColor": "(1, 1, 1, 1)",
         "frameSize": "(-1.777, 1.777, -1.0, 1.0)",
         "hpr": "LVecBase3f(0, 0, 0)",
+        "image": "'assets/menu/Background.png'",
         "pos": "LPoint3f(0, 0, 0)",
+        "image_scale": "LVecBase3f(1.77778, 0, 1.1638)",
+        "image_pos": "LPoint3f(0, 0, 0)",
         "transparency": "0"
       },
       "type": "DirectFrame",
@@ -19,7 +22,7 @@
       "extraArgs": null,
       "extraOptions": {}
     },
-    "pg566": {
+    "lblptions": {
       "element": {
         "frameColor": "(0.8, 0.8, 0.8, 0.0)",
         "hpr": "LVecBase3f(0, 0, 0)",
@@ -34,7 +37,7 @@
         "transparency": "0"
       },
       "type": "DirectLabel",
-      "parent": "pg159",
+      "parent": "frmMain",
       "command": null,
       "extraArgs": null,
       "extraOptions": {}
@@ -54,7 +57,7 @@
         "transparency": "0"
       },
       "type": "DirectLabel",
-      "parent": "pg159",
+      "parent": "frmMain",
       "command": null,
       "extraArgs": null,
       "extraOptions": {}
@@ -74,7 +77,7 @@
         "transparency": "0"
       },
       "type": "DirectButton",
-      "parent": "pg159",
+      "parent": "frmMain",
       "command": "base.messenger.send",
       "extraArgs": "\"options_ok\"",
       "extraOptions": {
@@ -96,7 +99,7 @@
         "transparency": "0"
       },
       "type": "DirectButton",
-      "parent": "pg159",
+      "parent": "frmMain",
       "command": "base.messenger.send",
       "extraArgs": "\"options_cancel\"",
       "extraOptions": {
@@ -118,7 +121,7 @@
         "transparency": "0"
       },
       "type": "DirectEntry",
-      "parent": "pg159",
+      "parent": "frmMain",
       "command": null,
       "extraArgs": null,
       "extraOptions": {}

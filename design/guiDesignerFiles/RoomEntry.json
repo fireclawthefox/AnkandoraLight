@@ -43,7 +43,7 @@
       "element": {
         "frameSize": "(-1.15, 1.25, -0.2, 0.8)",
         "hpr": "LVecBase3f(0, 0, 0)",
-        "pos": "LPoint3f(0, 0, -0.065)",
+        "pos": "LPoint3f(-0.15, 0, -0.065)",
         "scale": "LVecBase3f(0.05, 0.05, 0.05)",
         "text": "'0/4'",
         "text_align": "TextNode.A_center",
@@ -63,7 +63,7 @@
       "element": {
         "frameSize": "(-4.0, 4.0, -0.2, 0.8)",
         "hpr": "LVecBase3f(0, 0, 0)",
-        "pos": "LPoint3f(0.425, 0, -0.065)",
+        "pos": "LPoint3f(0.125, 0, -0.065)",
         "scale": "LVecBase3f(0.05, 0.05, 0.05)",
         "text": "'Game Type'",
         "text_align": "TextNode.A_center",
@@ -97,6 +97,26 @@
       "parent": "frmRoomEntry",
       "command": "base.messenger.send",
       "extraArgs": "\"room_join\"",
+      "extraOptions": {}
+    },
+    "lblDifficulty": {
+      "element": {
+        "frameSize": "(-4.0, 4.0, -0.2, 0.8)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.545, 0, -0.065)",
+        "scale": "LVecBase3f(0.05, 0.05, 0.05)",
+        "text": "'Difficulty'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmRoomEntry",
+      "command": null,
+      "extraArgs": null,
       "extraOptions": {}
     }
   }

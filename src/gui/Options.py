@@ -19,16 +19,19 @@ from panda3d.core import (
 class GUI:
     def __init__(self, rootParent=None):
         
-        self.pg159 = DirectFrame(
+        self.frmMain = DirectFrame(
             frameColor=(1, 1, 1, 1),
             frameSize=(-1.777, 1.777, -1.0, 1.0),
             hpr=LVecBase3f(0, 0, 0),
+            image='assets/menu/Background.png',
             pos=LPoint3f(0, 0, 0),
+            image_scale=LVecBase3f(1.77778, 0, 1.1638),
+            image_pos=LPoint3f(0, 0, 0),
             parent=rootParent,
         )
-        self.pg159.setTransparency(0)
+        self.frmMain.setTransparency(0)
 
-        self.pg566 = DirectLabel(
+        self.lblptions = DirectLabel(
             frameColor=(0.8, 0.8, 0.8, 0.0),
             hpr=LVecBase3f(0, 0, 0),
             pos=LPoint3f(0, 0, 0.8),
@@ -39,9 +42,9 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
-            parent=self.pg159,
+            parent=self.frmMain,
         )
-        self.pg566.setTransparency(0)
+        self.lblptions.setTransparency(0)
 
         self.lblServer = DirectLabel(
             frameColor=(0.8, 0.8, 0.8, 0.0),
@@ -54,7 +57,7 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
-            parent=self.pg159,
+            parent=self.frmMain,
         )
         self.lblServer.setTransparency(0)
 
@@ -69,7 +72,7 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
-            parent=self.pg159,
+            parent=self.frmMain,
             command=base.messenger.send,
             extraArgs=["options_ok"],
             pressEffect=1,
@@ -87,7 +90,7 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
-            parent=self.pg159,
+            parent=self.frmMain,
             command=base.messenger.send,
             extraArgs=["options_cancel"],
             pressEffect=1,
@@ -105,16 +108,16 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
-            parent=self.pg159,
+            parent=self.frmMain,
         )
         self.txtServer.setTransparency(0)
 
 
     def show(self):
-        self.pg159.show()
+        self.frmMain.show()
 
     def hide(self):
-        self.pg159.hide()
+        self.frmMain.hide()
 
     def destroy(self):
-        self.pg159.destroy()
+        self.frmMain.destroy()

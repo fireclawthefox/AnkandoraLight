@@ -152,7 +152,7 @@ class DBoardAI(DistributedObjectAI):
         # check if a player moved to the end field
         if field.special == "EndField":
             if self.gameType == RoomGlobals.GAMETYPE_RACE:
-                base.messenger.send(self.uniqueName("PlayerWonRace"), [field])
+                base.messenger.send(self.uniqueName("gameOver"), [field])
             elif self.gameType == RoomGlobals.GAMETYPE_NORMAL:
                 if len(self.collectedQuestCards) == len(BoardMap.fightFields):
                     base.messenger.send(self.uniqueName("canInitiateFight"), [field])
@@ -205,3 +205,7 @@ class DBoardAI(DistributedObjectAI):
         # usable
         if len(self.collectedQuestCards) == 4:
             base.messenger.send(self.uniqueName("levelUpAllPlayers"))
+
+        if field.special == "EndField":
+            base.messenger.send(self.uniqueName("gameOver"), [field])
+

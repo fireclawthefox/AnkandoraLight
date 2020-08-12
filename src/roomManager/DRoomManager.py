@@ -27,6 +27,13 @@ class DRoomManager(DistributedObject):
         self.d_requestRoomList()
         base.messenger.send(self.cr.uniqueName("roomManager_ready"))
 
+    def delete(self):
+        print("DELETE DRoomManager")
+        self.cr.roomManager = None
+        self.roomZone = -1
+        self.boardLoadDone = False
+        self.manifested = False
+
     def setServerRoomList(self, roomList):
         # roomList is a list of tuples defining room data
         base.messenger.send("updateRoomList", [roomList])

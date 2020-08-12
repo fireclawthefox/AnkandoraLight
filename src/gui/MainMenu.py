@@ -18,12 +18,24 @@ from panda3d.core import (
 class GUI:
     def __init__(self, rootParent=None):
 
+        self.frmMain = DirectFrame(
+            frameColor=(1, 1, 1, 1),
+            frameSize=(-1.777778, 1.77777778, -1.1638, 1.1638),
+            hpr=LVecBase3f(0, 0, 0),
+            image='assets/menu/Background.png',
+            pos=LPoint3f(0, 0, 0),
+            image_scale=LVecBase3f(1.77778, 1, 1.1638),
+            image_pos=LPoint3f(0, 0, 0),
+            parent=rootParent,
+        )
+        self.frmMain.setTransparency(0)
+
         self.frmMenu = DirectFrame(
             frameColor=(1, 1, 1, 1),
             frameSize=(-0.4, 0.4, -0.5, 0.5),
             hpr=LVecBase3f(0, 0, 0),
             pos=LPoint3f(0, 0, 0),
-            parent=rootParent,
+            parent=self.frmMain,
         )
         self.frmMenu.setTransparency(0)
 
@@ -95,15 +107,15 @@ class GUI:
         )
         self.btnQuit.setTransparency(0)
 
-        self.pg6375 = DirectLabel(
+        self.lblLogo = DirectLabel(
             frameColor=(0.8, 0.8, 0.8, 0.0),
-            frameSize=(-4.25, 4.25, -1.25, 1.25),
+            frameSize=(-6.0, 6.0, -1.5, 1.5),
             hpr=LVecBase3f(0, 0, 0),
             image='./assets/menu/Banner.png',
             pos=LPoint3f(0, 0, 0.475),
             scale=LVecBase3f(0.1, 0.1, 0.1),
             text='',
-            image_scale=LVecBase3f(4.5, 1, 1.5),
+            image_scale=LVecBase3f(6, 1, 1.5),
             image_pos=LPoint3f(0, 0, 0),
             text_align=TextNode.A_center,
             text_scale=(1, 1),
@@ -112,14 +124,14 @@ class GUI:
             text_bg=LVecBase4f(0, 0, 0, 0),
             parent=self.frmMenu,
         )
-        self.pg6375.setTransparency(1)
+        self.lblLogo.setTransparency(1)
 
 
     def show(self):
-        self.frmMenu.show()
+        self.frmMain.show()
 
     def hide(self):
-        self.frmMenu.hide()
+        self.frmMain.hide()
 
     def destroy(self):
-        self.frmMenu.destroy()
+        self.frmMain.destroy()

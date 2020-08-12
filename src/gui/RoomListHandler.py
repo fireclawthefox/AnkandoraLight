@@ -25,6 +25,7 @@ class RoomListHandler(DirectObject):
         self.roomWizzard.frmCreateRoom.hide()
         self.roomWizzard.optionNumPlayers["items"] = ["2","3","4"]
         self.roomWizzard.optionGameType["items"] = RoomGlobals.ALL_GAMETYPES_AS_NAMES
+        self.roomWizzard.optionDifficulty["items"] = RoomGlobals.DIFFICULTIES_AS_NAMES
 
         self.playerInfo = PlayerInfo(self.holderNode)
         self.playerInfo.optionPlayerClass["items"] = RoomGlobals.ALL_PLAYERCLASSES_AS_NAMES
@@ -75,7 +76,7 @@ class RoomListHandler(DirectObject):
             gameType = RoomGlobals.GAMETYPE_NORMAL
         elif gameTypeStr == "Race":
             gameType = RoomGlobals.GAMETYPE_RACE
-        difficulty = 0
+        difficulty = RoomGlobals.Name2Difficulty[self.roomWizzard.optionDifficulty.get()]
         room = (name, maxNumPlayers, 0, numAIPlayers, difficulty, gameType, 0)
         base.messenger.send("roomList_createRoom", [room])
         self.hideCreateRoom()
@@ -97,11 +98,12 @@ class RoomListHandler(DirectObject):
                 roomType = "Normal"
             elif room[RoomGlobals.ROOM_TYPE] == RoomGlobals.GAMETYPE_RACE:
                 roomType = "Race"
+            newRoomEntry.lblGameType["text"] = roomType
+            newRoomEntry.lblDifficulty["text"] = RoomGlobals.Difficulty2Name[room[RoomGlobals.ROOM_DIFFICULTY]]
 
             newRoomEntry.btnJoin["command"] = self.showPlayerInfo
             newRoomEntry.btnJoin["extraArgs"] = [room]
 
-            newRoomEntry.lblGameType["text"] = roomType
             newRoomEntry.frmRoomEntry.setZ(z)
             newRoomEntry.frmRoomEntry.reparentTo(self.roomList.frmRoomList.getCanvas())
             z -= 0.1

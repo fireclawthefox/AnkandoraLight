@@ -18,7 +18,7 @@ class SixSidedDice:
 
     def roll(self):
         """Returns a random number in the range of 1 to 6"""
-        return 6#random.randint(1, 6)
+        return random.randint(1, 6)
 
     '''
     # The following code will produce reproducible random numbers

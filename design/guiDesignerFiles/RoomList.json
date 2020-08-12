@@ -5,6 +5,23 @@
     "canvasSize": "(-2, 2, -2, 2)"
   },
   "ComponentList": {
+    "frmMain": {
+      "element": {
+        "frameColor": "(1, 1, 1, 1)",
+        "frameSize": "(-1.777778, 1.77777778, -1.1638, 1.1638)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "image": "'assets/menu/Background.png'",
+        "pos": "LPoint3f(0, 0, 0)",
+        "image_scale": "LVecBase3f(1.77778, 1, 1.1638)",
+        "image_pos": "LPoint3f(0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectFrame",
+      "parent": "root",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
     "frmRoomList": {
       "element": {
         "canvasSize": "(-1.0, 1.0, -2.0, 0.0)",
@@ -47,7 +64,7 @@
         "transparency": "0"
       },
       "type": "DirectScrolledFrame",
-      "parent": "root",
+      "parent": "frmMain",
       "command": null,
       "extraArgs": null,
       "extraOptions": {}
@@ -66,12 +83,12 @@
         "transparency": "0"
       },
       "type": "DirectButton",
-      "parent": "root",
+      "parent": "frmMain",
       "command": "base.messenger.send",
       "extraArgs": "\"roomList_back\"",
       "extraOptions": {}
     },
-    "pg1021": {
+    "lblRoomName": {
       "element": {
         "frameColor": "(0.8, 0.8, 0.8, 0.0)",
         "hpr": "LVecBase3f(0, 0, 0)",
@@ -86,18 +103,18 @@
         "transparency": "0"
       },
       "type": "DirectLabel",
-      "parent": "root",
+      "parent": "frmMain",
       "command": null,
       "extraArgs": null,
       "extraOptions": {}
     },
-    "pg2116": {
+    "lblPlayerCount": {
       "element": {
         "frameColor": "(0.8, 0.8, 0.8, 0.0)",
         "hpr": "LVecBase3f(0, 0, 0)",
-        "pos": "LPoint3f(0, 0, 0.725)",
+        "pos": "LPoint3f(-0.15, 0, 0.725)",
         "scale": "LVecBase3f(0.07, 0.1, 0.07)",
-        "text": "'Player Count'",
+        "text": "'Players'",
         "text_align": "TextNode.A_center",
         "text_scale": "(1, 1)",
         "text_pos": "(0, 0)",
@@ -106,27 +123,7 @@
         "transparency": "0"
       },
       "type": "DirectLabel",
-      "parent": "root",
-      "command": null,
-      "extraArgs": null,
-      "extraOptions": {}
-    },
-    "pg2667": {
-      "element": {
-        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
-        "hpr": "LVecBase3f(0, 0, 0)",
-        "pos": "LPoint3f(0.425, 0, 0.725)",
-        "scale": "LVecBase3f(0.07, 0.1, 0.07)",
-        "text": "'Game Type'",
-        "text_align": "TextNode.A_center",
-        "text_scale": "(1, 1)",
-        "text_pos": "(0, 0)",
-        "text_fg": "LVecBase4f(0, 0, 0, 1)",
-        "text_bg": "LVecBase4f(0, 0, 0, 0)",
-        "transparency": "0"
-      },
-      "type": "DirectLabel",
-      "parent": "root",
+      "parent": "frmMain",
       "command": null,
       "extraArgs": null,
       "extraOptions": {}
@@ -146,7 +143,7 @@
         "transparency": "0"
       },
       "type": "DirectButton",
-      "parent": "root",
+      "parent": "frmMain",
       "command": null,
       "extraArgs": null,
       "extraOptions": {}
@@ -165,9 +162,49 @@
         "transparency": "0"
       },
       "type": "DirectButton",
-      "parent": "root",
+      "parent": "frmMain",
       "command": "base.messenger.send",
       "extraArgs": "\"roomList_reload\"",
+      "extraOptions": {}
+    },
+    "lblGameType": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.125, 0, 0.725)",
+        "scale": "LVecBase3f(0.07, 0.1, 0.07)",
+        "text": "'Type'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmMain",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "lblDifficulty": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.54, 0, 0.72)",
+        "scale": "LVecBase3f(0.07, 0.1, 0.07)",
+        "text": "'Difficulty'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmMain",
+      "command": null,
+      "extraArgs": null,
       "extraOptions": {}
     }
   }

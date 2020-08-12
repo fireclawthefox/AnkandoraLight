@@ -102,6 +102,7 @@ class DBattleAI(DistributedObjectAI):
             stats.name = player.name
             stats.atack = player.getAttack()
             stats.defense = player.getDefense()
+            stats.healthPotions = player.numHealPotions
             statslist.append(stats)
             if self.fightOrder[0][0] == player.avId:
                 activePlayerName = player.name
@@ -113,6 +114,7 @@ class DBattleAI(DistributedObjectAI):
             stats.name = "Enemy {}".format(enemyIdx+1)
             stats.atack = self.enemyAI.getAttack()
             stats.defense = self.enemyAI.getDefense()
+            stats.healthPotions = 0
             statslist.append(stats)
             enemyID = -1 * (enemyIdx+1)
             if self.fightOrder[0][0] == enemyID:

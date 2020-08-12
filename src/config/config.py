@@ -54,7 +54,6 @@ loadPrcFileData("",
     # Window and graphics
     #
     window-title {}
-    show-frame-rate-meter 1
 
     #
     # Logging

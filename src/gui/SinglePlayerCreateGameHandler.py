@@ -17,6 +17,12 @@ class SinglePlayerCreateGameHandler(DirectObject, SinglePlayerCreateGame):
         self.optionPlayerClass["items"] = RoomGlobals.ALL_PLAYERCLASSES_AS_NAMES
         self.optionNumNPCs["items"] = ["0", "1","2","3"]
         self.optionGameType["items"] = RoomGlobals.ALL_GAMETYPES_AS_NAMES
+        self.optionDifficulty["items"] = RoomGlobals.DIFFICULTIES_AS_NAMES
+
+        self.optionPlayerClass.popupMarker.hide()
+        self.optionNumNPCs.popupMarker.hide()
+        self.optionGameType.popupMarker.hide()
+        self.optionDifficulty.popupMarker.hide()
 
         self.accept("singlePlayerCreateGame_start", self.create)
 
@@ -32,7 +38,7 @@ class SinglePlayerCreateGameHandler(DirectObject, SinglePlayerCreateGame):
             gameType = RoomGlobals.GAMETYPE_NORMAL
         elif gameTypeStr == "Race":
             gameType = RoomGlobals.GAMETYPE_RACE
-        difficulty = 0
+        difficulty = RoomGlobals.Name2Difficulty[self.optionDifficulty.get()]
         room = (name, numPlayers, 0, aiPlayerCount, difficulty, gameType, 0)
         base.messenger.send("singlePlayerCreateGame_createAndStart", [room, playerClassID])
 

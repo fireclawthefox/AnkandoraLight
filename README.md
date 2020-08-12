@@ -13,6 +13,11 @@ Current features:
 - 2 different game modes
 - simple text chat
 
+## Screenshots
+
+![Main menu](/screenshots/MainMenu.png?raw=true "The main menu")
+![Singleplayer](/screenshots/Singleplayer.png?raw=true "Singleplayer session")
+![Multiplayer](/screenshots/Multiplayer.png?raw=true "Multiplayer session")
 
 ## Server
 ### Configure

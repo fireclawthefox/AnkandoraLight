@@ -11,13 +11,12 @@ from direct.interval.IntervalGlobal import LerpColorInterval
 from globalData import RoomGlobals
 
 DESC_NORMAL = \
-"""Ankandora, a land full of adventures awaits you. Many have traveld the wide fields and step mountains, setteled in one of the cities and villages or fell, slain by the foes lurking in the darkest corners. Everyday new adventurers, scientists and tricksters come along and try their luck. Now follow the paths and fight against the foes standing in your way to save the land or clame it as yours and become the new king.
-
+"""Ankandora, a land full of adventures awaits you. Many have traveld the wide fields and step mountains, setteled in one of the cities and villages or fell, slain by the foes lurking in the darkest corners. Everyday new adven- turers, scientists and tricksters come along and try their luck. Now follow the paths and fight against the foes standing in your way to save the land or clame it as yours and become the new king.
 Normal Mode:
 In this mode, you have to collect all the cards by beating the enemies waiting there for you. The last card (the crown) can only be reached once all other cards have been collected.
 """
 DESC_RACE = \
-"""Ankandora, a land full of adventures awaits you. Many have traveld the wide fields and step mountains, setteled in one of the cities and villages or fell, slain by the foes lurking in the darkest corners. Everyday new adventurers, scientists and tricksters come along and try their luck. Now follow the paths and fight against the foes standing in your way to save the land or clame it as yours and become the new king.
+"""Ankandora, a land full of adventures awaits you. Many have traveld the wide fields and step mountains, setteled in one of the cities and villages or fell, slain by the foes lurking in the darkest corners. Everyday new adven- turers, scientists and tricksters come along and try their luck. Now follow the paths and fight against the foes standing in your way to save the land or clame it as yours and become the new king.
 
 Race Mode:
 Try be the first to reach the end field and beat the enemy there."""

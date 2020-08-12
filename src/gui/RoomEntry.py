@@ -26,6 +26,7 @@ class GUI:
             parent=rootParent,
         )
         self.frmRoomEntry.setTransparency(0)
+
         self.lblRoomName = DirectLabel(
             frameSize=(0.075, 15.0, -0.2, 0.8),
             hpr=LVecBase3f(0, 0, 0),
@@ -40,10 +41,11 @@ class GUI:
             parent=self.frmRoomEntry,
         )
         self.lblRoomName.setTransparency(0)
+
         self.lblPlayerCount = DirectLabel(
             frameSize=(-1.15, 1.25, -0.2, 0.8),
             hpr=LVecBase3f(0, 0, 0),
-            pos=LPoint3f(0, 0, -0.065),
+            pos=LPoint3f(-0.15, 0, -0.065),
             scale=LVecBase3f(0.05, 0.05, 0.05),
             text='0/4',
             text_align=TextNode.A_center,
@@ -54,10 +56,11 @@ class GUI:
             parent=self.frmRoomEntry,
         )
         self.lblPlayerCount.setTransparency(0)
+
         self.lblGameType = DirectLabel(
             frameSize=(-4.0, 4.0, -0.2, 0.8),
             hpr=LVecBase3f(0, 0, 0),
-            pos=LPoint3f(0.425, 0, -0.065),
+            pos=LPoint3f(0.125, 0, -0.065),
             scale=LVecBase3f(0.05, 0.05, 0.05),
             text='Game Type',
             text_align=TextNode.A_center,
@@ -68,6 +71,7 @@ class GUI:
             parent=self.frmRoomEntry,
         )
         self.lblGameType.setTransparency(0)
+
         self.btnJoin = DirectButton(
             hpr=LVecBase3f(0, 0, 0),
             pad=(0.1, 0.1),
@@ -84,3 +88,28 @@ class GUI:
             extraArgs=["room_join"],
         )
         self.btnJoin.setTransparency(0)
+
+        self.lblDifficulty = DirectLabel(
+            frameSize=(-4.0, 4.0, -0.2, 0.8),
+            hpr=LVecBase3f(0, 0, 0),
+            pos=LPoint3f(0.545, 0, -0.065),
+            scale=LVecBase3f(0.05, 0.05, 0.05),
+            text='Difficulty',
+            text_align=TextNode.A_center,
+            text_scale=(1, 1),
+            text_pos=(0, 0),
+            text_fg=LVecBase4f(0, 0, 0, 1),
+            text_bg=LVecBase4f(0, 0, 0, 0),
+            parent=self.frmRoomEntry,
+        )
+        self.lblDifficulty.setTransparency(0)
+
+
+    def show(self):
+        self.frmRoomEntry.show()
+
+    def hide(self):
+        self.frmRoomEntry.hide()
+
+    def destroy(self):
+        self.frmRoomEntry.destroy()

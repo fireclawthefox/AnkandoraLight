@@ -61,10 +61,13 @@ class Main(ShowBase, FSM, config.Config):
         pipeline.use_normals_map = True
         pipeline.enable_shadows = True
 
+        self.setBackgroundColor(0,0,0)
+
         #
         # INITIALIZE GAME CONTENT
         #
         # Client and Server
+        self.canStartClient = True
         self.gameServer = None
         self.air = None
         self.cr = None
@@ -116,7 +119,7 @@ class Main(ShowBase, FSM, config.Config):
 
     def exitMainMenu(self):
         """Cleanup the main menu GUI"""
-        self.mainMenu.frmMenu.destroy()
+        self.mainMenu.destroy()
         del self.mainMenu
         self.ignoreDict(self.mainMenuEvents)
 
@@ -324,15 +327,32 @@ class Main(ShowBase, FSM, config.Config):
 
     def setupClient(self, newState):
         """Set up our client repository to connect to any server"""
+        print(self.canStartClient)
+        if not self.canStartClient:
+            self.request("MainMenu")
+            return
         self.cr = GameClientRepository(
             self.request, newState, self.request, "MainMenu")
 
     def cleanupClient(self):
         """Stop the client and remove it"""
+        self.canStartClient = False
         # check if we even have a client repo
-        if self.cr is None: return
+        if self.cr is None:
+            self.canStartClient = True
+            return
+
+        for obj in self.cr.doId2do.values():
+            obj.sendDeleteMsg()
+
+        for doId, do in self.cr.doId2do.copy().items():
+            # hard delete of all objects as we're going to kill the client
+            # anyway
+            self.cr.deleteObject(doId)
         self.cr.stop()
+        del self.cr
         self.cr = None
+        self.canStartClient = True
 
     def cleanupSinglePlayerServer(self):
         """Stop and remove the local server created for a singleplayer

@@ -43,6 +43,8 @@ class BattleHandler(DirectObject):
         if stats.isEnemy:
             i = len(self.playerStatsList)
             s = BattleStats(self.battle.frmEnemies)
+            s.lblHealtPotions.hide()
+            s.lblHealthPotionsValue.hide()
             s.frmStats.setZ((self.battle.frmEnemies["frameSize"][3]-0.15) - i*0.3)
             self.playerStatsList.append(s)
         else:
@@ -53,6 +55,7 @@ class BattleHandler(DirectObject):
         s.lblNameValue["text"] = stats.name
         s.lblAttackValue["text"] = str(stats.atack)
         s.lblDefenseValue["text"] = str(stats.defense)
+        s.lblHealthPotionsValue["text"] = str(stats.healthPotions)
         s.lblHit.hide()
 
     def showHit(self, name, hitpoints):

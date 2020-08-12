@@ -40,7 +40,7 @@ class DRoomAI(DistributedObjectAI):
 
         self.boardAI.setupQuestCards(self.roomZone)
         self.boardAI.gameType = self.gameType
-        self.accept(self.boardAI.uniqueName("PlayerWonRace"), self.gameOver)
+        self.accept(self.boardAI.uniqueName("gameOver"), self.gameOver)
         self.accept(self.boardAI.uniqueName("canInitiateFight"), self.canInitiateFight)
         self.accept(self.boardAI.uniqueName("initiateDirectFight"), self.initiateDirectFight)
         self.accept(self.boardAI.uniqueName("levelUpAllPlayers"), self.levelUpAllPlayers)

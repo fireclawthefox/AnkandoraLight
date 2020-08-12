@@ -34,7 +34,10 @@ class DBoard(DistributedObject):
         self.lightSunNP.lookAt(2, -2, -0.5)
 
         self.lightAmb = AmbientLight('light_ambient')
-        self.lightAmb.setColor((0.1, 0.1, 0.1, 1))
+        #self.lightAmb.setColor((0.1, 0.1, 0.1, 1))
+        self.lightAmb.setColorTemperature(4500)
+        c = self.lightAmb.getColor()
+        self.lightAmb.setColor((c.x/2, c.y/2, c.z/2, 1))
         self.lightAmbNP = render.attachNewNode(self.lightAmb)
 
         self.accept("loadDone", self.loadDone)
@@ -116,14 +119,23 @@ class DBoard(DistributedObject):
         self.boardAnimation = None
 
         # cleanup light
-        render.clearLight(self.lightSunNP)
-        render.clearLight(self.lightAmbNP)
+        try:
+            render.clearLight(self.lightSunNP)
+            render.clearLight(self.lightAmbNP)
+        except:
+            print("clear lights failed.")
         self.lightSunNP.removeNode()
         self.lightAmbNP.removeNode()
 
         # cleanup collisions
         for field in BoardMap.gameMap:
             field.collisionNP.removeNode()
+
+        # cleanup other variables
+        self.modelLoadList = {"board":False, "table":False}
+
+        self.boardAnimation = None
+        self.boardAnimationStarted = False
 
         DistributedObject.delete(self)
 

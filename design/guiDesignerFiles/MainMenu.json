@@ -5,6 +5,23 @@
     "canvasSize": "(-2, 2, -2, 2)"
   },
   "ComponentList": {
+    "frmMain": {
+      "element": {
+        "frameColor": "(1, 1, 1, 1)",
+        "frameSize": "(-1.777778, 1.77777778, -1.1638, 1.1638)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "image": "'assets/menu/Background.png'",
+        "pos": "LPoint3f(0, 0, 0)",
+        "image_scale": "LVecBase3f(1.77778, 1, 1.1638)",
+        "image_pos": "LPoint3f(0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectFrame",
+      "parent": "root",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
     "frmMenu": {
       "element": {
         "frameColor": "(1, 1, 1, 1)",
@@ -14,7 +31,7 @@
         "transparency": "0"
       },
       "type": "DirectFrame",
-      "parent": "root",
+      "parent": "frmMain",
       "command": null,
       "extraArgs": null,
       "extraOptions": {}
@@ -99,16 +116,16 @@
       "extraArgs": "\"menu_quit\"",
       "extraOptions": {}
     },
-    "pg6375": {
+    "lblLogo": {
       "element": {
         "frameColor": "(0.8, 0.8, 0.8, 0.0)",
-        "frameSize": "(-4.25, 4.25, -1.25, 1.25)",
+        "frameSize": "(-6.0, 6.0, -1.5, 1.5)",
         "hpr": "LVecBase3f(0, 0, 0)",
         "image": "'./assets/menu/Banner.png'",
         "pos": "LPoint3f(0, 0, 0.475)",
         "scale": "LVecBase3f(0.1, 0.1, 0.1)",
         "text": "''",
-        "image_scale": "LVecBase3f(4.5, 1, 1.5)",
+        "image_scale": "LVecBase3f(6, 1, 1.5)",
         "image_pos": "LPoint3f(0, 0, 0)",
         "text_align": "TextNode.A_center",
         "text_scale": "(1, 1)",

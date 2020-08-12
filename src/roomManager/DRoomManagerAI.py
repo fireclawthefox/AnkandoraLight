@@ -25,6 +25,10 @@ class DRoomManagerAI(DistributedObjectAI):
 
         self.accept("Client-disconnect", self.handleClientDisconnect)
 
+    def delete(self):
+        self.roomList = []
+        DistributedObjectAI.delete(self)
+
     def getRoomInfoList(self):
         roomInfoList = []
         for room in self.roomList:
