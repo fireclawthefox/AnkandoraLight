@@ -39,6 +39,7 @@ class DPlayerAI(DistributedObjectAI):
         return self.name
 
     def requestName(self):
+        """Roundtrip to set the name of this Player on the client"""
         requesterId = self.air.getAvatarIdFromSender()
         self.sendUpdateToAvatarId(requesterId, "setName", [self.name])
 

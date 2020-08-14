@@ -10,7 +10,6 @@ import random
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from panda3d.core import UniqueIdAllocator
 from room.DRoomAI import DRoomAI
-from player.DPlayerAI import DPlayerAI
 from globalData import ZonesGlobals, RoomGlobals
 
 class DRoomManagerAI(DistributedObjectAI):
@@ -36,7 +35,7 @@ class DRoomManagerAI(DistributedObjectAI):
                 room.name,
                 room.maxPlayers,
                 room.getPlayerCount(),
-                room.getAIPlayerCount(),
+                room.getBotPlayerCount(),
                 room.difficulty,
                 room.gameType,
                 room.roomZone)
@@ -52,19 +51,19 @@ class DRoomManagerAI(DistributedObjectAI):
         requesterId = self.air.getAvatarIdFromSender()
 
         if len(roomInfo) != 7:
-            print("room creation failed, unknown info length")
+            print("room creation failed, unknown info length: {}".format(len(roomInfo)))
             return
 
         if (roomInfo[RoomGlobals.ROOM_NAME] is None or len(roomInfo[RoomGlobals.ROOM_NAME]) < 1):
-            print("room creation failed, bad room name")
+            print("room creation failed, bad room name. Room name must not be none or empty.")
             return
 
-        if (roomInfo[RoomGlobals.ROOM_MAX_PLAYER_COUNT] < 1 or roomInfo[RoomGlobals.ROOM_MAX_PLAYER_COUNT] + roomInfo[RoomGlobals.ROOM_AI_PLAYER_COUNT] > 4):
-            print("room creation failed, wrong player count (Min: 1 | Max: 4)")
+        if (roomInfo[RoomGlobals.ROOM_MAX_PLAYER_COUNT] < 1 or roomInfo[RoomGlobals.ROOM_MAX_PLAYER_COUNT] > 4):
+            print("room creation failed, wrong player count: {} (Min: 1 | Max: 4)".format(roomInfo[RoomGlobals.ROOM_MAX_PLAYER_COUNT] + roomInfo[RoomGlobals.ROOM_AI_PLAYER_COUNT]))
             return
 
         if (roomInfo[RoomGlobals.ROOM_DIFFICULTY] not in RoomGlobals.DIFFICULTIES):
-            print("room creation failed, unknonwn difficulty")
+            print("room creation failed, unknonwn difficulty: {}".format(roomInfo[RoomGlobals.ROOM_DIFFICULTY]))
             return
 
         if (roomInfo[RoomGlobals.ROOM_TYPE] not in RoomGlobals.ALL_GAMETYPES):
@@ -83,10 +82,43 @@ class DRoomManagerAI(DistributedObjectAI):
             zoneId = ZonesGlobals.ROOM_MANAGER_ZONE)
 
         for i in range(roomInfo[RoomGlobals.ROOM_AI_PLAYER_COUNT]):
-            #TODO: Create AI Players here and add them to the room
-            # aiPlayer = DAIPlayerAI(self.air)
-            # newRoom.addAIPlayer(aiPlayer)
-            pass
+            # create the bots
+            botPlayer = self.air.createDistributedObject(
+                className="DBotPlayerAI",
+                zoneId=newRoom.roomZone)
+            botPlayer.playerClassID = random.choice(RoomGlobals.ALL_PLAYERCLASSES)
+            botPlayer.playerClassType = RoomGlobals.PlayerClassID2Name[botPlayer.playerClassID]
+            botPlayer.botId = i+1
+            botPlayer.avId = -(i+1)
+            botPlayer.room = newRoom
+
+            piece = self.air.createDistributedObject(
+                className="DPieceAI",
+                zoneId=newRoom.roomZone)
+
+            botPlayer.piece = piece
+            piece.player = botPlayer
+            modelName = botPlayer.cm.getModel(botPlayer.playerClassType)
+            piece.setModel(modelName)
+
+            # give the new player a unique name
+            playerNameList = newRoom.getPlayerNames()
+            playerName = self.getRandomPlayerName()
+            while playerName in playerNameList:
+                playerName = self.getRandomPlayerName()
+            botPlayer.setName(playerName)
+
+            # try add the player to the room
+            if not newRoom.addPlayer(botPlayer):
+                # can't add more bots
+                self.air.sendDeleteMsg(botPlayer.doId)
+                self.air.sendDeleteMsg(piece.doId)
+            else:
+                newRoom.numBotPlayers += 1
+
+            newRoom.playerReady(botPlayer.doId)
+
+            self.accept(newRoom.uniqueName("startBotTurn-{}".format(botPlayer.botId)), botPlayer.startTurn)
 
         self.roomList.append(newRoom)
 

@@ -64,7 +64,6 @@ class AIRepository(ClientRepository):
             zoneId = ZonesGlobals.ROOM_MANAGER_ZONE)
 
         print("AI Repository Ready")
-        print("SETUP AI REPOSITORY DONE")
 
     def deallocateChannel(self, doID):
         """ This method will be called whenever a client disconnects from the

@@ -28,7 +28,6 @@ class DRoomManager(DistributedObject):
         base.messenger.send(self.cr.uniqueName("roomManager_ready"))
 
     def delete(self):
-        print("DELETE DRoomManager")
         self.cr.roomManager = None
         self.roomZone = -1
         self.boardLoadDone = False
@@ -129,5 +128,6 @@ class DRoomManager(DistributedObject):
         self.board.start()
         base.messenger.send("roomManager_loaded")
 
+    def setPlayerReady(self):
         room = self.cr.doId2do[self.cr.roomId]
         room.sendUpdate("playerReady", [self.cr.localPlayerId])

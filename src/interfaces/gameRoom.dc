@@ -2,6 +2,7 @@ from roomManager.DRoomManager/AI import DRoomManager/AI
 from board.DBoard/AI import DBoard/AI
 from questCard.DQuestCard/AI import DQuestCard/AI
 from room.DRoom/AI import DRoom/AI
+from player.DBotPlayer/AI import DBotPlayer/AI
 from player.DPlayer/AI import DPlayer/AI
 from piece.DPiece/AI import DPiece/AI
 from battle.DBattle/AI import DBattle/AI
@@ -67,11 +68,15 @@ dclass DRoom: DistributedObject {
     endSpectateBattle() p2p;
 }
 
-dclass DPlayer: DistributedObject {
-    requestStartPos() p2p;
+dclass DBotPlayer: DistributedObject {
     requestName() p2p;
     setName(string name) p2p;
-    setStartPos(int16 / 1000 x, int16 / 1000 y, int16 / 1000 z) p2p;
+    setAvID() p2p;
+}
+
+dclass DPlayer: DistributedObject {
+    requestName() p2p;
+    setName(string name) p2p;
     updateInventory() p2p;
     doUpdateInventory(uint8, string inventoryDir) p2p;
     doUpdatePotions(uint8) p2p;

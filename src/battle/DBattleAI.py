@@ -23,7 +23,7 @@ class DBattleAI(DistributedObjectAI):
         self.spectatorPlayers = spectatorPlayers
         self.readyPlayers = []
         self.playerInitiatives = {}
-        self.activePlayerId = -1
+        self.activePlayerId = None
         self.fightOrder = []
 
         self.difficulty = difficulty
@@ -44,18 +44,22 @@ class DBattleAI(DistributedObjectAI):
                 self.sendUpdateToAvatarId(playerId, "doSpectate", [])
                 return
 
-    def rollInitiative(self):
+    def rollInitiative(self, botAvId=None):
         """Roll the initiative for this player to decide where he lands in the
         fight order list"""
-        playerId = self.air.getAvatarIdFromSender()
+        playerId = botAvId
+        if botAvId is None:
+            playerId = self.air.getAvatarIdFromSender()
 
         if playerId in self.playerInitiatives.keys():
-            self.sendUpdateToAvatarId(playerId, "rolledInitiativeFailed", [])
+            if botAvId is None:
+                self.sendUpdateToAvatarId(playerId, "rolledInitiativeFailed", [])
             return
 
         roll = self.dice.roll()
         self.playerInitiatives[playerId] = roll
-        self.sendUpdateToAvatarId(playerId, "rolledInitiative", [roll])
+        if botAvId is None:
+            self.sendUpdateToAvatarId(playerId, "rolledInitiative", [roll])
 
         if len(self.playerInitiatives) == len(self.playersOnField):
             self.sortByInitiativesAndStart()
@@ -65,7 +69,7 @@ class DBattleAI(DistributedObjectAI):
         to their initiative values"""
         enemyInit = self.enemyAI.getInitiative()
         for i in range(self.enemyAI.numEnemies):
-            self.playerInitiatives[-1-i] = enemyInit
+            self.playerInitiatives[-1000-i] = enemyInit
         self.fightOrder = sorted(
             self.playerInitiatives.items(),
             key=itemgetter(1),
@@ -81,10 +85,13 @@ class DBattleAI(DistributedObjectAI):
         # initially set the battle stats
         self.d_updateBattleStats()
 
-        if self.activePlayerId >= 0:
-            # player starts turn
-            self.sendUpdateToAvatarId(self.activePlayerId, "startRound", [])
-
+        if self.activePlayerId > -1000:
+            if self.activePlayerId > 0:
+                # player starts turn
+                self.sendUpdateToAvatarId(self.activePlayerId, "startRound", [])
+            else:
+                # Bot turn
+                base.messenger.send(self.uniqueName("startRoundBot-{}".format(self.activePlayerId)))
         else:
             # enemy starts turn
             self.enemyAttack()
@@ -116,7 +123,7 @@ class DBattleAI(DistributedObjectAI):
             stats.defense = self.enemyAI.getDefense()
             stats.healthPotions = 0
             statslist.append(stats)
-            enemyID = -1 * (enemyIdx+1)
+            enemyID = -1000 * (enemyIdx+1)
             if self.fightOrder[0][0] == enemyID:
                 activePlayerName = stats.name
 
@@ -133,13 +140,16 @@ class DBattleAI(DistributedObjectAI):
         self.d_updateBattleStats()
 
         # check which turn it is
-        if self.activePlayerId < 0:
-            # all IDs less then 0 (e.g. -1, -2, etc), are enemy IDs
+        if self.activePlayerId <= -1000:
+            # all IDs less then or equal -1000 (e.g. -1000, -1001, etc), are enemy IDs
             # enemies turn
             base.taskMgr.doMethodLater(2, self.enemyAttack, "delayedEnemyAttackTask", extraArgs=[], appendTask=False)
         else:
-            # players turn
-            self.sendUpdateToAvatarId(self.activePlayerId, "startRound", [])
+            if self.activePlayerId < 0:
+                base.messenger.send(self.uniqueName("startRoundBot-{}".format(self.activePlayerId)))
+            else:
+                # players turn
+                self.sendUpdateToAvatarId(self.activePlayerId, "startRound", [])
 
     def enemyAttack(self):
         """Simulate an enemy attacking the players"""
@@ -170,8 +180,9 @@ class DBattleAI(DistributedObjectAI):
                     # has no potions left
                     self.spectatorPlayers.append(attackedPlayer)
                     self.playersOnField.remove(attackedPlayer)
-                    self.sendUpdateToAvatarId(attackedPlayer.avId, "gotDefeated", [True, 0])
-                    self.sendUpdateToAvatarId(attackedPlayer.avId, "doSpectate", [])
+                    if attackedPlayer.avId > 0:
+                        self.sendUpdateToAvatarId(attackedPlayer.avId, "gotDefeated", [True, 0])
+                        self.sendUpdateToAvatarId(attackedPlayer.avId, "doSpectate", [])
                     for entry in self.fightOrder[:]:
                         if entry[0] == attackedPlayer.avId:
                             self.fightOrder.remove(entry)
@@ -191,9 +202,10 @@ class DBattleAI(DistributedObjectAI):
                 else:
                     # can heal himself
                     attackedPlayer.numHealPotions -= 1
-                    self.sendUpdateToAvatarId(
-                        attackedPlayer.avId, "gotDefeated",
-                        [False, attackedPlayer.numHealPotions])
+                    if attackedPlayer.avId > 0:
+                        self.sendUpdateToAvatarId(
+                            attackedPlayer.avId, "gotDefeated",
+                            [False, attackedPlayer.numHealPotions])
 
             # tell the players to show the hitpoints dealt to the given player
             self.sendUpdate("showHit", [attackedPlayer.name, atk])
@@ -204,14 +216,17 @@ class DBattleAI(DistributedObjectAI):
             "delayedNextFighter", extraArgs=[],
             appendTask=False)
 
-    def playerAttack(self):
+    def playerAttack(self, botAvId=None):
         """Calculate a players attack"""
         # get the requesting player
-        playerId = self.air.getAvatarIdFromSender()
+        playerId = botAvId
+        if botAvId is None:
+            playerId = self.air.getAvatarIdFromSender()
 
         # check if it's actually this players turn
         if playerId != self.fightOrder[0][0]:
-            self.sendUpdateToAvatarId(playerId, "attackFailed", [])
+            if playerId > 0:
+                self.sendUpdateToAvatarId(playerId, "attackFailed", [])
             return
 
         # get the last enemy in the line. It actually doesn't matter which enemy
@@ -231,7 +246,7 @@ class DBattleAI(DistributedObjectAI):
             self.sendUpdate("enemyDefeated", [])
             # update the fight order
             for entry in self.fightOrder[:]:
-                if entry[0] == -(self.enemyAI.numEnemies+1):
+                if entry[0] == -(self.enemyAI.numEnemies+1000):
                     self.fightOrder.remove(entry)
                     break
 
@@ -248,7 +263,8 @@ class DBattleAI(DistributedObjectAI):
         self.sendUpdate("showHit", [enemyName, atk])
 
         # Tell this player it's turn is over
-        self.sendUpdateToAvatarId(playerId, "endRound", [])
+        if playerId > 0:
+            self.sendUpdateToAvatarId(playerId, "endRound", [])
         base.taskMgr.doMethodLater(
             self.afterShowHitDelay, self.nextFighter,
             "delayedNextFighter", extraArgs=[],

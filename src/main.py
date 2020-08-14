@@ -54,14 +54,14 @@ class Main(ShowBase, FSM, config.Config):
         FSM.__init__(self, "FSM-Game")
         config.Config.__init__(self)
 
+        self.setBackgroundColor(0,0,0)
+
         #
         # PBR SHADING
         #
         pipeline = simplepbr.init()
         pipeline.use_normals_map = True
         pipeline.enable_shadows = True
-
-        self.setBackgroundColor(0,0,0)
 
         #
         # INITIALIZE GAME CONTENT
@@ -484,6 +484,8 @@ class Main(ShowBase, FSM, config.Config):
             self.chatHandler.show()
         self.topBar.show()
         self.inventoryHandler.show()
+
+        self.cr.roomManager.setPlayerReady()
 
     def showTurnGui(self):
         """Show the turn related GUI elements.  This should be called as soon as

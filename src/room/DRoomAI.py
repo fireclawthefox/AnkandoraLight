@@ -26,8 +26,8 @@ class DRoomAI(DistributedObjectAI):
 
         self.playerList = []
         self.readyPlayers = []
-        self.aiPlayerList = []
-        self.activePlayerId = -1
+        self.numBotPlayers = 0
+        self.activePlayerId = None
 
         self.currentRoll = -1
 
@@ -53,7 +53,7 @@ class DRoomAI(DistributedObjectAI):
 
         # cleanup players
         for player in self.playerList:
-            self.air.sendDeleteMsg(player)
+            self.air.sendDeleteMsg(player.doId)
         self.playerList = []
 
         # cleanup board
@@ -64,8 +64,8 @@ class DRoomAI(DistributedObjectAI):
     def getPlayerCount(self):
         return len(self.playerList)
 
-    def getAIPlayerCount(self):
-        return len(self.aiPlayerList)
+    def getBotPlayerCount(self):
+        return self.numBotPlayers
 
     def addPlayer(self, player):
         # check if the room has place for another player
@@ -97,15 +97,25 @@ class DRoomAI(DistributedObjectAI):
         if playerId != self.activePlayerId:
             return
 
+        self.processEndTurn(playerId)
+
+        # send the end turn to the current player so he knows he can deactivate
+        # the relevant gui elements
+        self.sendUpdateToAvatarId(playerId, "endTurn", [])
+
+    def processEndTurn(self, playerId = None):
         # reset the roll so the next player can roll the dice again
         self.currentRoll = -1
 
         nextPlayer = None
         # find the next player ID
         for player in self.playerList:
+            # first, look for the active player
             if player.avId != self.activePlayerId: continue
+            # next, find the index of the active player in the list and count up
             idx = self.playerList.index(player) + 1
             if idx >= len(self.playerList): idx = 0
+            # set the active player to the next in the list
             self.activePlayerId = self.playerList[idx].avId
             nextPlayer = self.playerList[idx]
             break
@@ -113,13 +123,13 @@ class DRoomAI(DistributedObjectAI):
         # send an update to the channel so everyone knows who's next
         self.sendUpdate("nextPlayer", [nextPlayer.getName()])
 
-        # send the end turn to the current player so he knows he can deactivate
-        # the relevant gui elements
-        self.sendUpdateToAvatarId(playerId, "endTurn", [])
-
         # send the start turn to the next active player so he can enable the gui
         # and other relevant elements
-        self.sendUpdateToAvatarId(nextPlayer.avId, "startTurn", [])
+        if nextPlayer.avId > 0:
+            self.sendUpdateToAvatarId(nextPlayer.avId, "startTurn", [])
+        else:
+            base.messenger.send(self.uniqueName("startBotTurn-{}".format(nextPlayer.botId)))
+
 
     def isFull(self):
         """Returns wether there are already the maximum amount of players in
@@ -132,7 +142,7 @@ class DRoomAI(DistributedObjectAI):
         if len(self.readyPlayers) != self.maxPlayers: return
 
         # determine who will be the starting player
-        if self.activePlayerId == -1:
+        if self.activePlayerId is None:
             if self.gameType == RoomGlobals.GAMETYPE_RACE:
                 # on race mode, choose a random player
                 self.activePlayerId = random.choice(self.playerList).avId
@@ -151,7 +161,10 @@ class DRoomAI(DistributedObjectAI):
 
         # send the start turn to the next active player so he can enable the gui
         # and other relevant elements
-        self.sendUpdateToAvatarId(nextPlayer.avId, "startTurn", [])
+        if nextPlayer.avId > 0:
+            self.sendUpdateToAvatarId(nextPlayer.avId, "startTurn", [])
+        else:
+            base.messenger.send(self.uniqueName("startBotTurn-{}".format(nextPlayer.botId)))
 
         self.sendUpdate("startRoom", [])
 
@@ -162,15 +175,21 @@ class DRoomAI(DistributedObjectAI):
         self.d_startRoom()
 
     def removePlayer(self, playerId):
-        """Remove the player with the given ID from the rooms player list"""
+        """Remove the player with the given ID from the rooms player list and
+        returns whether there are still human players in the room or not. Bot
+        players will not be counted."""
         self.air.sendDeleteMsg(playerId)
+
+        hasHumanPlayers = False
 
         for p in self.playerList[:]:
             if p.doId == playerId:
                 if self.activePlayerId == p.avId:
                     self.endTurn()
                 self.playerList.remove(p)
-        return len(self.playerList) == 0
+            elif p.avId > 0:
+                hasHumanPlayers = True
+        return not hasHumanPlayers
 
     def getPlayerNames(self):
         """Return a list of all player names in this room"""
@@ -192,6 +211,12 @@ class DRoomAI(DistributedObjectAI):
             self.sendUpdateToAvatarId(playerId, "rolledDice", [self.currentRoll])
         else:
             self.sendUpdateToAvatarId(playerId, "rolledDiceFailed", [])
+
+    def botRollDice(self):
+        if self.activePlayerId > 0:
+            # not a bots' turn
+            return
+        self.currentRoll = self.dice.roll()
 
     def requestMoveToField(self, fieldName):
         """Request to move the player to the given field. This can onyl be
@@ -285,9 +310,13 @@ class DRoomAI(DistributedObjectAI):
             zoneId = self.roomZone)
 
         for player in playersOnField:
-            self.sendUpdateToAvatarId(player.avId, "startBattle", [])
+            if player.avId > 0:
+                self.sendUpdateToAvatarId(player.avId, "startBattle", [])
+            else:
+                player.startBattle(self.battleAI)
         for player in spectatorPlayers:
-            self.sendUpdateToAvatarId(player.avId, "spectateBattle", [])
+            if player.avId > 0:
+                self.sendUpdateToAvatarId(player.avId, "spectateBattle", [])
 
 
         self.accept(self.battleAI.uniqueName("endBattle"), self.stopFight)
@@ -322,7 +351,9 @@ class DRoomAI(DistributedObjectAI):
                 if player.currentField == field:
                     winningPlayerName = player.name
             for player in self.playerList:
-                self.sendUpdateToAvatarId(player.avId, "gameOver", [winningPlayerName])
+                if player.avId > 0:
+                    self.sendUpdateToAvatarId(player.avId, "gameOver", [winningPlayerName])
         elif self.gameType == RoomGlobals.GAMETYPE_NORMAL:
             for player in self.playerList:
-                self.sendUpdateToAvatarId(player.avId, "gameOver", ["ALL"])
+                if player.avId > 0:
+                    self.sendUpdateToAvatarId(player.avId, "gameOver", ["ALL"])

@@ -17,6 +17,7 @@ class DRoom(DistributedObject):
 
     def __init__(self, cr):
         DistributedObject.__init__(self, cr)
+        self.dlgStartFight = None
 
     def announceGenerate(self):
         self.cr.localRoomId = self.doId
@@ -65,6 +66,7 @@ class DRoom(DistributedObject):
         base.messenger.send("gameOver", [msg])
 
     def canInitiateFight(self):
+        if self.dlgStartFight is not None: return
         base.messenger.send("canInitiateFight")
 
         self.dlgStartFight = YesNoDialog(

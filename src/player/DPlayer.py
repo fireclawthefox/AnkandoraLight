@@ -27,7 +27,6 @@ class DPlayer(DistributedObject):
 
     def delete(self):
         """Cleanup just before the object gets deleted"""
-        print("DELETE PLAYER")
         self.ignoreAll()
         base.cTrav.removeCollider(self.pickerNP)
         self.pickerNP.removeNode()
@@ -42,7 +41,6 @@ class DPlayer(DistributedObject):
 
     def setName(self, newName):
         self.name = newName
-        #self.piece.createNameTag(self.name)
         base.messenger.send(self.cr.uniqueName("setPlayerName"), [self.name])
 
     def setPiece(self, piece):

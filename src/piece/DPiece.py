@@ -38,7 +38,6 @@ class DPiece(DistributedSmoothNode):
         DistributedSmoothNode.disable(self)
 
     def delete(self):
-        print("DELETE PICE")
         if self.model is not None:
             self.model.removeNode()
         if self.nameTag is not None:

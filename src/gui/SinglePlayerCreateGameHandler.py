@@ -29,8 +29,8 @@ class SinglePlayerCreateGameHandler(DirectObject, SinglePlayerCreateGame):
     def create(self):
         """Gather all information and pack them ready to be sent to the server"""
         name = "SingleplayerGame"
-        numPlayers = 1
         aiPlayerCount = int(self.optionNumNPCs.get())
+        numPlayers = aiPlayerCount + 1
         gameTypeStr = self.optionGameType.get()
         playerClassID = RoomGlobals.Name2PlayerClassID[self.optionPlayerClass.get()]
         gameType = 0

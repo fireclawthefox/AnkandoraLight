@@ -28,7 +28,6 @@ class DBoardAI(DistributedObjectAI):
 
     def getStartField(self, posNr):
         """Returns the start field with the given number"""
-        print("LOOKING FOR Start_{}".format(posNr))
         for field in BoardMap.gameMap:
             if field.name == "Start_{}".format(posNr):
                 return field
@@ -68,6 +67,46 @@ class DBoardAI(DistributedObjectAI):
         for field in BoardMap.gameMap:
             if field.name == fieldName:
                 return field
+
+    def getCheapestPathToFieldName(self, startField, destinationName):
+        self.cumulatedCost = 0
+        self.minCumulatedCost = 0
+        self.visitedFields = [startField]
+        self.cheapestPathFields = []
+        self.pathFields = []
+        self.findCheapestPathToFieldName(startField, destinationName)
+        return self.cheapestPathFields
+
+    def findCheapestPathToFieldName(self, startField, destinationName):
+        for connection in startField.connections:
+            if connection in self.visitedFields:
+                continue
+            self.cumulatedCost += connection.cost
+            self.pathFields.append(connection)
+            if connection.name == destinationName:
+                # check if this is the shortest/most inexpensive path to walk
+                if self.minCumulatedCost == 0:
+                    self.minCumulatedCost = self.cumulatedCost
+                    self.cheapestPathFields = self.pathFields.copy()
+
+                if self.cumulatedCost < self.minCumulatedCost:
+                    # found a new cheaper path
+                    self.cheapestPathFields = self.pathFields.copy()
+
+                self.minCumulatedCost = min(self.minCumulatedCost, self.cumulatedCost)
+            else:
+                # as we may find multiple ways to the destination, we don't want
+                # to add the destination itself to the found fields.  So we add
+                # it here.
+                self.visitedFields.append(connection)
+                self.findCheapestPathToFieldName(connection, destinationName)
+
+            if connection in self.visitedFields:
+                self.visitedFields.remove(connection)
+            # this field may not belong to the sum of the path to walk on. If it
+            # does, we already have it added to the minimum walk cost
+            self.cumulatedCost -= connection.cost
+            self.pathFields.remove(connection)
 
     def canMoveTo(self, playerField, fieldName, roll):
         """Check if the player can move from it's given field to the requested
@@ -126,8 +165,6 @@ class DBoardAI(DistributedObjectAI):
         by checking the special field property of it."""
         if field.special == "": return True
 
-        print("COLLECTED:", self.collectedQuestCards)
-
         if field.special == "EndField":
             if self.gameType == RoomGlobals.GAMETYPE_RACE:
                 # in race mode, we can always move to the end field
@@ -143,11 +180,11 @@ class DBoardAI(DistributedObjectAI):
         # This special field doesn't hold us back from moving there
         return True
 
-    def processSpecialFields(self, field):
+    def processSpecialFields(self, field, ignoreFight=False):
         """This function will initiate the feature of the given field if it is
         a special field."""
         # not a special field, nothing to do here.
-        if field.special == "": return
+        if field.special == "": return True
 
         # check if a player moved to the end field
         if field.special == "EndField":
@@ -155,7 +192,9 @@ class DBoardAI(DistributedObjectAI):
                 base.messenger.send(self.uniqueName("gameOver"), [field])
             elif self.gameType == RoomGlobals.GAMETYPE_NORMAL:
                 if len(self.collectedQuestCards) == len(BoardMap.fightFields):
-                    base.messenger.send(self.uniqueName("canInitiateFight"), [field])
+                    if not ignoreFight:
+                        base.messenger.send(self.uniqueName("canInitiateFight"), [field])
+                    return True
 
         # check if a player moved to any of the fight fields
         elif field.special in BoardMap.fightFields:
@@ -163,14 +202,18 @@ class DBoardAI(DistributedObjectAI):
                 if self.gameType == RoomGlobals.GAMETYPE_RACE:
                     # in race mode, directly start the fight
                     base.messenger.send(self.uniqueName("initiateDirectFight"), [field])
+                    return False
                 else:
                     # in normal mode, give the players time to gather on a field
                     # to let them fight together
-                    base.messenger.send(self.uniqueName("canInitiateFight"), [field])
+                    if not ignoreFight:
+                        base.messenger.send(self.uniqueName("canInitiateFight"), [field])
+                    return True
 
         # check if a player moved to a level up field special to the race mode
         elif field.special in BoardMap.raceLevelUp and self.gameType == RoomGlobals.GAMETYPE_RACE:
             base.messenger.send(self.uniqueName("levelUpAllPlayers"))
+        return True
 
     def getAttendingPlayers(self, field, playerList):
         """Returns a list of all players of the given player list, that are
@@ -209,3 +252,8 @@ class DBoardAI(DistributedObjectAI):
         if field.special == "EndField":
             base.messenger.send(self.uniqueName("gameOver"), [field])
 
+    def collectedQuestCard(self, fieldSpecialName):
+        for card in self.collectedQuestCards:
+            if card.fieldName == fieldSpecialName:
+                return True
+        return False
