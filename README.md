@@ -7,6 +7,7 @@ The game can be played alone in singleplayer mode or by creating a server and op
 
 Current features:
 - Singleplayer mode
+- Play with or against up to 3 Bots in Singleplayer mode
 - Dedicated server
 - 4 types of pieces with dedicated stats
 - Basic game features (moving on the board, fighting)
@@ -49,3 +50,11 @@ To start the client, navigate to the src directory and run<br />
 ## Notes
 License notes for the Oldania ADF Std Fonts:<br />
 Copyright Arkandis Digital Foundry, under the GNU General Public License V2 and later, with font exception.
+
+License notes for used audio files:<br />
+track1 (A Medieval Tale) by Invadable Harmony CC-BY-ND https://www.jamendo.com/track/1701042/a-medieval-tale
+track2 (Ancient Fairy) by Invadable Harmony CC-BY-ND https://www.jamendo.com/track/1705645/ancient-fairy
+track3 (Jane Ray - Lullaby of Rain) by Tunguska Electronic Music Society CC-BY-ND https://www.jamendo.com/track/1118119/jane-ray-lullaby-of-rain
+menu (Medieval banners) by Nito Ferri CC-BY-SA https://www.jamendo.com/track/1077187/medieval-banners
+win (Ya salio de la mar) by Ofri Eliaz CC-BY-SA https://www.jamendo.com/track/316630/ya-salio-de-la-mar
+loose (The past ages of glory) by zero-project CC-BY https://www.jamendo.com/track/703954/the-past-ages-of-glory

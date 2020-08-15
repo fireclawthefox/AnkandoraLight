@@ -134,9 +134,9 @@ class Config:
             setFullscreen()
 
         # automatically safe configuration at application exit
-        base.exitFunc = self.__writeConfig
+        base.exitFunc = self.writeConfig
 
-    def __writeConfig(self):
+    def writeConfig(self):
         """Save current config in the prc file or if no prc file exists
         create one. The prc file is set in the prcFile variable"""
         page = None
@@ -155,8 +155,8 @@ class Config:
             "particles-enabled": "#t" if self.particleMgrEnabled else "#f",
             # audio
             "audio-volume": str(round(self.musicManager.getVolume(), 2)),
-            "audio-music-active": "#t" if ConfigVariableBool("audio-music-active").getValue() else "#f",
-            "audio-sfx-active": "#t" if ConfigVariableBool("audio-sfx-active").getValue() else "#f",
+            "audio-music-active": "#t" if self.musicActive else "#f",
+            "audio-sfx-active": "#t" if self.sfxActive else "#f",
             # logging
             "notify-output": os.path.join(basedir, "game.log"),
             # window

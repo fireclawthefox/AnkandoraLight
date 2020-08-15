@@ -55,6 +55,7 @@ class InventoryHandler(DirectObject, Inventory):
     def toggleInventory(self):
         """Show or hide the inventory frame dependend on its current
         visibility"""
+        base.messenger.send("playSFXSlide")
         if self.frmMain.isHidden():
             self.frmMain.show()
         else:

@@ -78,6 +78,7 @@ class ChatHandler(DirectObject, Chat):
     def toggleChat(self):
         """Toggle the visibility of the chat frame and set the buttons text
         accordingly"""
+        base.messenger.send("playSFXSlide")
         if self.frmChat.isHidden():
             self.frmChat.show()
             btnName = self.btnToggleChat["text"]

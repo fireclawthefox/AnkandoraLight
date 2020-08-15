@@ -18,9 +18,20 @@ class OptionsHandler(DirectObject, Options):
 
         self.txtServer.enterText(base.serverHost.getValue())
 
+        self.cbSFX["indicatorValue"] = base.sfxActive
+        self.cbSFX.setIndicatorValue()
+
+        self.cbMusic["indicatorValue"] = base.musicActive
+        self.cbMusic.setIndicatorValue()
+
+
     def ok(self):
         serverUrl = self.txtServer.get()
         base.serverHost.setValue(serverUrl)
+
+        base.enableSoundEffects(self.cbSFX["indicatorValue"])
+        base.enableMusic(self.cbMusic["indicatorValue"])
+
         base.messenger.send("options_back")
 
     def cancel(self):

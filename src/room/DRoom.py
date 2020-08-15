@@ -28,9 +28,6 @@ class DRoom(DistributedObject):
     def startRoom(self):
         base.messenger.send("startRoom")
 
-    def d_rollDice(self):
-        self.sendUpdate("rollDice")
-
     def nextPlayer(self, playerName):
         base.messenger.send("setNextActivePlayerName", [playerName])
 
@@ -45,7 +42,11 @@ class DRoom(DistributedObject):
         """ Start this players turn """
         base.messenger.send("startTurn", [])
 
+    def d_rollDice(self):
+        self.sendUpdate("rollDice")
+
     def rolledDice(self, roll):
+        base.messenger.send("playSFXDice")
         base.messenger.send("rolledDice", [roll])
 
     def updateRolledDice(self, remainingRoll):
@@ -61,8 +62,13 @@ class DRoom(DistributedObject):
         msg = ""
         if winningPlayerName == "ALL":
             msg = "You Won!"
+            base.messenger.send("playAudioWin")
         else:
             msg = "Player\n{}\nwon!".format(winningPlayerName)
+            if winningPlayerName == self.cr.doId2do[self.cr.localPlayerId].name:
+                base.messenger.send("playAudioWin")
+            else:
+                base.messenger.send("playAudioLoose")
         base.messenger.send("gameOver", [msg])
 
     def canInitiateFight(self):

@@ -17,6 +17,7 @@ import simplepbr
 
 # Game imports
 from config import config
+from audio.AudioManager import AudioManager
 from gui.MainMenu import GUI as MainMenu
 from gui.RoomListHandler import RoomListHandler
 from gui.SinglePlayerCreateGameHandler import SinglePlayerCreateGameHandler
@@ -72,6 +73,9 @@ class Main(ShowBase, FSM, config.Config):
         self.air = None
         self.cr = None
 
+        # Audio
+        self.audioMgr = AudioManager()
+
         # show or hide the game chat
         self.showChat = True
 
@@ -101,6 +105,8 @@ class Main(ShowBase, FSM, config.Config):
     ## MAIN MENU
     def enterMainMenu(self):
         """Build up the main menu GUI"""
+        base.messenger.send("playAudioMenu")
+
         # make sure we're clean when we go back to the main menu
         self.cleanupClient()
         self.cleanupSinglePlayerServer()
@@ -113,7 +119,7 @@ class Main(ShowBase, FSM, config.Config):
             "menu_singleplayer": [self.request, ["SinglePlayer"]],
             "menu_multiplayer": [self.request, ["SetupClient"]],
             "menu_options": [self.request, ["Options"]],
-            "menu_quit": self.userExit
+            "menu_quit": self.__quitApplication
         }
         self.acceptDict(self.mainMenuEvents)
 
@@ -214,6 +220,7 @@ class Main(ShowBase, FSM, config.Config):
     ## GAME ROOM
     def enterGameRoom(self):
         """Starts the game room"""
+        base.messenger.send("playAudioGame")
         # Get our DRoom instance
         room = self.cr.doId2do[self.cr.roomId]
 
@@ -279,6 +286,10 @@ class Main(ShowBase, FSM, config.Config):
     #
     # BASIC FUNCTIONS
     #
+
+    def __quitApplication(self):
+        base.exitFunc = self.writeConfig
+        self.userExit()
 
     def acceptDict(self, eventDict):
         """Helper function to accept a dictionary of events.
@@ -506,6 +517,7 @@ class Main(ShowBase, FSM, config.Config):
 
     def endTurn(self):
         """Request ending the turn for this player"""
+        base.messenger.send("playSFXEndTurn")
         room = self.cr.doId2do[self.cr.roomId]
         room.d_endTurn()
         self.rollDice.clearRoll()
