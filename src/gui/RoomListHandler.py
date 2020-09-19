@@ -9,6 +9,7 @@ See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
 from direct.showbase.DirectObject import DirectObject
 from panda3d.core import NodePath
 
+from player.ClassManager import ClassManager
 from globalData import RoomGlobals
 from gui.RoomList import GUI as RoomList
 from gui.RoomEntry import GUI as RoomEntry
@@ -27,9 +28,13 @@ class RoomListHandler(DirectObject):
         self.roomWizzard.optionGameType["items"] = RoomGlobals.ALL_GAMETYPES_AS_NAMES
         self.roomWizzard.optionDifficulty["items"] = RoomGlobals.DIFFICULTIES_AS_NAMES
 
+        self.cm = ClassManager()
         self.playerInfo = PlayerInfo(self.holderNode)
         self.playerInfo.optionPlayerClass["items"] = RoomGlobals.ALL_PLAYERCLASSES_AS_NAMES
+        self.playerInfo.optionPlayerClass["command"] = self.updateInfoBox
         self.playerInfo.hide()
+        # update the info box at the start
+        self.updateInfoBox(self.playerInfo.optionPlayerClass.get())
 
         self.roomList.btnCreateRoom["command"] = self.showCreateRoom
 
@@ -52,6 +57,7 @@ class RoomListHandler(DirectObject):
         self.ignore("createRoom_Cancel")
 
     def showPlayerInfo(self, room):
+        self.roomList.hide()
         self.playerInfo.show()
         self.room = room
         self.accept("multiplayerPlayerInfo_start", self.PlayerInfoStart)
@@ -62,6 +68,7 @@ class RoomListHandler(DirectObject):
         self.requestRoomJoin(self.room, playerClassID)
 
     def hidePlayerInfo(self):
+        self.roomList.show()
         self.playerInfo.hide()
         self.ignore("multiplayerPlayerInfo_start")
         self.ignore("multiplayerPlayerInfo_cancel")
@@ -117,6 +124,14 @@ class RoomListHandler(DirectObject):
 
     def requestRoomJoin(self, room, playerClassID):
         base.messenger.send("roomList_enterRoom", [room, playerClassID])
+
+
+    def updateInfoBox(self, selection):
+        img = "assets/charInfo/hero{}.png".format(selection)
+        self.playerInfo.frmImageHero["image"] = img
+        self.playerInfo.lblClassDescription["text"] = self.cm.getSpecialAbilityDescription(selection)
+        self.playerInfo.lblHealthValue["text"] = str(self.cm.getDefense(selection, 1))
+        self.playerInfo.lblAttackValue["text"] = str(self.cm.getAttack(selection, 1))
 
     def show(self):
         self.holderNode.show()

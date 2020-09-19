@@ -57,3 +57,17 @@ class ClassManager():
             return ""
 
         return data["inventory"]
+
+    def getSpecialAbilityDescription(self, classType):
+        data = self.getDataFor(classType)
+        if data is None:
+            print("ERROR READING ABILITY DESCRIPTION")
+            return ""
+        return data["ability_description"]
+
+    def getSpecialAbility(self, classType):
+        data = self.getDataFor(classType)
+        if data is None:
+            print("ERROR READING ABILITY DATA")
+            return ""
+        return data["ability"]

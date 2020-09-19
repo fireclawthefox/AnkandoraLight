@@ -36,7 +36,7 @@ class GUI:
             frameColor=(1, 1, 1, 1),
             frameSize=(-0.65, 0.65, -0.55, 0.55),
             hpr=LVecBase3f(0, 0, 0),
-            pos=LPoint3f(0.025, 0, 0),
+            pos=LPoint3f(-0.425, 0, 0),
             relief=5,
             parent=self.frmMain,
         )
@@ -53,6 +53,7 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
             parent=self.frmSinglePlayerCreateGame,
         )
         self.lblHeader.setTransparency(0)
@@ -68,6 +69,7 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
             parent=self.frmSinglePlayerCreateGame,
         )
         self.lblGameType.setTransparency(0)
@@ -83,6 +85,7 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
             parent=self.frmSinglePlayerCreateGame,
         )
         self.lblNumNPCs.setTransparency(0)
@@ -107,6 +110,7 @@ class GUI:
             item0_text_pos=(0, 0),
             item0_text_fg=LVecBase4f(0, 0, 0, 1),
             item0_text_bg=LVecBase4f(0, 0, 0, 0),
+            item0_text_wordwrap=None,
             popupMarker_frameSize=(-0.5, 0.5, -0.2, 0.2),
             popupMarker_hpr=LVecBase3f(0, 0, 0),
             popupMarker_pos=LPoint3f(2.7125, 0, 0.31875),
@@ -121,6 +125,7 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
             parent=self.frmSinglePlayerCreateGame,
         )
         self.optionNumNPCs.setTransparency(0)
@@ -145,6 +150,7 @@ class GUI:
             item0_text_pos=(0, 0),
             item0_text_fg=LVecBase4f(0, 0, 0, 1),
             item0_text_bg=LVecBase4f(0, 0, 0, 0),
+            item0_text_wordwrap=None,
             popupMarker_frameSize=(-0.5, 0.5, -0.2, 0.2),
             popupMarker_hpr=LVecBase3f(0, 0, 0),
             popupMarker_pos=LPoint3f(2.7125, 0, 0.31875),
@@ -159,6 +165,7 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
             parent=self.frmSinglePlayerCreateGame,
         )
         self.optionGameType.setTransparency(0)
@@ -173,6 +180,7 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
             parent=self.frmSinglePlayerCreateGame,
             command=base.messenger.send,
             extraArgs=["singlePlayerCreateGame_start"],
@@ -190,6 +198,7 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
             parent=self.frmSinglePlayerCreateGame,
         )
         self.lblPlayerClass.setTransparency(0)
@@ -214,6 +223,7 @@ class GUI:
             item0_text_pos=(0, 0),
             item0_text_fg=LVecBase4f(0, 0, 0, 1),
             item0_text_bg=LVecBase4f(0, 0, 0, 0),
+            item0_text_wordwrap=None,
             popupMarker_frameSize=(-0.5, 0.5, -0.2, 0.2),
             popupMarker_hpr=LVecBase3f(0, 0, 0),
             popupMarker_pos=LPoint3f(2.7125, 0, 0.31875),
@@ -228,6 +238,7 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
             parent=self.frmSinglePlayerCreateGame,
         )
         self.optionPlayerClass.setTransparency(0)
@@ -242,6 +253,7 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
             parent=self.frmSinglePlayerCreateGame,
             command=base.messenger.send,
             extraArgs=["singlePlayerCreateGame_back"],
@@ -259,6 +271,7 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
             parent=self.frmSinglePlayerCreateGame,
         )
         self.lblDifficulty.setTransparency(0)
@@ -283,6 +296,7 @@ class GUI:
             item0_text_pos=(0, 0),
             item0_text_fg=LVecBase4f(0, 0, 0, 1),
             item0_text_bg=LVecBase4f(0, 0, 0, 0),
+            item0_text_wordwrap=None,
             popupMarker_frameSize=(-0.5, 0.5, -0.2, 0.2),
             popupMarker_hpr=LVecBase3f(0, 0, 0),
             popupMarker_pos=LPoint3f(2.7125, 0, 0.31875),
@@ -297,9 +311,129 @@ class GUI:
             text_pos=(0, 0),
             text_fg=LVecBase4f(0, 0, 0, 1),
             text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
             parent=self.frmSinglePlayerCreateGame,
         )
         self.optionDifficulty.setTransparency(0)
+
+        self.frmPlayerInfo = DirectFrame(
+            borderWidth=(0.01, 0.01),
+            frameColor=(1, 1, 1, 1),
+            frameSize=(-0.5, 0.5, -0.55, 0.55),
+            hpr=LVecBase3f(0, 0, 0),
+            pos=LPoint3f(0.765, 0, 0),
+            relief=3,
+            parent=self.frmMain,
+        )
+        self.frmPlayerInfo.setTransparency(0)
+
+        self.lblInfoHeader = DirectLabel(
+            frameColor=(0.8, 0.8, 0.8, 0.0),
+            hpr=LVecBase3f(0, 0, 0),
+            pos=LPoint3f(0, 0, 0.45),
+            scale=LVecBase3f(0.1, 0.1, 0.1),
+            text='Info',
+            text_align=TextNode.A_center,
+            text_scale=(1, 1),
+            text_pos=(0, 0),
+            text_fg=LVecBase4f(0, 0, 0, 1),
+            text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
+            parent=self.frmPlayerInfo,
+        )
+        self.lblInfoHeader.setTransparency(0)
+
+        self.frmImageHero = DirectFrame(
+            frameColor=(1, 1, 1, 1),
+            frameSize=(-0.15, 0.15, -0.2, 0.2),
+            hpr=LVecBase3f(0, 0, 0),
+            image='/home/fireclaw/workspace/Ankandora/AnkandoraLight/design/guiGraphics/heroArcher.png',
+            pos=LPoint3f(-0.275, 0, 0.195),
+            image_scale=LVecBase3f(0.15, 1, 0.2),
+            image_pos=LPoint3f(0, 0, 0),
+            parent=self.frmPlayerInfo,
+        )
+        self.frmImageHero.setTransparency(1)
+
+        self.lblClassDescription = DirectLabel(
+            frameColor=(0.8, 0.8, 0.8, 0.0),
+            hpr=LVecBase3f(0, 0, 0),
+            pos=LPoint3f(-0.12, 0, 0.31),
+            scale=LVecBase3f(0.1, 0.1, 0.1),
+            text='The archer shoots from afar and gains the first-strike',
+            text_align=TextNode.A_left,
+            text_scale=(0.6, 0.6),
+            text_pos=(0, 0),
+            text_fg=LVecBase4f(0, 0, 0, 1),
+            text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=10.0,
+            parent=self.frmPlayerInfo,
+        )
+        self.lblClassDescription.setTransparency(0)
+
+        self.lblHealth = DirectLabel(
+            frameColor=(0.8, 0.8, 0.8, 0.0),
+            hpr=LVecBase3f(0, 0, 0),
+            pos=LPoint3f(-0.28, 0, -0.1),
+            scale=LVecBase3f(0.1, 0.1, 0.1),
+            text='Health',
+            text_align=TextNode.A_center,
+            text_scale=(0.7, 0.7),
+            text_pos=(0, 0),
+            text_fg=LVecBase4f(0, 0, 0, 1),
+            text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
+            parent=self.frmPlayerInfo,
+        )
+        self.lblHealth.setTransparency(0)
+
+        self.lblAttack = DirectLabel(
+            frameColor=(0.8, 0.8, 0.8, 0.0),
+            hpr=LVecBase3f(0, 0, 0),
+            pos=LPoint3f(-0.275, 0, -0.285),
+            scale=LVecBase3f(0.1, 0.1, 0.1),
+            text='Attack',
+            text_align=TextNode.A_center,
+            text_scale=(0.7, 0.7),
+            text_pos=(0, 0),
+            text_fg=LVecBase4f(0, 0, 0, 1),
+            text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
+            parent=self.frmPlayerInfo,
+        )
+        self.lblAttack.setTransparency(0)
+
+        self.lblHealthValue = DirectLabel(
+            frameColor=(0.8, 0.8, 0.8, 0.0),
+            hpr=LVecBase3f(0, 0, 0),
+            pos=LPoint3f(-0.275, 0, -0.17),
+            scale=LVecBase3f(0.1, 0.1, 0.1),
+            text='7',
+            text_align=TextNode.A_center,
+            text_scale=(0.6, 0.6),
+            text_pos=(0, 0),
+            text_fg=LVecBase4f(0, 0, 0, 1),
+            text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
+            parent=self.frmPlayerInfo,
+        )
+        self.lblHealthValue.setTransparency(0)
+
+        self.lblAttackValue = DirectLabel(
+            frameColor=(0.8, 0.8, 0.8, 0.0),
+            hpr=LVecBase3f(0, 0, 0),
+            pos=LPoint3f(-0.275, 0, -0.36),
+            scale=LVecBase3f(0.1, 0.1, 0.1),
+            text='4',
+            text_align=TextNode.A_center,
+            text_scale=(0.6, 0.6),
+            text_pos=(0, 0),
+            text_fg=LVecBase4f(0, 0, 0, 1),
+            text_bg=LVecBase4f(0, 0, 0, 0),
+            text_wordwrap=None,
+            parent=self.frmPlayerInfo,
+        )
+        self.lblAttackValue.setTransparency(0)
 
 
     def show(self):
