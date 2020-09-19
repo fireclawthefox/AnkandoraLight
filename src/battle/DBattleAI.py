@@ -36,6 +36,10 @@ class DBattleAI(DistributedObjectAI):
 
         self.field = field
 
+        self.round = 0
+        self.startPlayerId = None
+        self.enemyAttackNumber = 0
+
     def isSpectating(self):
         """Check if this player is spectating and set him in spectator mode"""
         playerId = self.air.getAvatarIdFromSender()
@@ -56,6 +60,13 @@ class DBattleAI(DistributedObjectAI):
                 self.sendUpdateToAvatarId(playerId, "rolledInitiativeFailed", [])
             return
 
+        rollAdd = 0
+        for player in self.playersOnField:
+            if player.avId == playerId:
+                ability = player.getSpecialAbility()
+                if ability.startswith("initUp"):
+                    rollAdd = int(ability.split("=")[1])
+
         roll = self.dice.roll()
         self.playerInitiatives[playerId] = roll
         if botAvId is None:
@@ -74,6 +85,7 @@ class DBattleAI(DistributedObjectAI):
             self.playerInitiatives.items(),
             key=itemgetter(1),
             reverse=True)
+        self.startPlayerId = self.fightOrder[0][0]
         self.d_startBattle()
 
     def d_startBattle(self):
@@ -135,6 +147,8 @@ class DBattleAI(DistributedObjectAI):
         self.fightOrder = self.fightOrder[1:] + self.fightOrder[:1]
 
         self.activePlayerId = self.fightOrder[0][0]
+        if self.startPlayerId == self.activePlayerId:
+            self.round += 1
 
         # update the battle stats with the new order
         self.d_updateBattleStats()
@@ -174,6 +188,12 @@ class DBattleAI(DistributedObjectAI):
 
         # enemies attack all players at once according to original game rules
         for attackedPlayer in self.playersOnField:
+            ability = attackedPlayer.getSpecialAbility()
+            if ability.startswith("ignoreAttacks"):
+                if self.enemyAttackNumber < int(ability.split("=")[1]):
+                    # skip this player for now
+                    continue
+
             if attackedPlayer.getDefense() <= atk:
                 #attacked player defeated
                 if attackedPlayer.numHealPotions == 0:
@@ -210,6 +230,8 @@ class DBattleAI(DistributedObjectAI):
             # tell the players to show the hitpoints dealt to the given player
             self.sendUpdate("showHit", [attackedPlayer.name, atk])
 
+        self.enemyAttackNumber += 1
+
         # Give a little time untill the next fighters turn
         base.taskMgr.doMethodLater(
             self.afterShowHitDelay, self.nextFighter,
@@ -229,38 +251,45 @@ class DBattleAI(DistributedObjectAI):
                 self.sendUpdateToAvatarId(playerId, "attackFailed", [])
             return
 
-        # get the last enemy in the line. It actually doesn't matter which enemy
-        # we attack, as all of them have the same initiative level and so it
-        # won't change the order or have any other strategic effect
-        enemyName = "Enemy {}".format(self.enemyAI.numEnemies)
-        atk = 0
-        # find the player and roll the players attack value
-        for player in self.playersOnField:
-            if player.avId == playerId:
-                atk = self.dice.roll() + player.getAttack()
+        attackTimes = 1
+
+        player = None
+        for p in self.playersOnField:
+            player = p
+            ability = player.getSpecialAbility()
+            if ability.startswith("attackTime"):
+                attackTimes = int(ability.split("=")[1])
                 break
 
-        # check if the player defeated an enemy
-        if self.enemyAI.defeatedOne(atk):
-            # tell the players they defeated an enemy
-            self.sendUpdate("enemyDefeated", [])
-            # update the fight order
-            for entry in self.fightOrder[:]:
-                if entry[0] == -(self.enemyAI.numEnemies+1000):
-                    self.fightOrder.remove(entry)
-                    break
+        for i in range(attackTimes):
 
-            # check if all enemies have beend efeated
-            if self.enemyAI.defeatedAll():
-                self.sendUpdate("showHit", [enemyName, atk])
-                base.taskMgr.doMethodLater(
-                    self.afterShowHitDelay, self.battleOver,
-                    "delayedBattleOver", extraArgs=[True],
-                    appendTask=False)
-                return
+            # get the last enemy in the line. It actually doesn't matter which enemy
+            # we attack, as all of them have the same initiative level and so it
+            # won't change the order or have any other strategic effect
+            enemyName = "Enemy {}".format(self.enemyAI.numEnemies)
+            atk = self.dice.roll() + player.getAttack()
 
-        # Tell the players to show the hit on the enemy
-        self.sendUpdate("showHit", [enemyName, atk])
+            # check if the player defeated an enemy
+            if self.enemyAI.defeatedOne(atk):
+                # tell the players they defeated an enemy
+                self.sendUpdate("enemyDefeated", [])
+                # update the fight order
+                for entry in self.fightOrder[:]:
+                    if entry[0] == -(self.enemyAI.numEnemies+1000):
+                        self.fightOrder.remove(entry)
+                        break
+
+                # check if all enemies have beend efeated
+                if self.enemyAI.defeatedAll():
+                    self.sendUpdate("showHit", [enemyName, atk])
+                    base.taskMgr.doMethodLater(
+                        self.afterShowHitDelay, self.battleOver,
+                        "delayedBattleOver", extraArgs=[True],
+                        appendTask=False)
+                    return
+
+            # Tell the players to show the hit on the enemy
+            self.sendUpdate("showHit", [enemyName, atk])
 
         # Tell this player it's turn is over
         if playerId > 0:
@@ -274,6 +303,15 @@ class DBattleAI(DistributedObjectAI):
         """Function to tell anyone this battle is over. Given with the outcome
         of this battle wether players or foes have won it"""
         self.sendUpdate("endBattle", [playersWon])
+
+        if playersWon:
+            for player in self.playersOnField:
+                ability = player.getSpecialAbility()
+                if ability.startswith("potionUp"):
+                    potionsCount = player.numHealPotions + int(ability.split("=")[1])
+                    if potionsCount > 3: potionsCount = 3
+                    player.updatePotions(potionsCount)
+
         base.taskMgr.doMethodLater(3, self.endBattle, "delayedEndBattle", extraArgs=[playersWon], appendTask=False)
 
     def endBattle(self, playersWon):

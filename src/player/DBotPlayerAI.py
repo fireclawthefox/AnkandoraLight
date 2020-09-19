@@ -6,6 +6,8 @@ Simplified BSD (BSD 2-Clause) License.
 See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
 """
 
+import random
+
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.task import Task
 
@@ -31,6 +33,8 @@ class DBotPlayerAI(DistributedObjectAI):
         self.numHealPotions = 3
         self.room = None
         self.needEndTurn = False
+        self.jitter_max = 0.002
+        self.jitter_rotation_max = 45
 
         self.cm = ClassManager()
 
@@ -159,13 +163,19 @@ class DBotPlayerAI(DistributedObjectAI):
         """Reset the player to its own start field and set the health potions
         back to the maximum"""
         self.moveTo(self.startField, 0, 0)
+        self.updatePotions(3)
 
-        self.numHealPotions = 3
+    def updatePotions(self, numPotions):
+        self.numHealPotions = numPotions
 
     def moveTo(self, field, shiftX, shiftY):
         """Move the piece to the given location"""
         self.currentField = field
-        self.piece.d_setXY(field.nodepath.getX() + shiftX, field.nodepath.getY() + shiftY)
+        jitter_x = random.uniform(-self.jitter_max, self.jitter_max)
+        jitter_y = random.uniform(-self.jitter_max, self.jitter_max)
+        self.piece.d_setXY(field.nodepath.getX() + shiftX + jitter_x, field.nodepath.getY() + shiftY + jitter_y)
+        h = random.uniform(-self.jitter_rotation_max, self.jitter_rotation_max)
+        self.piece.d_setH(h)
 
     def startBattle(self, battleAI):
         """Start the battle system for this bot"""
@@ -198,3 +208,7 @@ class DBotPlayerAI(DistributedObjectAI):
     def getDefense(self):
         """Returns the defensive strength of the players class"""
         return self.cm.getDefense(self.playerClassType, self.level)
+
+    def getSpecialAbility(self):
+        """Returns the special ability definition for this players class"""
+        return self.cm.getSpecialAbility(self.playerClassType)
