@@ -1,25 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-__author__ = "Fireclaw the Fox"
-__license__ = """
-Simplified BSD (BSD 2-Clause) License.
-See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
-"""
-
-from direct.showbase.DirectObject import DirectObject
-from gui.TopBar import GUI as TopBar
-
-class TopBarHandler(DirectObject, TopBar):
-    def __init__(self, cr):
-        self.cr = cr
-        TopBar.__init__(self, base.a2dTopLeft)
-        self.accept(self.cr.uniqueName("setPlayerName"), self.setPlayerName)
-
-        self.hide()
-
-    def destroy(self):
-        self.ignoreAll()
-        TopBar.destroy(self)
-
-    def setPlayerName(self, playerName):
-        self.lblPlayerName["text"] = playerName
+version https://git-lfs.github.com/spec/v1
+oid sha256:e4b2652128146dafca5806f182f6747b84c961305bf617b38eab08bae9d1c983
+size 710

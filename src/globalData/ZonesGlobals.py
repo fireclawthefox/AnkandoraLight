@@ -1,13 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-__author__ = "Fireclaw the Fox"
-__license__ = """
-Simplified BSD (BSD 2-Clause) License.
-See License.txt or http://opensource.org/licenses/BSD-2-Clause for more info
-"""
-
-SERVER_MANAGERS = 1
-ROOM_MANAGER_ZONE = 2
-
-ROOM_MIN_ID_ZONE = 1000
-ROOM_MAX_ID_ZONE = 2000
+version https://git-lfs.github.com/spec/v1
+oid sha256:46965596169c02cab22162fb4f15c568ea2a28aea2ee301e8a08434508ea8563
+size 304

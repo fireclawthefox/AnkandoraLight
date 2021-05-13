@@ -1,5 +1,3 @@
-from chat.DMessage import DMessage
-
-dclass DMessage: DistributedObject {
-    sendText(string messageText) broadcast;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:cbb1a741c505819cd3fabc615c7fa8fd3406d1bba9766b6d202a79521b5d5dc9
+size 119

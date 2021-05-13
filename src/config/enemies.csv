@@ -1,25 +1,3 @@
-field,difficulty,initiative,number_enemies,attack,defense
-Moon,easy,1,1,3,5
-Moon,medium,2,1,4,5
-Moon,hard,2,1,4,6
-Triangle,easy,1,1,3,5
-Triangle,medium,2,1,4,5
-Triangle,hard,2,1,4,6
-Square,easy,2,1,4,6
-Square,medium,2,1,4,6
-Square,hard,3,2,4,7
-Circle,easy,2,1,4,6
-Circle,medium,3,1,4,6
-Circle,hard,3,2,4,7
-Star,easy,2,1,4,7
-Star,medium,3,2,5,7
-Star,hard,4,2,5,8
-Diamond,easy,3,2,5,7
-Diamond,medium,4,2,5,7
-Diamond,hard,4,3,6,7
-Arrow,easy,3,2,5,7
-Arrow,medium,4,2,5,8
-Arrow,hard,5,2,6,8
-EndField,easy,4,1,5,8
-EndField,medium,5,1,6,7
-EndField,hard,5,1,7,9
+version https://git-lfs.github.com/spec/v1
+oid sha256:e39998f0fe183b15a0532a759a6d7e18c6cb4889b2351b978fe87699e25525bd
+size 554
