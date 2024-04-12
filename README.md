@@ -19,6 +19,7 @@ Current features:
 ![Main menu](/screenshots/MainMenu.png?raw=true "The main menu")
 ![Singleplayer](/screenshots/Singleplayer.png?raw=true "Singleplayer session")
 ![Multiplayer](/screenshots/Multiplayer.png?raw=true "Multiplayer session")
+![Battle](/screenshots/Battle.png?raw=true "A battle sceen from the Multiplayer session")
 
 ## Server
 ### Configure
