@@ -1,3 +1,325 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1d184f434cf0f121f977112140b9ff1d1811adb20d7c6936d9966c4c75ba7308
-size 10519
+{
+  "ProjectVersion": "0.2a",
+  "EditorConfig": {
+    "usePixel2D": false,
+    "canvasSize": "(-2, 2, -2, 2)"
+  },
+  "ComponentList": {
+    "frmMain": {
+      "element": {
+        "frameColor": "(1, 1, 1, 1)",
+        "frameSize": "(-1.777778, 1.77777778, -1.1638, 1.1638)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "image": "'assets/menu/Background.png'",
+        "pos": "LPoint3f(0, 0, 0)",
+        "image_scale": "LVecBase3f(1.77778, 1, 1.1638)",
+        "image_pos": "LPoint3f(0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectFrame",
+      "parent": "root",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "frmSinglePlayerCreateGame": {
+      "element": {
+        "borderWidth": "(0.01, 0.01)",
+        "frameColor": "(1, 1, 1, 1)",
+        "frameSize": "(-0.65, 0.65, -0.55, 0.55)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.425, 0, 0)",
+        "relief": "5",
+        "transparency": "0"
+      },
+      "type": "DirectFrame",
+      "parent": "frmMain",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "pg703": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, 0.425)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Player Info'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "text_wordwrap": "None",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmSinglePlayerCreateGame",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "pg13803": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.35, 0, -0.45)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Start'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "text_wordwrap": "None",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "frmSinglePlayerCreateGame",
+      "command": "base.messenger.send",
+      "extraArgs": "\"multiplayerPlayerInfo_start\"",
+      "extraOptions": {}
+    },
+    "pg5219": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.6, 0, 0.02)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Player Class'",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "text_wordwrap": "None",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmSinglePlayerCreateGame",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "optionPlayerClass": {
+      "element": {
+        "frameSize": "(0.07500000298023224, 3.012500149011612, -0.11250001192092896, 0.75)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.2, 0, 0.005)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'item1'",
+        "cancelframe_frameSize": "(-1, 1, -1, 1)",
+        "cancelframe_hpr": "LVecBase3f(0, 0, 0)",
+        "cancelframe_pos": "LPoint3f(0, 0, 0)",
+        "cancelframe_relief": "None",
+        "item_frameSize": "(0.07500000298023224, 2.4125001430511475, -0.11250001192092896, 0.75)",
+        "item_hpr": "LVecBase3f(0, 0, 0)",
+        "item_pos": "LPoint3f(-0.075, 0, -0.75)",
+        "item_text": "'item1'",
+        "item0_text_align": "TextNode.A_left",
+        "item0_text_scale": "(1, 1)",
+        "item0_text_pos": "(0, 0)",
+        "item0_text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "item0_text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "item0_text_wordwrap": "None",
+        "popupMarker_frameSize": "(-0.5, 0.5, -0.2, 0.2)",
+        "popupMarker_hpr": "LVecBase3f(0, 0, 0)",
+        "popupMarker_pos": "LPoint3f(2.7125, 0, 0.31875)",
+        "popupMarker_relief": "2",
+        "popupMarker_scale": "LVecBase3f(0.4, 0.4, 0.4)",
+        "popupMenu_frameSize": "(0, 2.3375001400709152, -0.862500011920929, 0)",
+        "popupMenu_hpr": "LVecBase3f(0, 0, 0)",
+        "popupMenu_pos": "LPoint3f(0, 0, 0)",
+        "popupMenu_relief": "'raised'",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "text_wordwrap": "None",
+        "transparency": "0"
+      },
+      "type": "DirectOptionMenu",
+      "parent": "frmSinglePlayerCreateGame",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "btnCancel": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.325, 0, -0.45)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Cancel'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "text_wordwrap": "None",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "frmSinglePlayerCreateGame",
+      "command": "base.messenger.send",
+      "extraArgs": "\"multiplayerPlayerInfo_cancel\"",
+      "extraOptions": {}
+    },
+    "frmPlayerInfo": {
+      "element": {
+        "borderWidth": "(0.01, 0.01)",
+        "frameColor": "(1, 1, 1, 1)",
+        "frameSize": "(-0.5, 0.5, -0.55, 0.55)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.765, 0, 0)",
+        "relief": "3",
+        "transparency": "0"
+      },
+      "type": "DirectFrame",
+      "parent": "frmMain",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "lblInfoHeader": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, 0.45)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Info'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1, 1)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "text_wordwrap": "None",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmPlayerInfo",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "frmImageHero": {
+      "element": {
+        "frameColor": "(1, 1, 1, 1)",
+        "frameSize": "(-0.15, 0.15, -0.2, 0.2)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "image": "'/home/fireclaw/workspace/Ankandora/AnkandoraLight/design/guiGraphics/heroArcher.png'",
+        "pos": "LPoint3f(-0.275, 0, 0.195)",
+        "image_scale": "LVecBase3f(0.15, 1, 0.2)",
+        "image_pos": "LPoint3f(0, 0, 0)",
+        "transparency": "1"
+      },
+      "type": "DirectFrame",
+      "parent": "frmPlayerInfo",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "lblClassDescription": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.12, 0, 0.31)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'The archer shoots from afar and gains the first-strike'",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(0.6, 0.6)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "text_wordwrap": "10.0",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmPlayerInfo",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "lblHealth": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.28, 0, -0.1)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Health'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(0.7, 0.7)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "text_wordwrap": "None",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmPlayerInfo",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "lblAttack": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.275, 0, -0.285)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Attack'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(0.7, 0.7)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "text_wordwrap": "None",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmPlayerInfo",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "lblHealthValue": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.275, 0, -0.17)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'7'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(0.6, 0.6)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "text_wordwrap": "None",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmPlayerInfo",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "lblAttackValue": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.275, 0, -0.36)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'4'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(0.6, 0.6)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "text_wordwrap": "None",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmPlayerInfo",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    }
+  }
+}

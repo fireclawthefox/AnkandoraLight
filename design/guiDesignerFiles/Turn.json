@@ -1,3 +1,37 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d329bf94875fbf3829ff339ca0d3fe8d2cd1ba4f6084acb65da6b91345a02a85
-size 1053
+{
+  "ProjectVersion": "0.2a",
+  "EditorConfig": {
+    "usePixel2D": false,
+    "canvasSize": "(-2, 2, -2, 2)"
+  },
+  "ComponentList": {
+    "btnEndTurn": {
+      "element": {
+        "borderWidth": "(0.0, 0.0)",
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "frameSize": "(-3.0, 3.0, -1.0, 1.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "image": "'./assets/Turn/EndTurn.png'",
+        "pos": "LPoint3f(0, 0, 0.1)",
+        "relief": "1",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'End Turn'",
+        "image_scale": "LVecBase3f(3, 0, 1)",
+        "image_pos": "LPoint3f(0, 0, 0)",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(1.0, 1.0)",
+        "text_pos": "(0.0, -0.3)",
+        "text_fg": "LVecBase4f(1, 1, 1, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "1"
+      },
+      "type": "DirectButton",
+      "parent": "root",
+      "command": "base.messenger.send",
+      "extraArgs": "\"endTurn\"",
+      "extraOptions": {
+        "pressEffect": 0
+      }
+    }
+  }
+}

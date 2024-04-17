@@ -1,3 +1,135 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:41dce4b6b16a031bc5083e15094ddb20a82edc23b326ab586fc5b43bcf743dc3
-size 4168
+{
+  "ProjectVersion": "0.2a",
+  "EditorConfig": {
+    "usePixel2D": false,
+    "canvasSize": "(-2, 2, -2, 2)"
+  },
+  "ComponentList": {
+    "frmMain": {
+      "element": {
+        "frameColor": "(1.0, 1.0, 1.0, 0.0)",
+        "frameSize": "(-0.436, 0.45, -0.5, 0.5)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "image": "'./assets/inventory/InventoryPlate.png'",
+        "pos": "LPoint3f(-0.4, 0, 0.52)",
+        "image_scale": "LVecBase3f(0.436, 1, 0.5)",
+        "image_pos": "LPoint3f(0, 0, 0)",
+        "transparency": "1"
+      },
+      "type": "DirectFrame",
+      "parent": "root",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "frmWeapon": {
+      "element": {
+        "frameColor": "(1.0, 0.0, 1.0, 0.0)",
+        "frameSize": "(-0.09, 0.09, -0.242, 0.242)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "image": "'./assets/inventory/thief/weapon1.png'",
+        "pos": "LPoint3f(-0.165, 0, 0.15)",
+        "image_scale": "LVecBase3f(0.09, 0, 0.242)",
+        "image_pos": "LPoint3f(0, 0, 0)",
+        "transparency": "1"
+      },
+      "type": "DirectFrame",
+      "parent": "frmMain",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "frmArmor": {
+      "element": {
+        "frameColor": "(1.0, 0.0, 1.0, 0.0)",
+        "frameSize": "(-0.09, 0.09, -0.242, 0.242)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "image": "'./assets/inventory/thief/weapon1.png'",
+        "pos": "LPoint3f(0.18, 0, 0.15)",
+        "image_scale": "LVecBase3f(0.09, 0, 0.242)",
+        "image_pos": "LPoint3f(0, 0, 0)",
+        "transparency": "1"
+      },
+      "type": "DirectFrame",
+      "parent": "frmMain",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "frmPotion1": {
+      "element": {
+        "frameColor": "(0.0, 1.0, 1.0, 0.0)",
+        "frameSize": "(-0.1, 0.1, -0.1, 0.1)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "image": "'./assets/inventory/potions/Potion1.png'",
+        "pos": "LPoint3f(-0.23, 0, -0.315)",
+        "image_scale": "LVecBase3f(0.09, 0.09, 0.09)",
+        "image_pos": "LPoint3f(0, 0, 0)",
+        "transparency": "1"
+      },
+      "type": "DirectFrame",
+      "parent": "frmMain",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "frmPotion2": {
+      "element": {
+        "frameColor": "(0.0, 1.0, 1.0, 0.0)",
+        "frameSize": "(-0.1, 0.1, -0.1, 0.1)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "image": "'./assets/inventory/potions/Potion2.png'",
+        "pos": "LPoint3f(0, 0, -0.325)",
+        "image_scale": "LVecBase3f(0.09, 0.09, 0.09)",
+        "image_pos": "LPoint3f(0, 0, 0)",
+        "transparency": "1"
+      },
+      "type": "DirectFrame",
+      "parent": "frmMain",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "frmPotion3": {
+      "element": {
+        "frameColor": "(0.0, 1.0, 1.0, 0.0)",
+        "frameSize": "(-0.1, 0.1, -0.1, 0.1)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "image": "'./assets/inventory/potions/Potion3.png'",
+        "pos": "LPoint3f(0.25, 0, -0.315)",
+        "image_scale": "LVecBase3f(0.09, 0.1, 0.09)",
+        "image_pos": "LPoint3f(0, 0, 0)",
+        "transparency": "1"
+      },
+      "type": "DirectFrame",
+      "parent": "frmMain",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "btnToggleInventory": {
+      "element": {
+        "frameColor": "(0.15, 0.15, 0.15, 1.0)",
+        "frameSize": "(-0.4, 0.4, -0.02, 0.05)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(-0.4, 0, 0.02)",
+        "relief": "1",
+        "scale": "LVecBase3f(1, 1, 1)",
+        "text": "'Toggle Inventory'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(0.05, 0.05)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0.8, 0.8, 0.8, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "root",
+      "command": "base.messenger.send",
+      "extraArgs": "\"toggleInventory\"",
+      "extraOptions": {
+        "pressEffect": 1
+      }
+    }
+  }
+}

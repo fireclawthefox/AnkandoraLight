@@ -1,3 +1,84 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5e3c5b510d800e47c001aece8ee032873a21d4585b001ff7cbea33d5d41e4e81
-size 2408
+{
+  "ProjectVersion": "0.2a",
+  "EditorConfig": {
+    "usePixel2D": false,
+    "canvasSize": "(-1.0, 3.0, -2.0, 2.0)"
+  },
+  "ComponentList": {
+    "frmMain": {
+      "element": {
+        "frameColor": "(0.25, 0.25, 0.25, 1.0)",
+        "frameSize": "(0.0, 2.0, -0.1, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectFrame",
+      "parent": "root",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "btnLeave": {
+      "element": {
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pad": "(0.1, 0.1)",
+        "pos": "LPoint3f(0.115, 0, -0.075)",
+        "relief": "1",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Leave'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(0.75, 0.75)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0, 0, 0, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectButton",
+      "parent": "frmMain",
+      "command": "base.messenger.send",
+      "extraArgs": "\"leaveRoom\"",
+      "extraOptions": {}
+    },
+    "lblPlayerName": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.55, 0, -0.075)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Label'",
+        "text_align": "TextNode.A_left",
+        "text_scale": "(0.75, 0.75)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0.8, 0.8, 0.8, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmMain",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    },
+    "pg1983": {
+      "element": {
+        "frameColor": "(0.8, 0.8, 0.8, 0.0)",
+        "hpr": "LVecBase3f(0, 0, 0)",
+        "pos": "LPoint3f(0.42, 0, -0.075)",
+        "scale": "LVecBase3f(0.1, 0.1, 0.1)",
+        "text": "'Name:'",
+        "text_align": "TextNode.A_center",
+        "text_scale": "(0.75, 0.75)",
+        "text_pos": "(0, 0)",
+        "text_fg": "LVecBase4f(0.6, 0.6, 0.6, 1)",
+        "text_bg": "LVecBase4f(0, 0, 0, 0)",
+        "transparency": "0"
+      },
+      "type": "DirectLabel",
+      "parent": "frmMain",
+      "command": null,
+      "extraArgs": null,
+      "extraOptions": {}
+    }
+  }
+}

@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6e019edfcb3ba9729eab777fabc3d5facb0a7d7130ab631776b1822f6fc9c1d9
-size 655
+class_type,attack_lv1,defense_lv1,attack_lv2,defense_lv2,model,inventory,ability_description,ability
+warrior,2,9,4,10,assets/models/pieces/warrior.bam,assets/inventory/warrior,The warrior can block the first hit in a battle with his shield,ignoreAttacks=1
+thief,3,8,5,9,assets/models/pieces/thief.bam,assets/inventory/thief,The thief swift and skilled can attack twice the first time,attackTime=2
+mage,5,6,7,7,assets/models/pieces/mage.bam,assets/inventory/mage,The mage regains one potion after each battle,potionUp=1
+archer,4,7,6,8,assets/models/pieces/archer.bam,assets/inventory/archer,The archer shoots from afar and gains the first-strike,initUp=10
