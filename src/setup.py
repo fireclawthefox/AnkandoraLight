@@ -12,24 +12,25 @@ setup(
             'include_modules': {
                 "Ankandora": [
                     "direct.particles.ParticleManagerGlobal",
+                    "direct.showbase.PhysicsManagerGlobal",
 
-                    "chat.DMessage.DMessage",
-                    "roomManager.DRoomManager.DRoomManager",
-                    "board.DBoard.DBoard",
-                    "questCard.DQuestCard.DQuestCard",
-                    "room.DRoom.DRoom",
-                    "player.DBotPlayer.DBotPlayer",
-                    "player.DPlayer.DPlayer",
-                    "piece.DPiece.DPiece",
-                    "battle.DBattle.DBattle",
-                    "roomManager.DRoomManagerAI.DRoomManagerAI",
-                    "board.DBoardAI.DBoardAI",
-                    "questCard.DQuestCardAI.DQuestCardAI",
-                    "room.DRoomAI.DRoomAI",
-                    "player.DBotPlayerAI.DBotPlayerAI",
-                    "player.DPlayerAI.DPlayerAI",
-                    "piece.DPieceAI.DPieceAI",
-                    "battle.DBattleAI.DBattleAI",
+                    "chat.DMessage",
+                    "roomManager.DRoomManager",
+                    "board.DBoard",
+                    "questCard.DQuestCard",
+                    "room.DRoom",
+                    "player.DBotPlayer",
+                    "player.DPlayer",
+                    "piece.DPiece",
+                    "battle.DBattle",
+                    "roomManager.DRoomManagerAI",
+                    "board.DBoardAI",
+                    "questCard.DQuestCardAI",
+                    "room.DRoomAI",
+                    "player.DBotPlayerAI",
+                    "player.DPlayerAI",
+                    "piece.DPieceAI",
+                    "battle.DBattleAI",
 
                     "direct.distributed.DistributedObject",
                     "direct.distributed.TimeManager",
@@ -38,7 +39,7 @@ setup(
                     "direct.distributed.DistributedObjectAI",
                     "direct.distributed.TimeManagerAI",
                     "direct.distributed.DistributedNodeAI",
-                    "direct.distributed.DistributedSmoothNodeAI",
+                    "direct.distributed.DistributedSmoothNodeAI"
                 ]
             }
         }
